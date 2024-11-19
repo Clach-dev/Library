@@ -1,0 +1,35 @@
+﻿using System.Linq.Expressions;
+using Application.Interfaces.IRepositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Data.Repositories;
+
+public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntity : class
+{
+    protected readonly AppDbContext _context;
+    protected readonly DbSet<TEntity> _entities;
+    
+    protected BaseRepository(AppDbContext context)
+    {
+        _context = context;
+        _entities = context.Set<TEntity>();
+    }
+    
+    public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+        => await _entities.ToListAsync(cancellationToken);
+    
+    public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        => await _entities.FindAsync(id, cancellationToken);
+    
+    public async Task<IEnumerable<TEntity>> GetByPredicateAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+        => await _entities.Where(predicate).ToListAsync(cancellationToken);
+
+    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
+        => await _entities.AddAsync(entity, cancellationToken);
+    
+    public void DeleteAsync(TEntity entity)
+        => _entities.Remove(entity);
+
+    public async Task SaveChangesAsync(CancellationToken cancellationToken)
+        => await _context.SaveChangesAsync(cancellationToken = default);
+}

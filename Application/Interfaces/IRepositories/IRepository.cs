@@ -8,11 +8,11 @@ public interface IRepository<TEntity> where TEntity : class
     
     Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
     
-    Task<TEntity> GetByPredicateAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
+    Task<IEnumerable<TEntity>> GetByPredicateAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
     
-    Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken);
+    Task AddAsync(TEntity entity, CancellationToken cancellationToken);
     
-    Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken);
+    void DeleteAsync(TEntity entity);
     
-    Task DeleteAsync(TEntity entity, CancellationToken cancellationToken);
+    Task SaveChangesAsync(CancellationToken cancellationToken);
 }
