@@ -3,6 +3,6 @@ using Domain.Entities;
 
 namespace Infrastructure.Data.Repositories;
 
-public class BookRepository(AppDbContext context) : BaseRepository<Book>(context), IBookRepository
+public class BookRepository(LibraryDbContext context) : BaseRepository<Book>(context), IBookRepository
 {
 }

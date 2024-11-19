@@ -3,6 +3,6 @@ using Domain.Entities;
 
 namespace Infrastructure.Data.Repositories;
 
-public class GenreRepository(AppDbContext context) : BaseRepository<Genre>(context), IGenreRepository
+public class GenreRepository(LibraryDbContext context) : BaseRepository<Genre>(context), IGenreRepository
 {
 }

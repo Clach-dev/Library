@@ -6,10 +6,10 @@ namespace Infrastructure.Data.Repositories;
 
 public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntity : class
 {
-    protected readonly AppDbContext _context;
+    protected readonly LibraryDbContext _context;
     protected readonly DbSet<TEntity> _entities;
     
-    protected BaseRepository(AppDbContext context)
+    protected BaseRepository(LibraryDbContext context)
     {
         _context = context;
         _entities = context.Set<TEntity>();
@@ -27,7 +27,7 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
     public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
         => await _entities.AddAsync(entity, cancellationToken);
     
-    public void DeleteAsync(TEntity entity)
+    public async Task Delete(TEntity entity)
         => _entities.Remove(entity);
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken)

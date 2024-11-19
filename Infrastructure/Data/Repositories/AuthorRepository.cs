@@ -3,6 +3,6 @@ using Domain.Entities;
 
 namespace Infrastructure.Data.Repositories;
 
-public class AuthorRepository(AppDbContext context) : BaseRepository<Author>(context), IAuthorRepository
+public class AuthorRepository(LibraryDbContext context) : BaseRepository<Author>(context), IAuthorRepository
 {
 }

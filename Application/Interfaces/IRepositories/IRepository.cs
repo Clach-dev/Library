@@ -12,7 +12,7 @@ public interface IRepository<TEntity> where TEntity : class
     
     Task AddAsync(TEntity entity, CancellationToken cancellationToken);
     
-    void DeleteAsync(TEntity entity);
+    Task Delete(TEntity entity);
     
     Task SaveChangesAsync(CancellationToken cancellationToken);
 }
