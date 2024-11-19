@@ -6,9 +6,9 @@ public class Author : BaseEntity
     
     public string LastName { get; set; }
     
-    public string? Patronymic { get; set; }
+    public string? MiddleName { get; set; }
     
-    public string Description { get; set; }
+    public string? Description { get; set; }
     
     public virtual IEnumerable<Book>? Books { get; set; }
 }

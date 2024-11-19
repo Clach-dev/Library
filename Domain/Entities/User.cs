@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities;
+﻿using Domain.ENUMs;
+
+namespace Domain.Entities;
 
 public class User : BaseEntity
 {
@@ -10,11 +12,11 @@ public class User : BaseEntity
     
     public string LastName { get; set; }
     
-    public string Patronymic { get; set; }
+    public string? MiddleName { get; set; }
     
     public DateTime BirthDate { get; set; }
     
-    public string Role { get; set; }
+    public Roles Role { get; set; }
     
     public virtual IEnumerable<Reservation>? Reservations { get; set; }
 }
