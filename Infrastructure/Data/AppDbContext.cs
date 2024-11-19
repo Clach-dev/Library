@@ -1,6 +1,25 @@
-﻿namespace Infrastructure.Data;
+﻿using System.Reflection;
+using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
-public class AppDbContext
+namespace Infrastructure.Data;
+
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
+    public DbSet<Book> Books { get; set; }
     
+    public DbSet<Author> Authors { get; set; }
+    
+    public DbSet<Genre> Genres { get; set; }
+    
+    public DbSet<Reservation> Reservations { get; set; }
+    
+    public DbSet<User> Users { get; set; }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        base.OnModelCreating(modelBuilder);
+    }
 }
