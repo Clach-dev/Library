@@ -18,14 +18,14 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
 
     public async Task<(IEnumerable<TEntity>, int)> GetAllAsync(PageInfo pageInfo, CancellationToken cancellationToken = default)
     {
-        var filteredEntities = await _entities
+        var entities = await _entities
             .Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize)
             .Take(pageInfo.PageSize)
             .ToListAsync(cancellationToken);
         
         var totalCount = await _entities.CountAsync();
 
-        return (filteredEntities, totalCount);
+        return (entities, totalCount);
     }
 
     public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken = default)

@@ -1,10 +1,8 @@
-﻿using System.Reflection.Emit;
+﻿namespace Application.DTOs;
 
-namespace Application.DTOs;
-
-public class PageInfo
-{
-    public int PageNumber { get; set; } = 1;
-
-    public int PageSize { get; set; } = 10;
-}
+/// <summary>
+/// DTO for pagination implementation
+/// </summary>
+/// <param name="PageNumber">Number of current page</param>
+/// <param name="PageSize">Number of items per page</param>
+public record PageInfo(int PageNumber = 1, int PageSize = 10);
