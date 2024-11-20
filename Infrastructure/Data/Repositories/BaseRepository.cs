@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Application.DTOs;
 using Application.Interfaces.IRepositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,10 +15,19 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
         _context = context;
         _entities = context.Set<TEntity>();
     }
-    
-    public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
-        => await _entities.ToListAsync(cancellationToken);
-    
+
+    public async Task<(IEnumerable<TEntity>, int)> GetAllAsync(PageInfo pageInfo, CancellationToken cancellationToken = default)
+    {
+        var filteredEntities = await _entities
+            .Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize)
+            .Take(pageInfo.PageSize)
+            .ToListAsync(cancellationToken);
+        
+        var totalCount = await _entities.CountAsync();
+
+        return (filteredEntities, totalCount);
+    }
+
     public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         => await _entities.FindAsync(id, cancellationToken);
     

@@ -1,10 +1,11 @@
 ﻿using System.Linq.Expressions;
+using Application.DTOs;
 
 namespace Application.Interfaces.IRepositories;
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
+    Task<(IEnumerable<TEntity>, int)> GetAllAsync(PageInfo pageInfo, CancellationToken cancellationToken);
     
     Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
     
