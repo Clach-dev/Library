@@ -10,7 +10,7 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
     protected readonly LibraryDbContext _context;
     protected readonly DbSet<TEntity> _entities;
     
-    protected BaseRepository(LibraryDbContext context)
+    public BaseRepository(LibraryDbContext context)
     {
         _context = context;
         _entities = context.Set<TEntity>();
@@ -39,7 +39,4 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
     
     public async Task Delete(TEntity entity)
         => _entities.Remove(entity);
-
-    public async Task SaveChangesAsync(CancellationToken cancellationToken)
-        => await _context.SaveChangesAsync(cancellationToken = default);
 }
