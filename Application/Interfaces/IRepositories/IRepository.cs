@@ -1,17 +1,17 @@
 ﻿using System.Linq.Expressions;
-using Application.DTOs;
+using Application.Dtos;
 
 namespace Application.Interfaces.IRepositories;
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    Task<(IEnumerable<TEntity>, int)> GetAllAsync(PageInfo pageInfo, CancellationToken cancellationToken);
+    protected Task<(IEnumerable<TEntity>, int)> GetAllAsync(PageInfo pageInfo, CancellationToken cancellationToken = default);
     
-    Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
+    protected Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     
-    Task<IEnumerable<TEntity>> GetByPredicateAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
+    protected Task<IEnumerable<TEntity>> GetByPredicateAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
     
-    Task AddAsync(TEntity entity, CancellationToken cancellationToken);
+    protected Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
     
-    Task Delete(TEntity entity);
+    protected Task Delete(TEntity entity);
 }
