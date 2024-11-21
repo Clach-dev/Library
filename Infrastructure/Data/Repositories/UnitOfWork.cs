@@ -14,6 +14,8 @@ public class UnitOfWork(LibraryDbContext context) : IUnitOfWork
     
     private IUserRepository? _userRepository;
 
+    private IRefreshTokenRepository? _refreshTokenRepository;
+
     public IAuthorRepository Authors => _authorRepository ??= new AuthorRepository(context);
 
     public IBookRepository Books => _bookRepository ??= new BookRepository(context);
@@ -24,6 +26,8 @@ public class UnitOfWork(LibraryDbContext context) : IUnitOfWork
     
     public IUserRepository Users => _userRepository ??= new UserRepository(context);
 
+    public IRefreshTokenRepository RefreshTokens => _refreshTokenRepository ??= new RefreshTokenRepository(context);
+        
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         return await context.SaveChangesAsync(cancellationToken);
