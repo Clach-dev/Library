@@ -12,9 +12,8 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
             .HasKey(book => book.Id);
 
         builder
-            .Property(book => book.ISBN)
-            .HasMaxLength(20)
-            .IsRequired(true);
+            .HasIndex(book => book.ISBN)
+            .IsUnique(true);
 
         builder
             .Property(book => book.Title)
