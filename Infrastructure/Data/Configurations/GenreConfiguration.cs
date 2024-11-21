@@ -13,10 +13,12 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
 
         builder
             .Property(genre => genre.Name)
+            .HasMaxLength(50)
             .IsRequired(true);
 
         builder
             .Property(genre => genre.Description)
+            .HasMaxLength(300)
             .IsRequired(false);
         
         builder

@@ -13,18 +13,22 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
 
         builder
             .Property(author => author.LastName)
+            .HasMaxLength(50)
             .IsRequired(true);
 
         builder
             .Property(author => author.FirstName)
+            .HasMaxLength(50)
             .IsRequired(true);
         
         builder
             .Property(author => author.MiddleName)
+            .HasMaxLength(50)
             .IsRequired(false);
 
         builder
             .Property(author => author.Description)
+            .HasMaxLength(300)
             .IsRequired(false);
         
         builder

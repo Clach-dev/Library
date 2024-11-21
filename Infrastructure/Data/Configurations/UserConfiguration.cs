@@ -13,22 +13,27 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder
             .Property(user => user.Login)
+            .HasMaxLength(50)
             .IsRequired(true);
 
         builder
             .Property(user => user.Password)
+            .HasMaxLength(300)
             .IsRequired(true);
 
         builder
             .Property(user => user.LastName)
+            .HasMaxLength(50)
             .IsRequired(true);
         
         builder
             .Property(user => user.FirstName)
+            .HasMaxLength(50)
             .IsRequired(true);
         
         builder
             .Property(user => user.MiddleName)
+            .HasMaxLength(50)
             .IsRequired(false);
         
         builder
@@ -43,5 +48,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMany(user => user.Reservations)
             .WithOne(reservation => reservation.User)
             .HasForeignKey(reservation => reservation.UserId);
+        
+        builder
+            .HasOne(user => user.RefreshToken)
+            .WithOne(refreshToken => refreshToken.User);
     }
 }
