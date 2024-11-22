@@ -10,7 +10,7 @@ namespace Application.Dtos.User;
 /// <param name="FirstName">string which contains First name of User</param>
 /// <param name="MiddleName">string which contains Middle name of User</param>
 /// <param name="BirthDate">DateTime which contains Birth date of User. Format: dd.mm.yyyy</param>
-/// <param name="Role">Enum which represents Role of User. Roles: Admin(0), User(1)</param>
+/// <param name="Role">Enum which represents Role of User</param>
 public record UserReadDto(
     Guid Id, 
     string LastName, 
