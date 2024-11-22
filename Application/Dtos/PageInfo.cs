@@ -1,8 +1,10 @@
-﻿namespace Application.DTOs;
+﻿namespace Application.Dtos;
 
 /// <summary>
-/// DTO for pagination implementation
+/// DTO for Pagination implementation
 /// </summary>
 /// <param name="PageNumber">Number of current page</param>
 /// <param name="PageSize">Number of items per page</param>
-public record PageInfo(int PageNumber = 1, int PageSize = 10);
+public record PageInfo(
+    int PageNumber = 1,
+    int PageSize = 10);
