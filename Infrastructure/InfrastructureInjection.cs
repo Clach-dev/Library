@@ -26,13 +26,12 @@ public static class InfrastructureInjection
     }
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
-    {
-        return services
+        => services
             .AddScoped<IAuthorRepository, AuthorRepository>()
             .AddScoped<IBookRepository, BookRepository>()
             .AddScoped<IGenreRepository, GenreRepository>()
             .AddScoped<IRefreshTokenRepository, RefreshTokenRepository>()
             .AddScoped<IReservationRepository, ReservationRepository>()
-            .AddScoped<IUserRepository, UserRepository>();
-    }
+            .AddScoped<IUserRepository, UserRepository>()
+            .AddScoped<IUnitOfWork, UnitOfWork>();
 }
