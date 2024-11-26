@@ -11,11 +11,12 @@ public class PasswordHasher : IPasswordHasher
 
     public PasswordHasher(IConfiguration config)
     {
-        var key = config["PasswordHasher:SecretKey"] ?? throw new ArgumentNullException("Secret key not found");
+        var key = config["PasswordHasher:SecretKey"] ?? throw new ArgumentNullException(nameof(config), "Secret key not found");
         Console.WriteLine(key);
         _key = Encoding.UTF8.GetBytes(key);
     }
 
+    [Obsolete("Obsolete")]
     public string HashPassword(string password)
     {
         if (password == null)
@@ -75,6 +76,7 @@ public class PasswordHasher : IPasswordHasher
         }
     }
 
+    [Obsolete("Obsolete")]
     private static byte[] GenerateSalt(int length)
     {
         byte[] salt = new byte[length];

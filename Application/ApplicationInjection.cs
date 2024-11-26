@@ -11,7 +11,7 @@ public static class ApplicationInjection
         => services
             .AddMapper()
             .AddMediatR()
-            .AddAlghoritms();
+            .AddAlgorithms();
     
     private static IServiceCollection AddMapper(this IServiceCollection services)
         => services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -19,6 +19,6 @@ public static class ApplicationInjection
     private static IServiceCollection AddMediatR(this IServiceCollection services)
         => services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
-    private static IServiceCollection AddAlghoritms(this IServiceCollection services)
+    private static IServiceCollection AddAlgorithms(this IServiceCollection services)
         => services.AddScoped<IPasswordHasher, PasswordHasher>();
 }

@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.Exceptions;
 using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -9,17 +10,13 @@ namespace Application.Algorithms;
 
 public class TokensGenerator(IConfiguration configuration)
 {
-    public string GenerateAccessToken(User user, IEnumerable<string> userRoles)
+    public string GenerateAccessToken(User user)
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.Role.ToString())
         };
-
-        foreach (var role in userRoles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-        }
 
         var tokenExpires = DateTime.UtcNow.AddMinutes(GetJwtSetting<double>("AccessTokenExpiresInMinutes"));
 
@@ -44,5 +41,6 @@ public class TokensGenerator(IConfiguration configuration)
         };
     }
 
-    private T GetJwtSetting<T>(string key) => configuration.GetValue<T>($"JwtSettings:{key}");
+    private T GetJwtSetting<T>(string key)
+        => configuration.GetValue<T>($"JwtSettings:{key}") ?? throw new NotFoundException("JwtSettings", key);
 }
