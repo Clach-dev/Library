@@ -20,5 +20,7 @@ public static class ApplicationInjection
         => services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
     private static IServiceCollection AddAlgorithms(this IServiceCollection services)
-        => services.AddScoped<IPasswordHasher, PasswordHasher>();
+        => services
+            .AddScoped<IPasswordHasher, PasswordHasher>()
+            .AddScoped<TokensGenerator>();
 }
