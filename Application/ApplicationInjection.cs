@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Application.Alghorithms;
-using Application.Interfaces.IAlghoritms;
+using Application.Algorithms;
+using Application.Interfaces.IAlgorithms;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;

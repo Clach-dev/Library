@@ -1,21 +1,21 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using Application.Interfaces.IAlghoritms;
+using Application.Interfaces.IAlgorithms;
 using Microsoft.Extensions.Configuration;
 
-namespace Application.Alghorithms;
+namespace Application.Algorithms;
 
 public class PasswordHasher : IPasswordHasher
 {
     private readonly byte[] _key;
-    
+
     public PasswordHasher(IConfiguration config)
     {
-        var key = config["Hashing:SecretKey"] ?? throw new ArgumentNullException("Secret key is not found");
+        var key = config["PasswordHasher:SecretKey"] ?? throw new ArgumentNullException("Secret key not found");
         Console.WriteLine(key);
         _key = Encoding.UTF8.GetBytes(key);
     }
-    
+
     public string HashPassword(string password)
     {
         if (password == null)
@@ -74,7 +74,7 @@ public class PasswordHasher : IPasswordHasher
             return ByteArraysEqual(computedHash, storedHash);
         }
     }
-    
+
     private static byte[] GenerateSalt(int length)
     {
         byte[] salt = new byte[length];
