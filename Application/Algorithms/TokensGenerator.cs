@@ -1,7 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Application.Exceptions;
+using Application.Utils;
 using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -42,5 +42,5 @@ public class TokensGenerator(IConfiguration configuration)
     }
 
     private T GetJwtSetting<T>(string key)
-        => configuration.GetValue<T>($"JwtSettings:{key}") ?? throw new NotFoundException("JwtSettings", key);
+        => configuration.GetValue<T>($"JwtSettings:{key}") ?? throw new ArgumentNullException(nameof(configuration), ErrorMessages.JwtSettingsError); // exeption ili erro r
 }
