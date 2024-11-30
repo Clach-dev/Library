@@ -4,4 +4,5 @@
 /// Dto for Book Delete operation
 /// </summary>
 /// <param name="Id">Guid identifier of Book</param>
-public record BookDeleteDto(Guid Id);
+public record BookDeleteDto(
+    Guid Id);
