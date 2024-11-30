@@ -60,11 +60,29 @@ namespace Application.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Genre with this name already exitsts.
+        /// </summary>
+        internal static string ExistingGenreError {
+            get {
+                return ResourceManager.GetString("ExistingGenreError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User with this login already exists.
         /// </summary>
         internal static string ExistingUserLoginError {
             get {
                 return ResourceManager.GetString("ExistingUserLoginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Genre with this name not found.
+        /// </summary>
+        internal static string GenreNameNotFound {
+            get {
+                return ResourceManager.GetString("GenreNameNotFound", resourceCulture);
             }
         }
         
@@ -83,6 +101,15 @@ namespace Application.Utils {
         internal static string NotFoundError {
             get {
                 return ResourceManager.GetString("NotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User with this id not found.
+        /// </summary>
+        internal static string UserIdNotFound {
+            get {
+                return ResourceManager.GetString("UserIdNotFound", resourceCulture);
             }
         }
         
