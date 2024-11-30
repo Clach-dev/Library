@@ -17,8 +17,8 @@ public class GetAllGenresHandler(
     {
         var genres = await unitOfWork.Genres.GetAllAsync(getAllGenresQuery ,cancellationToken);
         
-        var genreReadDtos = mapper.Map<IEnumerable<GenreReadDto>>(genres);
+        var genresReadDto = mapper.Map<IEnumerable<GenreReadDto>>(genres);
         
-        return ResultBuilder.SuccessResult(genreReadDtos);
+        return ResultBuilder.SuccessResult(genresReadDto);
     }
 }
