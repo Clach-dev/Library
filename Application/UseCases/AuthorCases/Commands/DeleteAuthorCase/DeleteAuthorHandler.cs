@@ -1,13 +1,11 @@
 ﻿using Application.Interfaces.IRepositories;
 using Application.Utils;
-using AutoMapper;
 using MediatR;
 
 namespace Application.UseCases.AuthorCases.Commands.DeleteAuthorCase;
 
 public class DeleteAuthorHandler(
-    IUnitOfWork unitOfWork,
-    IMapper mapper)
+    IUnitOfWork unitOfWork)
     : IRequestHandler<DeleteAuthorCommand, Result<byte>>
 {
     public async Task<Result<byte>> Handle(DeleteAuthorCommand deleteAuthorCommand, CancellationToken cancellationToken)

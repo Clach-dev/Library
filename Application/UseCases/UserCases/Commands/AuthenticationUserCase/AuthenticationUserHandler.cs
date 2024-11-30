@@ -35,7 +35,7 @@ public class AuthenticationUserHandler(
         var accessToken = tokensGenerator.GenerateAccessToken(user);
         var refreshToken = tokensGenerator.GenerateRefreshToken(user);
 
-        await unitOfWork.RefreshTokens.AddAsync(refreshToken, cancellationToken);
+        await unitOfWork.RefreshTokens.CreateAsync(refreshToken, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
         var tokenReadDto = new TokenReadDto(accessToken, refreshToken.Token.ToString());

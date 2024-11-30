@@ -32,7 +32,7 @@ public class RegisterUserHandler(
         
         newUser.Password = passwordHasher.HashPassword(registerUserCommand.Password);
         
-        await unitOfWork.Users.AddAsync(newUser, cancellationToken);
+        await unitOfWork.Users.CreateAsync(newUser, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         var userReadDto = mapper.Map<UserReadDto>(newUser);

@@ -11,7 +11,7 @@ public interface IRepository<TEntity> where TEntity : class
     
     Task<IEnumerable<TEntity>> GetByPredicateAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
     
-    Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
+    Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default);
     
     Task Delete(TEntity entity);
 }

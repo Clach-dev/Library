@@ -28,7 +28,7 @@ public class CreateGenreHandler(
         
         var newGenre = mapper.Map<Genre>(createGenreCommand);
         
-        await unitOfWork.Genres.AddAsync(newGenre, cancellationToken);
+        await unitOfWork.Genres.CreateAsync(newGenre, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
         var genreReadDto = mapper.Map<GenreReadDto>(newGenre);

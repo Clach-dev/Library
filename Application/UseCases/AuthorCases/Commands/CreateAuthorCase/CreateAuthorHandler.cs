@@ -16,7 +16,7 @@ public class CreateAuthorHandler(
     {
         var author = mapper.Map<Author>(createAuthorCommand);
         
-        await unitOfWork.Authors.AddAsync(author, cancellationToken);
+        await unitOfWork.Authors.CreateAsync(author, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
         var authorReadDto = mapper.Map<AuthorReadDto>(author);

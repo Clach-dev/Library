@@ -32,7 +32,7 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
     public async Task<IEnumerable<TEntity>> GetByPredicateAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         => await _entities.Where(predicate).ToListAsync(cancellationToken);
 
-    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
+    public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken)
         => await _entities.AddAsync(entity, cancellationToken);
     
     public Task Delete(TEntity entity)
