@@ -21,10 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="UseCases\UserCases\Queries\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <EmbeddedResource Update="Utils\ErrorMessages.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
