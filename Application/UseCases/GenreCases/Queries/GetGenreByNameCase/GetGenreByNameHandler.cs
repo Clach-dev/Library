@@ -15,18 +15,12 @@ public class GetGenreByNameHandler(
         GetGenreByNameQuery getGenreByNameQuery,
         CancellationToken cancellationToken)
     {
-        var genre = (await unitOfWork
+        var genres = (await unitOfWork
             .Genres
-            .GetByPredicateAsync(genre => genre.Name == getGenreByNameQuery.Name, cancellationToken))
-            .FirstOrDefault();
-
-        if (genre is null)
-        {
-            ResultBuilder.NotFoundResult<GenreReadDto>(ErrorMessages.GenreNameNotFound);
-        }
+            .GetByPredicateAsync(genre => genre.Name.Contains(getGenreByNameQuery.Name), cancellationToken));
         
-        var genreReadDto = mapper.Map<GenreReadDto>(genre);
+        var genresReadDto = mapper.Map<GenreReadDto>(genres);
         
-        return ResultBuilder.SuccessResult(genreReadDto);
+        return ResultBuilder.SuccessResult(genresReadDto);
     }
 }

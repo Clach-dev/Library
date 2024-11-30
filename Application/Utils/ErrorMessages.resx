@@ -42,4 +42,7 @@
     <data name="AuthorIdNotFound" xml:space="preserve">
         <value>Author with this id not found</value>
     </data>
+    <data name="GenreIdNotFound" xml:space="preserve">
+        <value>Genre with this id not found</value>
+    </data>
 </root>

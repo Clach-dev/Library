@@ -87,6 +87,15 @@ namespace Application.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Genre with this id not found.
+        /// </summary>
+        internal static string GenreIdNotFound {
+            get {
+                return ResourceManager.GetString("GenreIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Genre with this name not found.
         /// </summary>
         internal static string GenreNameNotFound {
