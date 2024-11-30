@@ -3,7 +3,6 @@ using MediatR;
 
 namespace Application.UseCases.UserCases.Commands.DeleteUserCase;
 
-public class DeleteUserCommand : IRequest<Result<byte>>
-{
-    public Guid Id;
-}
+public record DeleteUserCommand(
+    Guid Id)
+    : IRequest<Result<byte>>;

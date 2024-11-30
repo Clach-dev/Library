@@ -5,9 +5,7 @@ using MediatR;
 
 namespace Application.UseCases.UserCases.Commands.UpdateUserRoleCase;
 
-public class UpdateUserRoleCommand : IRequest<Result<UserRoleUpdateDto>>, IRequest<Result<UserRoleReadDto>>
-{
-    public Guid UserId { get; set; }
-    
-    public Roles Role { get; set; }
-}
+public record UpdateUserRoleCommand(
+    Guid UserId,
+    Roles Role)
+    : IRequest<Result<UserRoleUpdateDto>>, IRequest<Result<UserRoleReadDto>>;

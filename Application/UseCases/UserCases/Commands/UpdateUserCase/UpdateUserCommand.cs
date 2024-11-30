@@ -8,15 +8,15 @@ public class UpdateUserCommand : IRequest<UserReadDto>, IRequest<Result<UserRead
 {
     public Guid Id { get; set; }
     
-    public string? Login { get; set; }
+    public string? Login { get; init; }
     
-    public string? Password { get; set; }
+    public string? Password { get; init; }
     
-    public string? LastName { get; set; }
+    public string? LastName { get; init; }
     
-    public string? FirstName { get; set; }
+    public string? FirstName { get; init; }
     
-    public string? MiddleName { get; set; }
+    public string? MiddleName { get; init; }
     
-    public DateTime? BirthDate { get; set; }
+    public DateTime? BirthDate { get; init; }
 }
