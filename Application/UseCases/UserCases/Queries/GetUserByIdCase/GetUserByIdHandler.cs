@@ -16,6 +16,11 @@ public class GetUserByIdHandler(
     {
         var user = await unitOfWork.Users.GetByIdAsync(getUserByIdQuery.Id, cancellationToken);
         
+        if (user is null)
+        {
+            ResultBuilder.NotFoundResult<UserReadDto>(ErrorMessages.UserIdNotFound);
+        }
+        
         var userReadDto = mapper.Map<UserReadDto>(user);
 
         return ResultBuilder.SuccessResult(userReadDto);
