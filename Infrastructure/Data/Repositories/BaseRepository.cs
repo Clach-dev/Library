@@ -35,6 +35,6 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
     public async Task AddAsync(TEntity entity, CancellationToken cancellationToken)
         => await _entities.AddAsync(entity, cancellationToken);
     
-    public async Task Delete(TEntity entity)
-        => _entities.Remove(entity);
+    public Task Delete(TEntity entity)
+        => Task.FromResult(_entities.Remove(entity));
 }
