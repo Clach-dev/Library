@@ -60,6 +60,15 @@ namespace Application.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Author with this id not found.
+        /// </summary>
+        internal static string AuthorIdNotFound {
+            get {
+                return ResourceManager.GetString("AuthorIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Genre with this name already exitsts.
         /// </summary>
         internal static string ExistingGenreError {

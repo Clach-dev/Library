@@ -35,4 +35,9 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="UseCases\BookCases\Commands\" />
+      <Folder Include="UseCases\BookCases\Queries\" />
+    </ItemGroup>
+
 </Project>
