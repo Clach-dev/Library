@@ -15,10 +15,16 @@ public class GetAuthorByNameHandler(
         GetAuthorByNameQuery getAuthorByNameQuery,
         CancellationToken cancellationToken)
     {
-        var authors = (await unitOfWork.
-            Authors.
-            GetByPredicateAsync(author => author.LastName == getAuthorByNameQuery.LastName, cancellationToken))
-            .Where(author => author.FirstName == getAuthorByNameQuery.FirstName);
+        var searchFirstName = getAuthorByNameQuery.FirstName?.ToLower() ?? string.Empty;
+        var searchLastName = getAuthorByNameQuery.LastName?.ToLower() ?? string.Empty;
+        
+        var authors = await unitOfWork.Authors.GetByPredicateAsync(
+            author =>
+                (author.FirstName.ToLower().Contains(searchFirstName) ||
+                 author.LastName.ToLower().Contains(searchFirstName)) &&
+                (author.FirstName.ToLower().Contains(searchLastName) ||
+                 author.LastName.ToLower().Contains(searchLastName)),
+            cancellationToken);
         
         var genresReadDtos = mapper.Map<IEnumerable<ReadAuthorDto>>(authors);
         
