@@ -23,7 +23,7 @@ public class CreateGenreHandler(
 
         if (existingGenre is not null)
         {
-            return ResultBuilder.NotFoundResult<GenreReadDto>(ErrorMessages.ExistingGenreError);
+            return ResultBuilder.ConflictResult<GenreReadDto>(ErrorMessages.ExistingGenreError);
         }
         
         var newGenre = mapper.Map<Genre>(createGenreCommand);

@@ -25,7 +25,7 @@ public class RegisterUserHandler(
         
         if (existingUser is not null)
         {
-            return ResultBuilder.NotFoundResult<UserReadDto>(ErrorMessages.ExistingUserLoginError);
+            return ResultBuilder.ConflictResult<UserReadDto>(ErrorMessages.ExistingUserLoginError);
         }
 
         var newUser = mapper.Map<User>(registerUserCommand);

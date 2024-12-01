@@ -22,6 +22,16 @@ public class UpdateUserHandler(
             return ResultBuilder.NotFoundResult<UserReadDto>(ErrorMessages.NotFoundError);
         }
         
+        var existedUser = (await unitOfWork
+            .Users
+            .GetByPredicateAsync(user => user.Login == updateUserCommand.Login, cancellationToken))
+            .FirstOrDefault();
+        
+        if (existedUser is not null && existedUser.Id != currentUser.Id)
+        {
+            return ResultBuilder.ConflictResult<UserReadDto>(ErrorMessages.ExistingUserLoginError);
+        }
+        
         mapper.Map(updateUserCommand, currentUser);
         
         await unitOfWork.SaveChangesAsync(cancellationToken);

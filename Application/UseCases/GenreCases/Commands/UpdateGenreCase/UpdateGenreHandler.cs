@@ -21,6 +21,16 @@ public class UpdateGenreHandler(
         {
             return ResultBuilder.NotFoundResult<GenreReadDto>(ErrorMessages.NotFoundError);
         }
+        
+        var genre = (await unitOfWork
+            .Genres
+            .GetByPredicateAsync(genre => genre.Name == updateGenreCommand.Name, cancellationToken))
+            .FirstOrDefault();
+        
+        if (genre is not null)
+        {
+            return ResultBuilder.ConflictResult<GenreReadDto>(ErrorMessages.ExistingGenreError);
+        }
 
         mapper.Map(updateGenreCommand, currentGenre);
         await unitOfWork.SaveChangesAsync(cancellationToken);
