@@ -96,6 +96,15 @@ namespace Application.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User still not returned this book.
+        /// </summary>
+        internal static string ExistingReservationError {
+            get {
+                return ResourceManager.GetString("ExistingReservationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User with this login already exists.
         /// </summary>
         internal static string ExistingUserLoginError {
@@ -137,6 +146,15 @@ namespace Application.Utils {
         internal static string NotFoundError {
             get {
                 return ResourceManager.GetString("NotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reservation with this id not found.
+        /// </summary>
+        internal static string ReservationIdNotFound {
+            get {
+                return ResourceManager.GetString("ReservationIdNotFound", resourceCulture);
             }
         }
         

@@ -51,4 +51,10 @@
     <data name="ExistingBookError" xml:space="preserve">
         <value>Book with this ISBN already exists</value>
     </data>
+    <data name="ExistingReservationError" xml:space="preserve">
+        <value>User still not returned this book</value>
+    </data>
+    <data name="ReservationIdNotFound" xml:space="preserve">
+        <value>Reservation with this id not found</value>
+    </data>
 </root>
