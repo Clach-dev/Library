@@ -11,5 +11,5 @@ namespace Application.Dtos.Book;
 /// <param name="Authors">IEnumerable_AuthorReducedReadDto which contains Genres of Book</param>
 public record BookFilterDto(
     string? Title,
-    IEnumerable<GenreReducedReadDto> Genres,
-    IEnumerable<AuthorReducedReadDto> Authors);
+    IEnumerable<Guid> Genres,
+    IEnumerable<Guid> Authors);

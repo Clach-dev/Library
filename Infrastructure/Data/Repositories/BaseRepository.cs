@@ -14,7 +14,9 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
         _entities = context.Set<TEntity>();
     }
     
-    public async Task<(IEnumerable<TEntity>, int)> GetAllAsync(PageInfo pageInfo, CancellationToken cancellationToken = default)
+    public async Task<(IEnumerable<TEntity>, int)> GetAllAsync(
+        PageInfo pageInfo,
+        CancellationToken cancellationToken = default)
     {
         var entities = await _entities
             .Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize)
@@ -29,7 +31,9 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         => await _entities.FindAsync(id, cancellationToken);
     
-    public async Task<IEnumerable<TEntity>> GetByPredicateAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<TEntity>> GetByPredicateAsync(
+        Expression<Func<TEntity, bool>> predicate,
+        CancellationToken cancellationToken = default)
         => await _entities.Where(predicate).ToListAsync(cancellationToken);
 
     public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken)
