@@ -10,9 +10,11 @@ namespace Infrastructure;
 public static class InfrastructureInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-        => services
+    {
+        return services
             .AddDatabase(configuration)
             .AddRepositories();
+    }
 
     
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -26,7 +28,8 @@ public static class InfrastructureInjection
     }
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
-        => services
+    {
+        return services
             .AddScoped<IAuthorRepository, AuthorRepository>()
             .AddScoped<IBookRepository, BookRepository>()
             .AddScoped<IGenreRepository, GenreRepository>()
@@ -34,4 +37,5 @@ public static class InfrastructureInjection
             .AddScoped<IReservationRepository, ReservationRepository>()
             .AddScoped<IUserRepository, UserRepository>()
             .AddScoped<IUnitOfWork, UnitOfWork>();
+    }
 }
