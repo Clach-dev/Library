@@ -9,26 +9,26 @@ namespace Application.UseCases.BookCases.Queries.GetBooksByFilterCase;
 public class GetBooksByFilterHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetBooksByFilterQuery, Result<IEnumerable<BookReadDto>>>
+    : IRequestHandler<GetBooksByFilterQuery, Result<IEnumerable<ReadBookDto>>>
 {
-    public async Task<Result<IEnumerable<BookReadDto>>> Handle(
+    public async Task<Result<IEnumerable<ReadBookDto>>> Handle(
         GetBooksByFilterQuery getBooksByFilterQuery,
         CancellationToken cancellationToken)
     {
-        var books = unitOfWork.Books.GetByPredicateAsync(book =>
+        var books = await unitOfWork.Books.GetByPredicateAsync(book =>
                 (getBooksByFilterQuery.Title == null ||
-                    book.Title.Contains(getBooksByFilterQuery.Title)) ||
+                    book.Title.Contains(getBooksByFilterQuery.Title)) &&
                 (!getBooksByFilterQuery.Authors.Any() ||
                     getBooksByFilterQuery.Authors.All(authorId =>
                         book.Authors != null &&
-                        book.Authors.Select(b => b.Id).Contains(authorId))) ||
+                        book.Authors.Select(b => b.Id).Contains(authorId))) &&
                 (!getBooksByFilterQuery.Genres.Any() || 
                      getBooksByFilterQuery.Genres.All(genreId =>
                          book.Genres != null &&
                          book.Genres.Select(b => b.Id).Contains(genreId))),
             cancellationToken);
         
-        var booksReadDto = mapper.Map<IEnumerable<BookReadDto>>(await books);
+        var booksReadDto = mapper.Map<IEnumerable<ReadBookDto>>(books);
 
         return ResultBuilder.SuccessResult(booksReadDto);
     }
