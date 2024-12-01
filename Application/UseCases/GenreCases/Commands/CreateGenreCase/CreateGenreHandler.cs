@@ -10,9 +10,9 @@ namespace Application.UseCases.GenreCases.Commands.CreateGenreCase;
 public class CreateGenreHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper) 
-    : IRequestHandler<CreateGenreCommand, Result<GenreReadDto>>
+    : IRequestHandler<CreateGenreCommand, Result<ReadGenreDto>>
 {
-    public async Task<Result<GenreReadDto>> Handle(
+    public async Task<Result<ReadGenreDto>> Handle(
         CreateGenreCommand createGenreCommand,
         CancellationToken cancellationToken)
     {
@@ -23,7 +23,7 @@ public class CreateGenreHandler(
 
         if (existingGenre is not null)
         {
-            return ResultBuilder.ConflictResult<GenreReadDto>(ErrorMessages.ExistingGenreError);
+            return ResultBuilder.ConflictResult<ReadGenreDto>(ErrorMessages.ExistingGenreError);
         }
         
         var newGenre = mapper.Map<Genre>(createGenreCommand);
@@ -31,7 +31,7 @@ public class CreateGenreHandler(
         await unitOfWork.Genres.CreateAsync(newGenre, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        var genreReadDto = mapper.Map<GenreReadDto>(newGenre);
+        var genreReadDto = mapper.Map<ReadGenreDto>(newGenre);
         return ResultBuilder.CreatedResult(genreReadDto);
     }
 }
