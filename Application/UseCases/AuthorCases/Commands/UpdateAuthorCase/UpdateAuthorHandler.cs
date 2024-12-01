@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.UseCases.AuthorCases.Commands.UpdateAuthorCase;
 
-public class AuthorUpdateHandler(
+public class UpdateAuthorHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
     : IRequestHandler<UpdateAuthorCommand, Result<AuthorReadDto>>
