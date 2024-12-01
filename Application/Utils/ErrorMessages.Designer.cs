@@ -69,6 +69,24 @@ namespace Application.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Book with this id not found.
+        /// </summary>
+        internal static string BookIdNotFound {
+            get {
+                return ResourceManager.GetString("BookIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book with this ISBN already exists.
+        /// </summary>
+        internal static string ExistingBookError {
+            get {
+                return ResourceManager.GetString("ExistingBookError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Genre with this name already exitsts.
         /// </summary>
         internal static string ExistingGenreError {

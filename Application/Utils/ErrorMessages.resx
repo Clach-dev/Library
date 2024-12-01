@@ -45,4 +45,10 @@
     <data name="GenreIdNotFound" xml:space="preserve">
         <value>Genre with this id not found</value>
     </data>
+    <data name="BookIdNotFound" xml:space="preserve">
+        <value>Book with this id not found</value>
+    </data>
+    <data name="ExistingBookError" xml:space="preserve">
+        <value>Book with this ISBN already exists</value>
+    </data>
 </root>
