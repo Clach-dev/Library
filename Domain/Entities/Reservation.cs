@@ -10,6 +10,8 @@ public class Reservation : BaseEntity
     
     public DateTime ReturnDate { get; set; }
     
+    public bool IsReturned { get; set; }
+    
     public virtual Book? Book { get; set; }
     
     public virtual User? User { get; set; }

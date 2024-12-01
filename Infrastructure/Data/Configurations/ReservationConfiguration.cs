@@ -20,6 +20,10 @@ public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
             .IsRequired(true);
 
         builder
+            .Property(reservation => reservation.IsReturned)
+            .IsRequired(true);
+        
+        builder
             .HasOne(reservation => reservation.User)
             .WithMany(user => user.Reservations);
 
