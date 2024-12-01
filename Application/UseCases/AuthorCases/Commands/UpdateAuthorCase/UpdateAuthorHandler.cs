@@ -9,9 +9,9 @@ namespace Application.UseCases.AuthorCases.Commands.UpdateAuthorCase;
 public class UpdateAuthorHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<UpdateAuthorCommand, Result<AuthorReadDto>>
+    : IRequestHandler<UpdateAuthorCommand, Result<ReadAuthorDto>>
 {
-    public async Task<Result<AuthorReadDto>> Handle(
+    public async Task<Result<ReadAuthorDto>> Handle(
         UpdateAuthorCommand updateAuthorCommand,
         CancellationToken cancellationToken)
     {
@@ -19,13 +19,13 @@ public class UpdateAuthorHandler(
 
         if (currentAuthor is null)
         {
-            return ResultBuilder.NotFoundResult<AuthorReadDto>(ErrorMessages.NotFoundError);
+            return ResultBuilder.NotFoundResult<ReadAuthorDto>(ErrorMessages.NotFoundError);
         }
 
         mapper.Map(updateAuthorCommand, currentAuthor);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var authorReadDto = mapper.Map<AuthorReadDto>(currentAuthor);
+        var authorReadDto = mapper.Map<ReadAuthorDto>(currentAuthor);
         return ResultBuilder.SuccessResult(authorReadDto);
     }
 }

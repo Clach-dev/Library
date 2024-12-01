@@ -9,18 +9,18 @@ namespace Application.UseCases.BookCases.Queries.GetBookByIdCase;
 public class GetBookByIdHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetBookByIdQuery, Result<BookReadDto>>
+    : IRequestHandler<GetBookByIdQuery, Result<ReadBookDto>>
 {
-    public async Task<Result<BookReadDto>> Handle(GetBookByIdQuery getBookByIdQuery, CancellationToken cancellationToken)
+    public async Task<Result<ReadBookDto>> Handle(GetBookByIdQuery getBookByIdQuery, CancellationToken cancellationToken)
     {
         var book = await unitOfWork.Books.GetByIdAsync(getBookByIdQuery.Id, cancellationToken);
 
         if (book is null)
         {
-            ResultBuilder.NotFoundResult<BookReadDto>(ErrorMessages.BookIdNotFound);
+            ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.BookIdNotFound);
         }
         
-        var bookReadDto = mapper.Map<BookReadDto>(book);
+        var bookReadDto = mapper.Map<ReadBookDto>(book);
 
         return ResultBuilder.SuccessResult(bookReadDto);
     }

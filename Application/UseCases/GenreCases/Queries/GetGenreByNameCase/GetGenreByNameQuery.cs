@@ -6,4 +6,4 @@ namespace Application.UseCases.GenreCases.Queries.GetGenreByNameCase;
 
 public record GetGenreByNameQuery(
     string Name)
-    : IRequest<Result<GenreReadDto>>;
+    : IRequest<Result<ReadGenreDto>>;

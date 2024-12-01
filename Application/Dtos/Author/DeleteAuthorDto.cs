@@ -4,5 +4,5 @@
 /// Dto for Author Delete operation
 /// </summary>
 /// <param name="Id">Guid identifier of Author</param>
-public record AuthorDeleteDto(
+public record DeleteAuthorDto(
     Guid Id);

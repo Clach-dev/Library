@@ -9,9 +9,9 @@ namespace Application.UseCases.GenreCases.Queries.GetGenreByIdCase;
 public class GetGenreByIdHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetGenreByIdQuery, Result<GenreReadDto>>
+    : IRequestHandler<GetGenreByIdQuery, Result<ReadGenreDto>>
 {
-    public async Task<Result<GenreReadDto>> Handle(
+    public async Task<Result<ReadGenreDto>> Handle(
         GetGenreByIdQuery getGenreByIdQuery,
         CancellationToken cancellationToken)
     {
@@ -19,10 +19,10 @@ public class GetGenreByIdHandler(
 
         if (genre is null)
         {
-            ResultBuilder.NotFoundResult<GenreReadDto>(ErrorMessages.GenreIdNotFound);
+            ResultBuilder.NotFoundResult<ReadGenreDto>(ErrorMessages.GenreIdNotFound);
         }
         
-        var genreReadDto = mapper.Map<GenreReadDto>(genre);
+        var genreReadDto = mapper.Map<ReadGenreDto>(genre);
         
         return ResultBuilder.SuccessResult(genreReadDto);
     }

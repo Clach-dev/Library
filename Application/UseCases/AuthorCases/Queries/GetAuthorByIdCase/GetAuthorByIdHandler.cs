@@ -10,18 +10,18 @@ namespace Application.UseCases.AuthorCases.Queries.GetAuthorByIdCase;
 public class GetAuthorByIdHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetAuthorByIdQuery, Result<AuthorReadDto>>
+    : IRequestHandler<GetAuthorByIdQuery, Result<ReadAuthorDto>>
 {
-    public async Task<Result<AuthorReadDto>> Handle(GetAuthorByIdQuery getAuthorByIdQuery, CancellationToken cancellationToken)
+    public async Task<Result<ReadAuthorDto>> Handle(GetAuthorByIdQuery getAuthorByIdQuery, CancellationToken cancellationToken)
     {
         var author = await unitOfWork.Authors.GetByIdAsync(getAuthorByIdQuery.Id, cancellationToken);
 
         if (author is null)
         {
-            ResultBuilder.NotFoundResult<AuthorReadDto>(ErrorMessages.AuthorIdNotFound);
+            ResultBuilder.NotFoundResult<ReadAuthorDto>(ErrorMessages.AuthorIdNotFound);
         }
         
-        var authorReadDto = mapper.Map<AuthorReadDto>(author);
+        var authorReadDto = mapper.Map<ReadAuthorDto>(author);
 
         return ResultBuilder.SuccessResult(authorReadDto);
     }

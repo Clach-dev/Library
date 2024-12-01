@@ -6,4 +6,4 @@ namespace Application.UseCases.ReservationCases.Queries.GetReservationByIdCase;
 
 public record GetReservationByIdQuery(
     Guid Id)
-    : IRequest<Result<ReservationReadDto>>;
+    : IRequest<Result<ReadReservationDto>>;

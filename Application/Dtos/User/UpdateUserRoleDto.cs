@@ -7,6 +7,6 @@ namespace Application.Dtos.User;
 /// </summary>
 /// <param name="UserId">Guid identifier of User</param>
 /// <param name="Role">Enum which represents Role of User</param>
-public record UserRoleUpdateDto(
+public record UpdateUserRoleDto(
     Guid UserId,
     Roles Role);

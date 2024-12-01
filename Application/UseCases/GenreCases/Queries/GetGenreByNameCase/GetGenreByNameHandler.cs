@@ -9,9 +9,9 @@ namespace Application.UseCases.GenreCases.Queries.GetGenreByNameCase;
 public class GetGenreByNameHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetGenreByNameQuery, Result<GenreReadDto>>
+    : IRequestHandler<GetGenreByNameQuery, Result<ReadGenreDto>>
 {
-    public async Task<Result<GenreReadDto>> Handle(
+    public async Task<Result<ReadGenreDto>> Handle(
         GetGenreByNameQuery getGenreByNameQuery,
         CancellationToken cancellationToken)
     {
@@ -19,7 +19,7 @@ public class GetGenreByNameHandler(
             .Genres
             .GetByPredicateAsync(genre => genre.Name.Contains(getGenreByNameQuery.Name), cancellationToken));
         
-        var genresReadDto = mapper.Map<GenreReadDto>(genres);
+        var genresReadDto = mapper.Map<ReadGenreDto>(genres);
         
         return ResultBuilder.SuccessResult(genresReadDto);
     }

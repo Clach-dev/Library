@@ -6,4 +6,4 @@ namespace Application.UseCases.BookCases.Queries.GetBookByIdCase;
 
 public record GetBookByIdQuery(
     Guid Id)
-    : IRequest<Result<BookReadDto>>;
+    : IRequest<Result<ReadBookDto>>;

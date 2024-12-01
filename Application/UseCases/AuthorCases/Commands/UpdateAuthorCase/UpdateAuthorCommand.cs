@@ -10,4 +10,4 @@ public record UpdateAuthorCommand(
     string? FirstName,
     string? MiddleName,
     string? Description)
-    : IRequest<Result<AuthorReadDto>>;
+    : IRequest<Result<ReadAuthorDto>>;

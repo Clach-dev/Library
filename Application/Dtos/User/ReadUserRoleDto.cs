@@ -2,7 +2,7 @@
 
 namespace Application.Dtos.User;
 
-public record UserRoleReadDto(
+public record ReadUserRoleDto(
     Guid UserId,
     string LastName,
     string FirstName,

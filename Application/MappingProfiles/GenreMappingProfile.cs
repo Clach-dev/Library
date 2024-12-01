@@ -11,7 +11,7 @@ public class GenreMappingProfile : Profile
 {
     public GenreMappingProfile()
     {
-        CreateMap<GenreCreateDto, CreateGenreCommand>()
+        CreateMap<CreateGenreDto, CreateGenreCommand>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
         
@@ -20,15 +20,15 @@ public class GenreMappingProfile : Profile
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
         
-        CreateMap<Genre, GenreReadDto>()
+        CreateMap<Genre, ReadGenreDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
         
-        CreateMap<GenreDeleteDto, DeleteGenreCommand>()
+        CreateMap<DeleteGenreDto, DeleteGenreCommand>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
         
-        CreateMap<GenreUpdateDto, UpdateGenreCommand>()
+        CreateMap<UpdateGenreDto, UpdateGenreCommand>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));

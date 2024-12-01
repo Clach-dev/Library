@@ -12,4 +12,4 @@ public record UpdateReservationCommand(
     DateTime? ReceiptDate,
     DateTime? ReturnDate,
     bool? IsReturned)
-    : IRequest<Result<ReservationReadDto>>;
+    : IRequest<Result<ReadReservationDto>>;

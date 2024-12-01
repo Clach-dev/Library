@@ -9,13 +9,13 @@ namespace Application.UseCases.ReservationCases.Queries.GetAllReservationsCase;
 public class GetAllReservationsHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper) 
-    : IRequestHandler<GetAllReservationsQuery, Result<IEnumerable<ReservationReadDto>>>
+    : IRequestHandler<GetAllReservationsQuery, Result<IEnumerable<ReadReservationDto>>>
 {
-    public async Task<Result<IEnumerable<ReservationReadDto>>> Handle(GetAllReservationsQuery getAllReservationsQuery, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<ReadReservationDto>>> Handle(GetAllReservationsQuery getAllReservationsQuery, CancellationToken cancellationToken)
     {
         var reservations = await unitOfWork.Reservations.GetAllAsync(getAllReservationsQuery, cancellationToken);
 
-        var reservationReadDto = mapper.Map<IEnumerable<ReservationReadDto>>(reservations);
+        var reservationReadDto = mapper.Map<IEnumerable<ReadReservationDto>>(reservations);
 
         return ResultBuilder.SuccessResult(reservationReadDto);
     }

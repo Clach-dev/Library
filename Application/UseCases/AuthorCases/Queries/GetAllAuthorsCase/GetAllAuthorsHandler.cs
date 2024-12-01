@@ -8,15 +8,15 @@ namespace Application.UseCases.AuthorCases.Queries.GetAllAuthorsCase;
 
 public class GetAllAuthorsHandler(
     IUnitOfWork unitOfWork,
-    IMapper mapper) : IRequestHandler<GetAllAuthorsQuery ,Result<IEnumerable<AuthorReadDto>>>
+    IMapper mapper) : IRequestHandler<GetAllAuthorsQuery ,Result<IEnumerable<ReadAuthorDto>>>
 {
-    public async Task<Result<IEnumerable<AuthorReadDto>>> Handle(
+    public async Task<Result<IEnumerable<ReadAuthorDto>>> Handle(
         GetAllAuthorsQuery getAllAuthorsQuery,
         CancellationToken cancellationToken)
     {
         var authors = await unitOfWork.Authors.GetAllAsync(getAllAuthorsQuery, cancellationToken);
         
-        var genresReadDtos = mapper.Map<IEnumerable<AuthorReadDto>>(authors);
+        var genresReadDtos = mapper.Map<IEnumerable<ReadAuthorDto>>(authors);
         
         return ResultBuilder.SuccessResult(genresReadDtos);
     }

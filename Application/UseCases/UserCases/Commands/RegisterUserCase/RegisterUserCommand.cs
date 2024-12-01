@@ -11,4 +11,4 @@ public record RegisterUserCommand(
     string FirstName,
     string? MiddleName,
     DateTime BirthDate)
-    : IRequest<Result<UserReadDto>>;
+    : IRequest<Result<ReadUserDto>>;

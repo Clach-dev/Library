@@ -9,9 +9,9 @@ namespace Application.UseCases.BookCases.Commands.UpdateBookCase;
 public class UpdateBookHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper) 
-    : IRequestHandler<UpdateBookCommand, Result<BookReadDto>>
+    : IRequestHandler<UpdateBookCommand, Result<ReadBookDto>>
 {
-    public async Task<Result<BookReadDto>> Handle(
+    public async Task<Result<ReadBookDto>> Handle(
         UpdateBookCommand updateBookCommand,
         CancellationToken cancellationToken)
     {
@@ -19,7 +19,7 @@ public class UpdateBookHandler(
 
         if (currentBook is null)
         {
-            return ResultBuilder.NotFoundResult<BookReadDto>(ErrorMessages.BookIdNotFound);
+            return ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.BookIdNotFound);
         }
         
         var existedBook = (await unitOfWork
@@ -29,13 +29,13 @@ public class UpdateBookHandler(
         
         if (existedBook is not null && existedBook.Id != currentBook.Id)
         {
-            ResultBuilder.ConflictResult<BookReadDto>(ErrorMessages.ExistingBookError);
+            ResultBuilder.ConflictResult<ReadBookDto>(ErrorMessages.ExistingBookError);
         }
         
         mapper.Map(updateBookCommand, currentBook);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        var bookReadDto = mapper.Map<BookReadDto>(currentBook);
+        var bookReadDto = mapper.Map<ReadBookDto>(currentBook);
         return ResultBuilder.SuccessResult(bookReadDto);
     }
 }

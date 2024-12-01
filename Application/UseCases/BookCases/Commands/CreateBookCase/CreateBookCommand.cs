@@ -9,6 +9,6 @@ public record CreateBookCommand(
     string ISBN,
     string Title,
     string Description,
-    IEnumerable<Genre> Genres,
-    IEnumerable<Author> Authors)
-    : IRequest<Result<BookReadDto>>;
+    IEnumerable<Guid> Genres,
+    IEnumerable<Guid> Authors)
+    : IRequest<Result<ReadBookDto>>;

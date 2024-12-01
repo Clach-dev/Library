@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.UseCases.UserCases.Commands.UpdateUserCase;
 
-public class UpdateUserCommand : IRequest<UserReadDto>, IRequest<Result<UserReadDto>>
+public class UpdateUserCommand : IRequest<ReadUserDto>, IRequest<Result<ReadUserDto>>
 {
     public Guid Id { get; set; }
     

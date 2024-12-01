@@ -12,4 +12,4 @@ public record UpdateBookCommand(
     string? Description,
     IEnumerable<Genre> Genres,
     IEnumerable<Author> Authors)
-    : IRequest<Result<BookReadDto>>;
+    : IRequest<Result<ReadBookDto>>;

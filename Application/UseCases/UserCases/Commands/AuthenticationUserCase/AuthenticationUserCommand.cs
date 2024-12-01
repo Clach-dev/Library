@@ -7,4 +7,4 @@ namespace Application.UseCases.UserCases.Commands.AuthenticationUserCase;
 public record AuthenticationUserCommand(
     string Login,
     string Password)
-    : IRequest<Result<TokenReadDto>>;
+    : IRequest<Result<ReadTokenDto>>;

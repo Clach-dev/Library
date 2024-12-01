@@ -9,10 +9,10 @@ namespace Application.Dtos.Reservation;
 /// <param name="ReceiptDate">DateTime which represents date and time of book receiving</param>
 /// <param name="ReturnDate">DateTime which represents date and time of book returning</param>
 /// <param name="IsReturned">bool which represents if book is returned</param>
-/// <param name="Book">BookReducedReadDto which contains Book</param>
-public record ReservationReducedReadDto(
+/// <param name="Book">ReadBookReducedDto which contains Book</param>
+public record ReadReservationReducedDto(
     Guid Id,
     DateTime ReceiptDate,
     DateTime ReturnDate,
     bool IsReturned,
-    BookReducedReadDto Book);
+    ReadBookReducedDto Book);

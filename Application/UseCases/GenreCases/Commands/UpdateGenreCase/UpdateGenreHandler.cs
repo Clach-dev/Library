@@ -9,9 +9,9 @@ namespace Application.UseCases.GenreCases.Commands.UpdateGenreCase;
 public class UpdateGenreHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<UpdateGenreCommand, Result<GenreReadDto>>
+    : IRequestHandler<UpdateGenreCommand, Result<ReadGenreDto>>
 {
-    public async Task<Result<GenreReadDto>> Handle(
+    public async Task<Result<ReadGenreDto>> Handle(
         UpdateGenreCommand updateGenreCommand,
         CancellationToken cancellationToken)
     {
@@ -19,7 +19,7 @@ public class UpdateGenreHandler(
 
         if (currentGenre is null)
         {
-            return ResultBuilder.NotFoundResult<GenreReadDto>(ErrorMessages.NotFoundError);
+            return ResultBuilder.NotFoundResult<ReadGenreDto>(ErrorMessages.NotFoundError);
         }
         
         var genre = (await unitOfWork
@@ -29,13 +29,13 @@ public class UpdateGenreHandler(
         
         if (genre is not null)
         {
-            return ResultBuilder.ConflictResult<GenreReadDto>(ErrorMessages.ExistingGenreError);
+            return ResultBuilder.ConflictResult<ReadGenreDto>(ErrorMessages.ExistingGenreError);
         }
 
         mapper.Map(updateGenreCommand, currentGenre);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        var genreReadDto = mapper.Map<GenreReadDto>(currentGenre);
+        var genreReadDto = mapper.Map<ReadGenreDto>(currentGenre);
         return ResultBuilder.SuccessResult(genreReadDto);
     }
 }

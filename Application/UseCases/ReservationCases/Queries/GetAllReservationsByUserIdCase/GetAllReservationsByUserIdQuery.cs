@@ -5,4 +5,4 @@ using MediatR;
 namespace Application.UseCases.ReservationCases.Queries.GetAllReservationsByUserIdCase;
 
 public record GetAllReservationsByUserIdQuery(
-    Guid UserId) : IRequest<Result<IEnumerable<ReservationReadDto>>>;
+    Guid UserId) : IRequest<Result<IEnumerable<ReadReservationDto>>>;

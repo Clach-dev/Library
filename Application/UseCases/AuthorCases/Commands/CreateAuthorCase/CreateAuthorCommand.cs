@@ -9,4 +9,4 @@ public record CreateAuthorCommand(
     string FirstName,
     string MiddleName,
     string Description)
-    : IRequest<Result<AuthorReadDto>>;
+    : IRequest<Result<ReadAuthorDto>>;

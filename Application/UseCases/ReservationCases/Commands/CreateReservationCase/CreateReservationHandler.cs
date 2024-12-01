@@ -10,12 +10,26 @@ namespace Application.UseCases.ReservationCases.Commands.CreateReservationCase;
 public class CreateReservationHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper) 
-    : IRequestHandler<CreateReservationCommand, Result<ReservationReadDto>>
+    : IRequestHandler<CreateReservationCommand, Result<ReadReservationDto>>
 {
-    public async Task<Result<ReservationReadDto>> Handle(
+    public async Task<Result<ReadReservationDto>> Handle(
         CreateReservationCommand createReservationCommand,
         CancellationToken cancellationToken)
     {
+        var book = await unitOfWork.Books.GetByIdAsync(createReservationCommand.BookId, cancellationToken);
+
+        if (book is null)
+        {
+            ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.BookIdNotFound);
+        }
+
+        var user = await unitOfWork.Users.GetByIdAsync(createReservationCommand.UserId, cancellationToken);
+
+        if (user is null)
+        {
+            ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.UserIdNotFound);
+        }
+        
         var existedReservation = (await unitOfWork
             .Reservations
             .GetByPredicateAsync(reservation =>
@@ -27,7 +41,7 @@ public class CreateReservationHandler(
 
         if (existedReservation is not null)
         {
-            return ResultBuilder.ConflictResult<ReservationReadDto>(ErrorMessages.ExistingReservationError);
+            return ResultBuilder.ConflictResult<ReadReservationDto>(ErrorMessages.ExistingReservationError);
         }
         
         var newReservation = mapper.Map<Reservation>(createReservationCommand);
@@ -35,7 +49,7 @@ public class CreateReservationHandler(
         await unitOfWork.Reservations.CreateAsync(newReservation, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        var reservationReadDto = mapper.Map<ReservationReadDto>(newReservation);
+        var reservationReadDto = mapper.Map<ReadReservationDto>(newReservation);
         return ResultBuilder.CreatedResult(reservationReadDto);
     }
 }

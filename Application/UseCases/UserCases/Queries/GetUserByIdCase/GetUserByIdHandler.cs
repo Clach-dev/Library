@@ -8,9 +8,9 @@ namespace Application.UseCases.UserCases.Queries.GetUserByIdCase;
 
 public class GetUserByIdHandler(
     IUnitOfWork unitOfWork,
-    IMapper mapper) : IRequestHandler<GetUserByIdQuery, Result<UserReadDto>>
+    IMapper mapper) : IRequestHandler<GetUserByIdQuery, Result<ReadUserDto>>
 {
-    public async Task<Result<UserReadDto>> Handle(
+    public async Task<Result<ReadUserDto>> Handle(
         GetUserByIdQuery getUserByIdQuery,
         CancellationToken cancellationToken)
     {
@@ -18,10 +18,10 @@ public class GetUserByIdHandler(
         
         if (user is null)
         {
-            ResultBuilder.NotFoundResult<UserReadDto>(ErrorMessages.UserIdNotFound);
+            ResultBuilder.NotFoundResult<ReadUserDto>(ErrorMessages.UserIdNotFound);
         }
         
-        var userReadDto = mapper.Map<UserReadDto>(user);
+        var userReadDto = mapper.Map<ReadUserDto>(user);
 
         return ResultBuilder.SuccessResult(userReadDto);
     }

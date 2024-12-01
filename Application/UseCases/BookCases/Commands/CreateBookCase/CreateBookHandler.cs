@@ -10,9 +10,9 @@ namespace Application.UseCases.BookCases.Commands.CreateBookCase;
 public class CreateBookHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<CreateBookCommand, Result<BookReadDto>>
+    : IRequestHandler<CreateBookCommand, Result<ReadBookDto>>
 {
-    public async Task<Result<BookReadDto>> Handle(
+    public async Task<Result<ReadBookDto>> Handle(
         CreateBookCommand createBookCommand,
         CancellationToken cancellationToken)
     {
@@ -23,7 +23,7 @@ public class CreateBookHandler(
         
         if (existedBook is not null)
         {
-            ResultBuilder.ConflictResult<BookReadDto>(ErrorMessages.ExistingBookError);
+            ResultBuilder.ConflictResult<ReadBookDto>(ErrorMessages.ExistingBookError);
         }
         
         var newBook = mapper.Map<Book>(createBookCommand);
@@ -31,7 +31,7 @@ public class CreateBookHandler(
         await unitOfWork.Books.CreateAsync(newBook, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        var userReadDto = mapper.Map<BookReadDto>(newBook);
+        var userReadDto = mapper.Map<ReadBookDto>(newBook);
         return ResultBuilder.CreatedResult(userReadDto);
     }
 }

@@ -12,9 +12,9 @@ public class RegisterUserHandler(
     IUnitOfWork unitOfWork,
     IPasswordHasher passwordHasher,
     IMapper mapper)
-    : IRequestHandler<RegisterUserCommand, Result<UserReadDto>>
+    : IRequestHandler<RegisterUserCommand, Result<ReadUserDto>>
 {
-    public async Task<Result<UserReadDto>> Handle(
+    public async Task<Result<ReadUserDto>> Handle(
         RegisterUserCommand registerUserCommand,
         CancellationToken cancellationToken)
     {
@@ -25,7 +25,7 @@ public class RegisterUserHandler(
         
         if (existingUser is not null)
         {
-            return ResultBuilder.ConflictResult<UserReadDto>(ErrorMessages.ExistingUserLoginError);
+            return ResultBuilder.ConflictResult<ReadUserDto>(ErrorMessages.ExistingUserLoginError);
         }
 
         var newUser = mapper.Map<User>(registerUserCommand);
@@ -35,7 +35,7 @@ public class RegisterUserHandler(
         await unitOfWork.Users.CreateAsync(newUser, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var userReadDto = mapper.Map<UserReadDto>(newUser);
+        var userReadDto = mapper.Map<ReadUserDto>(newUser);
         return ResultBuilder.CreatedResult(userReadDto);
     }
 }

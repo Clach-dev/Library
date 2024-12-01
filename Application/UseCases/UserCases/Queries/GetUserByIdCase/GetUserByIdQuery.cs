@@ -6,4 +6,4 @@ namespace Application.UseCases.UserCases.Queries.GetUserByIdCase;
 
 public record GetUserByIdQuery(
     Guid Id)
-    : IRequest<Result<UserReadDto>>;
+    : IRequest<Result<ReadUserDto>>;

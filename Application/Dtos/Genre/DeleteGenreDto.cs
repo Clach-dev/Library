@@ -4,5 +4,5 @@
 /// Dto for Genre Delete operation
 /// </summary>
 /// <param name="Id">Guid identifier of Genre</param>
-public record GenreDeleteDto(
+public record DeleteGenreDto(
     Guid Id);

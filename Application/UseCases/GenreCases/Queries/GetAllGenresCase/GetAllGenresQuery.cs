@@ -6,4 +6,4 @@ using MediatR;
 namespace Application.UseCases.GenreCases.Queries.GetAllGenresCase;
 
 public record GetAllGenresQuery
-    : PageInfo, IRequest<Result<IEnumerable<GenreReadDto>>>;
+    : PageInfo, IRequest<Result<IEnumerable<ReadGenreDto>>>;

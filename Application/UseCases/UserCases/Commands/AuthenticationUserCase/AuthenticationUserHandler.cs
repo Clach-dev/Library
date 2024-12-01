@@ -11,9 +11,9 @@ public class AuthenticationUserHandler(
     IUnitOfWork unitOfWork,
     IPasswordHasher passwordHasher,
     TokensGenerator tokensGenerator)
-    : IRequestHandler<AuthenticationUserCommand, Result<TokenReadDto>>
+    : IRequestHandler<AuthenticationUserCommand, Result<ReadTokenDto>>
 {
-    public async Task<Result<TokenReadDto>> Handle(
+    public async Task<Result<ReadTokenDto>> Handle(
         AuthenticationUserCommand authenticationUserCommand,
         CancellationToken cancellationToken)
     {
@@ -24,12 +24,12 @@ public class AuthenticationUserHandler(
 
         if (user is null)
         {
-            return ResultBuilder.NotFoundResult<TokenReadDto>(ErrorMessages.NotFoundError);
+            return ResultBuilder.NotFoundResult<ReadTokenDto>(ErrorMessages.NotFoundError);
         }
 
         if (!passwordHasher.VerifyHashedPassword(user.Password, authenticationUserCommand.Password))
         {
-            return ResultBuilder.UnauthorizedResult<TokenReadDto>(ErrorMessages.WrongPasswordError);
+            return ResultBuilder.UnauthorizedResult<ReadTokenDto>(ErrorMessages.WrongPasswordError);
         }
         
         var accessToken = tokensGenerator.GenerateAccessToken(user);
@@ -38,7 +38,7 @@ public class AuthenticationUserHandler(
         await unitOfWork.RefreshTokens.CreateAsync(refreshToken, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        var tokenReadDto = new TokenReadDto(accessToken, refreshToken.Token.ToString());
+        var tokenReadDto = new ReadTokenDto(accessToken, refreshToken.Token.ToString());
         return ResultBuilder.CreatedResult(tokenReadDto);
     }
 }   

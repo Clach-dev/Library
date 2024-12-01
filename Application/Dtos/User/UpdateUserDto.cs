@@ -9,7 +9,7 @@
 /// <param name="FirstName">string which contains First name of User</param>
 /// <param name="MiddleName">string which contains Middle name of User</param>
 /// <param name="BirthDate">DateTime which contains Birth date of User. Format: dd.mm.yyyy</param>
-public record UserUpdateDto(
+public record UpdateUserDto(
     string? Login,
     string? Password,
     string? LastName,

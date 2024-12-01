@@ -9,9 +9,9 @@ namespace Application.UseCases.UserCases.Commands.UpdateUserRoleCase;
 public class UpdateUserRoleHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<UpdateUserRoleCommand, Result<UserRoleReadDto>>
+    : IRequestHandler<UpdateUserRoleCommand, Result<ReadUserRoleDto>>
 {
-    public async Task<Result<UserRoleReadDto>> Handle(
+    public async Task<Result<ReadUserRoleDto>> Handle(
         UpdateUserRoleCommand updateUserRoleCommand,
         CancellationToken cancellationToken)
     {   
@@ -19,14 +19,14 @@ public class UpdateUserRoleHandler(
 
         if (user is null)
         {
-            return ResultBuilder.NotFoundResult<UserRoleReadDto>(ErrorMessages.NotFoundError);
+            return ResultBuilder.NotFoundResult<ReadUserRoleDto>(ErrorMessages.NotFoundError);
         }
 
         user.Role = updateUserRoleCommand.Role;
         
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        var userRoleReadDto = mapper.Map<UserRoleReadDto>(user);
+        var userRoleReadDto = mapper.Map<ReadUserRoleDto>(user);
         return ResultBuilder.SuccessResult(userRoleReadDto);
     }
 }

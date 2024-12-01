@@ -11,4 +11,4 @@ public record GetBooksByFilterQuery(
     string? Title,
     IEnumerable<Guid> Genres,
     IEnumerable<Guid> Authors)
-    : IRequest<Result<IEnumerable<BookReadDto>>>;
+    : IRequest<Result<IEnumerable<ReadBookDto>>>;

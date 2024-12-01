@@ -11,7 +11,7 @@ public class AuthorMappingProfile : Profile
 {
     AuthorMappingProfile()
     {
-        CreateMap<AuthorCreateDto, CreateAuthorCommand>()
+        CreateMap<CreateAuthorDto, CreateAuthorCommand>()
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName));
@@ -22,16 +22,16 @@ public class AuthorMappingProfile : Profile
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName));
 
-        CreateMap<Author, AuthorReadDto>()
+        CreateMap<Author, ReadAuthorDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName));
 
-        CreateMap<AuthorDeleteDto, DeleteAuthorCommand>()
+        CreateMap<DeleteAuthorDto, DeleteAuthorCommand>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
 
-        CreateMap<AuthorUpdateDto, UpdateAuthorCommand>()
+        CreateMap<UpdateAuthorDto, UpdateAuthorCommand>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))

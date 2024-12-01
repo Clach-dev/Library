@@ -8,7 +8,7 @@
 /// <param name="UserId">Guid identifier of User</param>
 /// <param name="ReturnDate">DateTime which represents date and time when the book need be returned</param>
 /// <param name="IsReturned">bool which represents if book is returned</param>
-public record ReservationUpdateDto(
+public record UpdateReservationDto(
     Guid Id,
     Guid? BookId,
     Guid? UserId,

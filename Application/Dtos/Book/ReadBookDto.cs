@@ -7,7 +7,7 @@
 /// <param name="ISBN">string which contains ISBN of Book</param>
 /// <param name="Title">string which contains Title of Book</param>
 /// <param name="Description">string which contains Description of Book</param>
-public record BookReadDto(
+public record ReadBookDto(
     Guid Id,
     string ISBN,
     string Title,

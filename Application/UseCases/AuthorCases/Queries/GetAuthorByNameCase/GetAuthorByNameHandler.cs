@@ -9,9 +9,9 @@ namespace Application.UseCases.AuthorCases.Queries.GetAuthorByNameCase;
 public class GetAuthorByNameHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetAuthorByNameQuery, Result<IEnumerable<AuthorReadDto>>>
+    : IRequestHandler<GetAuthorByNameQuery, Result<IEnumerable<ReadAuthorDto>>>
 {
-    public async Task<Result<IEnumerable<AuthorReadDto>>> Handle(
+    public async Task<Result<IEnumerable<ReadAuthorDto>>> Handle(
         GetAuthorByNameQuery getAuthorByNameQuery,
         CancellationToken cancellationToken)
     {
@@ -20,7 +20,7 @@ public class GetAuthorByNameHandler(
             GetByPredicateAsync(author => author.LastName == getAuthorByNameQuery.LastName, cancellationToken))
             .Where(author => author.FirstName == getAuthorByNameQuery.FirstName);
         
-        var genresReadDtos = mapper.Map<IEnumerable<AuthorReadDto>>(authors);
+        var genresReadDtos = mapper.Map<IEnumerable<ReadAuthorDto>>(authors);
         
         return ResultBuilder.SuccessResult(genresReadDtos);
     }

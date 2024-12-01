@@ -9,15 +9,15 @@ namespace Application.UseCases.BookCases.Queries.GetAllBooksCase;
 public class GetAllBooksHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetAllBooksQuery, Result<IEnumerable<BookReadDto>>>
+    : IRequestHandler<GetAllBooksQuery, Result<IEnumerable<ReadBookDto>>>
 {
-    public async Task<Result<IEnumerable<BookReadDto>>> Handle(
+    public async Task<Result<IEnumerable<ReadBookDto>>> Handle(
         GetAllBooksQuery getAllBooksQuery,
         CancellationToken cancellationToken)
     {
         var books = await unitOfWork.Books.GetAllAsync(getAllBooksQuery, cancellationToken);
 
-        var booksReadDto = mapper.Map<IEnumerable<BookReadDto>>(books);
+        var booksReadDto = mapper.Map<IEnumerable<ReadBookDto>>(books);
 
         return ResultBuilder.SuccessResult(booksReadDto);
     }

@@ -10,16 +10,16 @@ namespace Application.UseCases.AuthorCases.Commands.CreateAuthorCase;
 public class CreateAuthorHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper) : 
-    IRequestHandler<CreateAuthorCommand, Result<AuthorReadDto>>
+    IRequestHandler<CreateAuthorCommand, Result<ReadAuthorDto>>
 {
-    public async Task<Result<AuthorReadDto>> Handle(CreateAuthorCommand createAuthorCommand, CancellationToken cancellationToken)
+    public async Task<Result<ReadAuthorDto>> Handle(CreateAuthorCommand createAuthorCommand, CancellationToken cancellationToken)
     {
         var author = mapper.Map<Author>(createAuthorCommand);
         
         await unitOfWork.Authors.CreateAsync(author, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
-        var authorReadDto = mapper.Map<AuthorReadDto>(author);
+        var authorReadDto = mapper.Map<ReadAuthorDto>(author);
         
         return ResultBuilder.CreatedResult(authorReadDto);
     }

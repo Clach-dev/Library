@@ -9,18 +9,18 @@ namespace Application.UseCases.ReservationCases.Queries.GetReservationByIdCase;
 public class GetReservationByIdHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetReservationByIdQuery, Result<ReservationReadDto>>
+    : IRequestHandler<GetReservationByIdQuery, Result<ReadReservationDto>>
 {
-    public async Task<Result<ReservationReadDto>> Handle(GetReservationByIdQuery getReservationByIdQuery, CancellationToken cancellationToken)
+    public async Task<Result<ReadReservationDto>> Handle(GetReservationByIdQuery getReservationByIdQuery, CancellationToken cancellationToken)
     {
         var reservation = await unitOfWork.Reservations.GetByIdAsync(getReservationByIdQuery.Id, cancellationToken);
 
         if (reservation is null)
         {
-            return ResultBuilder.NotFoundResult<ReservationReadDto>(ErrorMessages.ReservationIdNotFound);
+            return ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.ReservationIdNotFound);
         }
 
-        var reservationReadDto = mapper.Map<ReservationReadDto>(reservation);
+        var reservationReadDto = mapper.Map<ReadReservationDto>(reservation);
 
         return ResultBuilder.SuccessResult(reservationReadDto);
     }

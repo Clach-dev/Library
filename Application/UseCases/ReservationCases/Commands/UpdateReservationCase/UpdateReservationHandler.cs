@@ -11,9 +11,9 @@ namespace Application.UseCases.ReservationCases.Commands.UpdateReservationCase;
 public class UpdateReservationHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<UpdateReservationCommand, Result<ReservationReadDto>>
+    : IRequestHandler<UpdateReservationCommand, Result<ReadReservationDto>>
 {
-    public async Task<Result<ReservationReadDto>> Handle(
+    public async Task<Result<ReadReservationDto>> Handle(
         UpdateReservationCommand updateReservationCommand,
         CancellationToken cancellationToken)
     {
@@ -21,13 +21,13 @@ public class UpdateReservationHandler(
 
         if (currentReservation is null)
         {
-            return ResultBuilder.NotFoundResult<ReservationReadDto>(ErrorMessages.ExistingReservationError);
+            return ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.ExistingReservationError);
         }
 
         mapper.Map(updateReservationCommand, currentReservation);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var reservationReadDto = mapper.Map<ReservationReadDto>(currentReservation);
+        var reservationReadDto = mapper.Map<ReadReservationDto>(currentReservation);
         return ResultBuilder.SuccessResult(reservationReadDto);
     }
 }

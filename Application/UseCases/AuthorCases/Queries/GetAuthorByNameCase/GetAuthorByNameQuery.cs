@@ -7,4 +7,4 @@ namespace Application.UseCases.AuthorCases.Queries.GetAuthorByNameCase;
 public record GetAuthorByNameQuery(
     string? LastName,
     string? FirstName)
-    : IRequest<Result<IEnumerable<AuthorReadDto>>>;
+    : IRequest<Result<IEnumerable<ReadAuthorDto>>>;

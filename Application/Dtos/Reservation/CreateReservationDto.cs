@@ -4,5 +4,5 @@
 /// DTO for Reservation Create operation
 /// </summary>
 /// <param name="BookId">Guid identifier of Book</param>
-public record ReservationCreateDto(
+public record CreateReservationDto(
     Guid BookId);

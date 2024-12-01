@@ -8,4 +8,4 @@ public record UpdateGenreCommand(
     Guid Id,
     string Name,
     string Description)
-    : IRequest<Result<GenreReadDto>>;
+    : IRequest<Result<ReadGenreDto>>;
