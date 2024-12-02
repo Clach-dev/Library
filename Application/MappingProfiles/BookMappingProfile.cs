@@ -10,22 +10,23 @@ namespace Application.MappingProfiles;
 
 public class BookMappingProfile : Profile
 {
+    // fix ids -> entities 
     public BookMappingProfile()
     {
         CreateMap<CreateBookDto, CreateBookCommand>()
             .ForMember(dest => dest.ISBN, opt => opt.MapFrom(src => src.ISBN))
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.GenresIds))
-            .ForMember(dest => dest.Authors, opt => opt.MapFrom(src => src.AuthorsIds));
+            .ForMember(dest => dest.GenresIds, opt => opt.MapFrom(src => src.GenresIds))
+            .ForMember(dest => dest.AuthorsIds, opt => opt.MapFrom(src => src.AuthorsIds));
         
         CreateMap<CreateBookCommand, Book>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
             .ForMember(dest => dest.ISBN, opt => opt.MapFrom(src => src.ISBN))
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.Genres))
-            .ForMember(dest => dest.Authors, opt => opt.MapFrom(src => src.Authors));
+            .ForMember(dest => dest.Genres, opt => opt.Ignore())
+            .ForMember(dest => dest.Authors, opt => opt.Ignore());
 
         CreateMap<Book, ReadBookDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -41,20 +42,24 @@ public class BookMappingProfile : Profile
             .ForMember(dest => dest.ISBN, opt => opt.MapFrom(src => src.ISBN))
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.Genres))
-            .ForMember(dest => dest.Authors, opt => opt.MapFrom(src => src.Authors));
+            .ForMember(dest => dest.GenresIds, opt => opt.MapFrom(src => src.GenresIds))
+            .ForMember(dest => dest.AuthorsIds, opt => opt.MapFrom(src => src.AuthorsIds));
         
         CreateMap<UpdateBookCommand, Book>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.ISBN, opt => opt.MapFrom(src => src.ISBN))
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-            .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.Genres))
-            .ForMember(dest => dest.Authors, opt => opt.MapFrom(src => src.Authors));
-        
+            .ForMember(dest => dest.Genres, opt => opt.Ignore())
+            .ForMember(dest => dest.Authors, opt => opt.Ignore());
+
         CreateMap<FilterBookDto, GetBooksByFilterQuery>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
-            .ForMember(dest => dest.Authors, opt => opt.MapFrom(src => src.AuthorsIds))
-            .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.GenresIds));
+            .ForMember(dest => dest.AuthorsIds, opt => opt.MapFrom(src => src.AuthorsIds))
+            .ForMember(dest => dest.GenresIds, opt => opt.MapFrom(src => src.GenresIds));
+
+        CreateMap<Book, ReadBookReducedDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title));
     }
 }

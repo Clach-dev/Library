@@ -79,5 +79,10 @@ public class UserMappingProfile : Profile
             .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
+
+        CreateMap<User, ReadUserReducedDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName));
     }
 }

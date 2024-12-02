@@ -49,5 +49,12 @@ public class ReservationMappingProfile : Profile
             .ForMember(dest => dest.ReceiptDate, opt => opt.MapFrom(src => src.ReceiptDate))
             .ForMember(dest => dest.ReturnDate, opt => opt.MapFrom(src => src.ReturnDate))
             .ForMember(dest => dest.IsReturned, opt => opt.MapFrom(src => src.IsReturned));
+        
+        CreateMap<Reservation, ReadReservationReducedDto>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.ReceiptDate, opt => opt.MapFrom(src => src.ReceiptDate))
+            .ForMember(dest => dest.ReturnDate, opt => opt.MapFrom(src => src.ReturnDate))
+            .ForMember(dest => dest.IsReturned, opt => opt.MapFrom(src => src.IsReturned))
+            .ForMember(dest => dest.Book, opt => opt.MapFrom(src => src.Book));
     }
 }

@@ -14,19 +14,22 @@ public class AuthorMappingProfile : Profile
         CreateMap<CreateAuthorDto, CreateAuthorCommand>()
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName));
+            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
 
         CreateMap<CreateAuthorCommand, Author>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName));
+            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
 
         CreateMap<Author, ReadAuthorDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName));
+            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
 
         CreateMap<DeleteAuthorDto, DeleteAuthorCommand>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
@@ -35,12 +38,19 @@ public class AuthorMappingProfile : Profile
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName));
+            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
 
         CreateMap<UpdateAuthorCommand, Author>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName));
+            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
+
+        CreateMap<Author, ReadAuthorReducedDto>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName));
     }
 }
