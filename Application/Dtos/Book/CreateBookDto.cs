@@ -1,7 +1,4 @@
-﻿using Application.Dtos.Author;
-using Application.Dtos.Genre;
-
-namespace Application.Dtos.Book;
+﻿namespace Application.Dtos.Book;
 
 /// <summary>
 /// DTO for Book Create operation

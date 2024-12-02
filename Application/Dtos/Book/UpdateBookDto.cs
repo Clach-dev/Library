@@ -1,7 +1,4 @@
-﻿using Application.Dtos.Author;
-using Application.Dtos.Genre;
-
-namespace Application.Dtos.Book;
+﻿namespace Application.Dtos.Book;
 
 /// <summary>
 /// DTO for Book Update operation
@@ -10,12 +7,12 @@ namespace Application.Dtos.Book;
 /// <param name="ISBN">string which contains ISBN of Book</param>
 /// <param name="Title">string which contains Title of Book</param>
 /// <param name="Description">string which contains Description of Book</param>
-/// <param name="Genres">IEnumerable_GenreReducedReadDto which contains Genres of Book</param>
-/// <param name="Authors">IEnumerable_AuthorReducedReadDto which contains Authors of Book</param>
+/// <param name="GenresIds">IEnumerable_Guid which contains Genres of Book</param>
+/// <param name="AuthorsIds">IEnumerable_Guid which contains Authors of Book</param>
 public record UpdateBookDto(
     Guid Id,
     string? ISBN,
     string? Title,
     string? Description,
-    IEnumerable<ReadGenreReducedDto> Genres,
-    IEnumerable<ReadAuthorReducedDto> Authors);
+    IEnumerable<Guid> GenresIds,
+    IEnumerable<Guid> AuthorsIds);
