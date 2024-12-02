@@ -123,11 +123,11 @@ namespace Application.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Genre with this name not found.
+        ///   Looks up a localized string similar to Hashed password cannot be null!.
         /// </summary>
-        internal static string GenreNameNotFound {
+        internal static string HashedPasswordError {
             get {
-                return ResourceManager.GetString("GenreNameNotFound", resourceCulture);
+                return ResourceManager.GetString("HashedPasswordError", resourceCulture);
             }
         }
         
@@ -150,11 +150,29 @@ namespace Application.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password cannot be null!.
+        /// </summary>
+        internal static string PasswordError {
+            get {
+                return ResourceManager.GetString("PasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reservation with this id not found.
         /// </summary>
         internal static string ReservationIdNotFound {
             get {
                 return ResourceManager.GetString("ReservationIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Secret key not found.
+        /// </summary>
+        internal static string SercretKeyNotFoundError {
+            get {
+                return ResourceManager.GetString("SercretKeyNotFoundError", resourceCulture);
             }
         }
         

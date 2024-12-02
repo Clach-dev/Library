@@ -36,9 +36,6 @@
     <data name="UserIdNotFound" xml:space="preserve">
         <value>User with this id not found</value>
     </data>
-    <data name="GenreNameNotFound" xml:space="preserve">
-        <value>Genre with this name not found</value>
-    </data>
     <data name="AuthorIdNotFound" xml:space="preserve">
         <value>Author with this id not found</value>
     </data>
@@ -56,5 +53,14 @@
     </data>
     <data name="ReservationIdNotFound" xml:space="preserve">
         <value>Reservation with this id not found</value>
+    </data>
+    <data name="SercretKeyNotFoundError" xml:space="preserve">
+        <value>Secret key not found</value>
+    </data>
+    <data name="PasswordError" xml:space="preserve">
+        <value>Password cannot be null!</value>
+    </data>
+    <data name="HashedPasswordError" xml:space="preserve">
+        <value>Hashed password cannot be null!</value>
     </data>
 </root>

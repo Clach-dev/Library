@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using Application.Interfaces.IAlgorithms;
+using Application.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -12,8 +13,10 @@ public class PasswordHasher : IPasswordHasher
 
     public PasswordHasher(IConfiguration config)
     {
-        var key = config["PasswordHasher:SecretKey"] ?? throw new ArgumentNullException(nameof(config), "Secret key not found");
+        var key = config["PasswordHasher:SecretKey"] ?? throw new ArgumentNullException(nameof(config), ErrorMessages.SercretKeyNotFoundError);
+        
         Console.WriteLine(key);
+        
         _key = Encoding.UTF8.GetBytes(key);
     }
 
@@ -21,7 +24,7 @@ public class PasswordHasher : IPasswordHasher
     {
         if (password == null)
         {
-            throw new ArgumentNullException(nameof(password), "Password cannot be null!");
+            throw new ArgumentNullException(nameof(password), ErrorMessages.PasswordError);
         }
 
         using (var hmac = new HMACSHA256(_key))
@@ -36,6 +39,7 @@ public class PasswordHasher : IPasswordHasher
             var hash = hmac.ComputeHash(saltedPassword);
 
             var result = new byte[salt.Length + hash.Length];
+            
             Buffer.BlockCopy(salt, 0, result, 0, salt.Length);
             Buffer.BlockCopy(hash, 0, result, salt.Length, hash.Length);
 
@@ -47,11 +51,12 @@ public class PasswordHasher : IPasswordHasher
     {
         if (hashedPassword == null)
         {
-            throw new ArgumentNullException(nameof(hashedPassword), "Hashed password cannot be null!");
+            throw new ArgumentNullException(nameof(hashedPassword), ErrorMessages.HashedPasswordError);
         }
+        
         if (password == null)
         {
-            throw new ArgumentNullException(nameof(password), "Password cannot be null!");
+            throw new ArgumentNullException(nameof(password), ErrorMessages.PasswordError);
         }
 
         var hashBytes = Convert.FromBase64String(hashedPassword);
@@ -79,10 +84,12 @@ public class PasswordHasher : IPasswordHasher
     private static byte[] GenerateSalt(int length)
     {
         var salt = new byte[length];
+        
         using (var rng = RandomNumberGenerator.Create())
         {
             rng.GetBytes(salt);
         }
+        
         return salt;
     }
 
