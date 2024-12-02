@@ -6,5 +6,5 @@ public static class Policies
     
     public const string OnlyUserAccess = "OnlyUserAccess";
     
-    public const string EveryoneAccess = "EveryoneAccess";
+    public const string AuthenticateAccess = "AuthenticateAccess";
 }

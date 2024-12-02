@@ -15,7 +15,7 @@ public static class PoliciesExtension
             options.AddPolicy(Policies.OnlyUserAccess, policy =>
                 policy.RequireRole(Roles.User.ToString()));
             
-            options.AddPolicy(Policies.EveryoneAccess, policy =>
+            options.AddPolicy(Policies.AuthenticateAccess, policy =>
                 policy.RequireAssertion(_ => true));
         });
 
