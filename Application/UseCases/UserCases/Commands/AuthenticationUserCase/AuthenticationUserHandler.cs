@@ -1,8 +1,8 @@
-﻿using Application.Algorithms;
-using Application.Dtos.Token;
-using Application.Interfaces.IAlgorithms;
-using Application.Interfaces.IRepositories;
-using Application.Utils;
+﻿using Application.Common.Algorithms;
+using Application.Common.Dtos.Token;
+using Application.Common.Interfaces.IAlgorithms;
+using Application.Common.Interfaces.IRepositories;
+using Application.Common.Utils;
 using MediatR;
 
 namespace Application.UseCases.UserCases.Commands.AuthenticationUserCase;

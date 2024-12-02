@@ -1,6 +1,6 @@
-﻿using Application.Dtos;
-using Application.Dtos.Reservation;
-using Application.Utils;
+﻿using Application.Common.Dtos;
+using Application.Common.Dtos.Reservation;
+using Application.Common.Utils;
 using MediatR;
 
 namespace Application.UseCases.ReservationCases.Queries.GetAllReservationsCase;

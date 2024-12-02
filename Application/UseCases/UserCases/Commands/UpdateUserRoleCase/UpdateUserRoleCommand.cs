@@ -1,5 +1,5 @@
-﻿using Application.Dtos.User;
-using Application.Utils;
+﻿using Application.Common.Dtos.User;
+using Application.Common.Utils;
 using Domain.Enums;
 using MediatR;
 

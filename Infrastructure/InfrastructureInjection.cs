@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.IRepositories;
+﻿using Application.Common.Interfaces.IRepositories;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +15,6 @@ public static class InfrastructureInjection
             .AddDatabase(configuration)
             .AddRepositories();
     }
-
     
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {

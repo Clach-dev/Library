@@ -1,6 +1,6 @@
-﻿using Application.Dtos;
-using Application.Dtos.Book;
-using Application.Utils;
+﻿using Application.Common.Dtos;
+using Application.Common.Dtos.Book;
+using Application.Common.Utils;
 using MediatR;
 
 namespace Application.UseCases.BookCases.Queries.GetAllBooksCase;

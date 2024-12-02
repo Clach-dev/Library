@@ -1,5 +1,5 @@
-﻿using Application.Dtos.Token;
-using Application.Utils;
+﻿using Application.Common.Dtos.Token;
+using Application.Common.Utils;
 using MediatR;
 
 namespace Application.UseCases.UserCases.Commands.AuthenticationUserCase;

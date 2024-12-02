@@ -1,0 +1,10 @@
+﻿namespace Application.Common.Dtos.Genre;
+
+/// <summary>
+/// DTO for Genre Create operation
+/// </summary>
+/// <param name="Name">string which contains Name of Genre</param>
+/// <param name="Description">string which contains Description of Genre</param>
+public record CreateGenreDto(
+    string Name,
+    string? Description);

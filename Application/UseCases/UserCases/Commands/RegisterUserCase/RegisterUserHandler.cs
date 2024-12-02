@@ -1,7 +1,7 @@
-﻿using Application.Dtos.User;
-using Application.Interfaces.IAlgorithms;
-using Application.Interfaces.IRepositories;
-using Application.Utils;
+﻿using Application.Common.Dtos.User;
+using Application.Common.Interfaces.IAlgorithms;
+using Application.Common.Interfaces.IRepositories;
+using Application.Common.Utils;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;

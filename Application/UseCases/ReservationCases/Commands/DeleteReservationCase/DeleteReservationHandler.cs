@@ -1,5 +1,5 @@
-﻿using Application.Interfaces.IRepositories;
-using Application.Utils;
+﻿using Application.Common.Interfaces.IRepositories;
+using Application.Common.Utils;
 using MediatR;
 
 namespace Application.UseCases.ReservationCases.Commands.DeleteReservationCase;

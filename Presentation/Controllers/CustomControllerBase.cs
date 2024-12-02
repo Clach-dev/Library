@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Application.Common.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers;
@@ -13,5 +14,13 @@ public class CustomControllerBase(IHttpContextAccessor httpContextAccessor) : Co
         return userId != Guid.Empty
             ? userId
             : throw new UnauthorizedAccessException();
+    }
+    
+    public static IActionResult Result<T>(Result<T> result)
+    {
+        return new ObjectResult(result)
+        {
+            StatusCode = (int)result.StatusCode
+        };
     }
 }

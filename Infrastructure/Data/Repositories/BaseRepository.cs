@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
-using Application.Dtos;
-using Application.Interfaces.IRepositories;
+using Application.Common.Dtos;
+using Application.Common.Interfaces.IRepositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories;

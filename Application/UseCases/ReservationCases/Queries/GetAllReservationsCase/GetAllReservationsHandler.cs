@@ -1,6 +1,6 @@
-﻿using Application.Dtos.Reservation;
-using Application.Interfaces.IRepositories;
-using Application.Utils;
+﻿using Application.Common.Dtos.Reservation;
+using Application.Common.Interfaces.IRepositories;
+using Application.Common.Utils;
 using AutoMapper;
 using MediatR;
 

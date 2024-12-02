@@ -1,5 +1,5 @@
-﻿using Application.Dtos.Author;
-using Application.Utils;
+﻿using Application.Common.Dtos.Author;
+using Application.Common.Utils;
 using MediatR;
 
 namespace Application.UseCases.AuthorCases.Queries.GetAuthorsByNameCase;

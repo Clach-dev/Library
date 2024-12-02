@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.IRepositories;
+﻿using Application.Common.Interfaces.IRepositories;
 using Domain.Entities;
 
 namespace Infrastructure.Data.Repositories;
