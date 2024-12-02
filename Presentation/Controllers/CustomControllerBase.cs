@@ -15,8 +15,8 @@ public class CustomControllerBase(IHttpContextAccessor httpContextAccessor) : Co
             ? userId
             : throw new UnauthorizedAccessException();
     }
-    
-    public static IActionResult Result<T>(Result<T> result)
+
+    protected static IActionResult Result<T>(Result<T> result)
     {
         return new ObjectResult(result)
         {
