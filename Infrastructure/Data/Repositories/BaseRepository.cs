@@ -29,16 +29,24 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
     }
 
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _entities.FindAsync(id, cancellationToken);
-    
+    {
+        return await _entities.FindAsync(id, cancellationToken);
+    }
+
     public async Task<IEnumerable<TEntity>> GetByPredicateAsync(
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default)
-        => await _entities.Where(predicate).ToListAsync(cancellationToken);
+    {
+        return await _entities.Where(predicate).ToListAsync(cancellationToken);
+    }
 
-    public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken)
-        => await _entities.AddAsync(entity, cancellationToken);
-    
+    public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    {
+        await _entities.AddAsync(entity, cancellationToken);
+    }
+
     public Task Delete(TEntity entity)
-        => Task.FromResult(_entities.Remove(entity));
+    {
+        return Task.FromResult(_entities.Remove(entity));
+    }
 }
