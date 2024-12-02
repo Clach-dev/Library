@@ -16,7 +16,6 @@ public class UpdateGenreHandler(
         CancellationToken cancellationToken)
     {
         var currentGenre = await unitOfWork.Genres.GetByIdAsync(updateGenreCommand.Id, cancellationToken);
-
         if (currentGenre is null)
         {
             return ResultBuilder.NotFoundResult<ReadGenreDto>(ErrorMessages.NotFoundError);
@@ -26,7 +25,6 @@ public class UpdateGenreHandler(
             .Genres
             .GetByPredicateAsync(genre => genre.Name == updateGenreCommand.Name, cancellationToken))
             .FirstOrDefault();
-        
         if (genre is not null)
         {
             return ResultBuilder.ConflictResult<ReadGenreDto>(ErrorMessages.ExistingGenreError);

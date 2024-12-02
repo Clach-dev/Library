@@ -21,7 +21,6 @@ public class AuthenticationUserHandler(
             .Users
             .GetByPredicateAsync(user => user.Login == authenticationUserCommand.Login, cancellationToken))
             .FirstOrDefault();
-
         if (user is null)
         {
             return ResultBuilder.NotFoundResult<ReadTokenDto>(ErrorMessages.NotFoundError);

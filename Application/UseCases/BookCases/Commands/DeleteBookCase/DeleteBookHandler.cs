@@ -13,7 +13,6 @@ public class DeleteBookHandler(
         CancellationToken cancellationToken)
     {
         var book = await unitOfWork.Books.GetByIdAsync(deleteBookCommand.Id, cancellationToken);
-
         if (book is null)
         {
             return ResultBuilder.NotFoundResult<byte>(ErrorMessages.BookIdNotFound);

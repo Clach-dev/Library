@@ -4,19 +4,19 @@ using Application.Utils;
 using AutoMapper;
 using MediatR;
 
-namespace Application.UseCases.AuthorCases.Queries.GetAuthorByNameCase;
+namespace Application.UseCases.AuthorCases.Queries.GetAuthorsByNameCase;
 
-public class GetAuthorByNameHandler(
+public class GetAuthorsByNameHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetAuthorByNameQuery, Result<IEnumerable<ReadAuthorDto>>>
+    : IRequestHandler<GetAuthorsByNameQuery, Result<IEnumerable<ReadAuthorDto>>>
 {
     public async Task<Result<IEnumerable<ReadAuthorDto>>> Handle(
-        GetAuthorByNameQuery getAuthorByNameQuery,
+        GetAuthorsByNameQuery getAuthorsByNameQuery,
         CancellationToken cancellationToken)
     {
-        var searchFirstName = getAuthorByNameQuery.FirstName?.ToLower() ?? string.Empty;
-        var searchLastName = getAuthorByNameQuery.LastName?.ToLower() ?? string.Empty;
+        var searchFirstName = getAuthorsByNameQuery.FirstName?.ToLower() ?? string.Empty;
+        var searchLastName = getAuthorsByNameQuery.LastName?.ToLower() ?? string.Empty;
         
         var authors = await unitOfWork.Authors.GetByPredicateAsync(
             author =>

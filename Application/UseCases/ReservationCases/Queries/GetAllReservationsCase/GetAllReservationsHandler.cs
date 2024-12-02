@@ -11,7 +11,9 @@ public class GetAllReservationsHandler(
     IMapper mapper) 
     : IRequestHandler<GetAllReservationsQuery, Result<IEnumerable<ReadReservationDto>>>
 {
-    public async Task<Result<IEnumerable<ReadReservationDto>>> Handle(GetAllReservationsQuery getAllReservationsQuery, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<ReadReservationDto>>> Handle(
+        GetAllReservationsQuery getAllReservationsQuery,
+        CancellationToken cancellationToken)
     {
         var reservations = await unitOfWork.Reservations.GetAllAsync(getAllReservationsQuery, cancellationToken);
 

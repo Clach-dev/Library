@@ -13,7 +13,6 @@ public class DeleteUserHandler(
         CancellationToken cancellationToken)
     {
         var user = await unitOfWork.Users.GetByIdAsync(deleteUserCommand.Id, cancellationToken);
-
         if (user is null)
         {
             return ResultBuilder.NotFoundResult<byte>(ErrorMessages.NotFoundError);

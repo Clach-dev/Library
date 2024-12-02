@@ -15,7 +15,6 @@ public class GetUserByIdHandler(
         CancellationToken cancellationToken)
     {
         var user = await unitOfWork.Users.GetByIdAsync(getUserByIdQuery.Id, cancellationToken);
-        
         if (user is null)
         {
             ResultBuilder.NotFoundResult<ReadUserDto>(ErrorMessages.UserIdNotFound);

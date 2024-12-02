@@ -13,7 +13,6 @@ public class DeleteReservationHandler(
         CancellationToken cancellationToken)
     {
         var reservation = await unitOfWork.Reservations.GetByIdAsync(deleteReservationCommand.Id, cancellationToken);
-
         if (reservation is null)
         {
             return ResultBuilder.NotFoundResult<byte>(ErrorMessages.ReservationIdNotFound);

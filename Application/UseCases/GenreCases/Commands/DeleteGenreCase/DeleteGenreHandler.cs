@@ -13,7 +13,6 @@ public class DeleteGenreHandler(
         CancellationToken cancellationToken)
     {
         var genre = await unitOfWork.Genres.GetByIdAsync(deleteGenreCommand.Id, cancellationToken);
-        
         if (genre is null)
         {
             return ResultBuilder.NotFoundResult<byte>(ErrorMessages.NotFoundError);

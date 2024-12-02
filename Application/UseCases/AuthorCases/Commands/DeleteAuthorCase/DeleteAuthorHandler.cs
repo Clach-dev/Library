@@ -11,7 +11,6 @@ public class DeleteAuthorHandler(
     public async Task<Result<byte>> Handle(DeleteAuthorCommand deleteAuthorCommand, CancellationToken cancellationToken)
     {
         var author = await unitOfWork.Authors.GetByIdAsync(deleteAuthorCommand.Id, cancellationToken);
-        
         if (author is null)
         {
             return ResultBuilder.NotFoundResult<byte>(ErrorMessages.AuthorIdNotFound);

@@ -16,7 +16,6 @@ public class UpdateUserRoleHandler(
         CancellationToken cancellationToken)
     {   
         var user = await unitOfWork.Users.GetByIdAsync(updateUserRoleCommand.UserId, cancellationToken);
-
         if (user is null)
         {
             return ResultBuilder.NotFoundResult<ReadUserRoleDto>(ErrorMessages.NotFoundError);

@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using System.Xml;
-using Application.Dtos.Reservation;
+﻿using Application.Dtos.Reservation;
 using Application.Interfaces.IRepositories;
 using Application.Utils;
 using AutoMapper;
@@ -17,13 +15,33 @@ public class UpdateReservationHandler(
         UpdateReservationCommand updateReservationCommand,
         CancellationToken cancellationToken)
     {
-        var currentReservation = await unitOfWork.Reservations.GetByIdAsync(updateReservationCommand.Id, cancellationToken);
+        var currentReservation = await unitOfWork
+            .Reservations
+            .GetByIdAsync(updateReservationCommand.Id, cancellationToken);
 
         if (currentReservation is null)
         {
             return ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.ExistingReservationError);
         }
 
+        if (updateReservationCommand.BookId is not null)
+        {
+            var book = await unitOfWork.Books.GetByIdAsync((Guid)updateReservationCommand.BookId, cancellationToken);
+            if (book is null)
+            {
+                ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.BookIdNotFound);
+            }
+        }
+
+        if (updateReservationCommand.UserId is not null)
+        {
+            var user = await unitOfWork.Users.GetByIdAsync((Guid)updateReservationCommand.UserId, cancellationToken);
+            if (user is null)
+            {
+                ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.UserIdNotFound);
+            }
+        }
+        
         mapper.Map(updateReservationCommand, currentReservation);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

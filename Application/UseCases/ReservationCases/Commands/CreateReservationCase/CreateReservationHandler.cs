@@ -17,14 +17,12 @@ public class CreateReservationHandler(
         CancellationToken cancellationToken)
     {
         var book = await unitOfWork.Books.GetByIdAsync(createReservationCommand.BookId, cancellationToken);
-
         if (book is null)
         {
             ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.BookIdNotFound);
         }
 
         var user = await unitOfWork.Users.GetByIdAsync(createReservationCommand.UserId, cancellationToken);
-
         if (user is null)
         {
             ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.UserIdNotFound);
@@ -38,7 +36,6 @@ public class CreateReservationHandler(
                     reservation.IsReturned == false,
                 cancellationToken))
             .FirstOrDefault();
-
         if (existedReservation is not null)
         {
             return ResultBuilder.ConflictResult<ReadReservationDto>(ErrorMessages.ExistingReservationError);

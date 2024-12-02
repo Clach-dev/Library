@@ -16,7 +16,6 @@ public class UpdateAuthorHandler(
         CancellationToken cancellationToken)
     {
         var currentAuthor = await unitOfWork.Authors.GetByIdAsync(updateAuthorCommand.Id, cancellationToken);
-
         if (currentAuthor is null)
         {
             return ResultBuilder.NotFoundResult<ReadAuthorDto>(ErrorMessages.NotFoundError);

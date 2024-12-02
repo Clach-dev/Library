@@ -20,7 +20,6 @@ public class CreateGenreHandler(
             .Genres
             .GetByPredicateAsync(genre => genre.Name == createGenreCommand.Name, cancellationToken))
             .FirstOrDefault();
-
         if (existingGenre is not null)
         {
             return ResultBuilder.ConflictResult<ReadGenreDto>(ErrorMessages.ExistingGenreError);

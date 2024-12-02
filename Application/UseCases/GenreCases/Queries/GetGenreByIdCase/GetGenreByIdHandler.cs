@@ -16,7 +16,6 @@ public class GetGenreByIdHandler(
         CancellationToken cancellationToken)
     {
         var genre = await unitOfWork.Genres.GetByIdAsync(getGenreByIdQuery.Id, cancellationToken);
-
         if (genre is null)
         {
             ResultBuilder.NotFoundResult<ReadGenreDto>(ErrorMessages.GenreIdNotFound);

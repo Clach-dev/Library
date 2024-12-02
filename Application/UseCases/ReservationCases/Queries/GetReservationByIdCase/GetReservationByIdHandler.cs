@@ -11,10 +11,11 @@ public class GetReservationByIdHandler(
     IMapper mapper)
     : IRequestHandler<GetReservationByIdQuery, Result<ReadReservationDto>>
 {
-    public async Task<Result<ReadReservationDto>> Handle(GetReservationByIdQuery getReservationByIdQuery, CancellationToken cancellationToken)
+    public async Task<Result<ReadReservationDto>> Handle(
+        GetReservationByIdQuery getReservationByIdQuery,
+        CancellationToken cancellationToken)
     {
         var reservation = await unitOfWork.Reservations.GetByIdAsync(getReservationByIdQuery.Id, cancellationToken);
-
         if (reservation is null)
         {
             return ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.ReservationIdNotFound);

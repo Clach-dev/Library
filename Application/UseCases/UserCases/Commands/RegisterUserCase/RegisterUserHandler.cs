@@ -22,7 +22,6 @@ public class RegisterUserHandler(
             .Users
             .GetByPredicateAsync(user => user.Login == registerUserCommand.Login, cancellationToken))
             .FirstOrDefault();
-        
         if (existingUser is not null)
         {
             return ResultBuilder.ConflictResult<ReadUserDto>(ErrorMessages.ExistingUserLoginError);

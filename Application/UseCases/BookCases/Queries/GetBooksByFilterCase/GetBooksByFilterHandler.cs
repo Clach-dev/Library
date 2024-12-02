@@ -18,14 +18,14 @@ public class GetBooksByFilterHandler(
         var books = await unitOfWork.Books.GetByPredicateAsync(book =>
                 (getBooksByFilterQuery.Title == null ||
                     book.Title.Contains(getBooksByFilterQuery.Title)) &&
-                (!getBooksByFilterQuery.Authors.Any() ||
-                    getBooksByFilterQuery.Authors.All(authorId =>
+                (!getBooksByFilterQuery.AuthorsIds.Any() ||
+                    getBooksByFilterQuery.AuthorsIds.All(authorId =>
                         book.Authors != null &&
                         book.Authors.Select(b => b.Id).Contains(authorId))) &&
-                (!getBooksByFilterQuery.Genres.Any() || 
-                     getBooksByFilterQuery.Genres.All(genreId =>
-                         book.Genres != null &&
-                         book.Genres.Select(b => b.Id).Contains(genreId))),
+                (!getBooksByFilterQuery.GenresIds.Any() || 
+                    getBooksByFilterQuery.GenresIds.All(genreId =>
+                        book.Genres != null &&
+                        book.Genres.Select(b => b.Id).Contains(genreId))),
             cancellationToken);
         
         var booksReadDto = mapper.Map<IEnumerable<ReadBookDto>>(books);

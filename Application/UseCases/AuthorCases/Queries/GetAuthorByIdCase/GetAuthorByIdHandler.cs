@@ -1,5 +1,4 @@
 ﻿using Application.Dtos.Author;
-using Application.Dtos.User;
 using Application.Interfaces.IRepositories;
 using Application.Utils;
 using AutoMapper;
@@ -15,7 +14,6 @@ public class GetAuthorByIdHandler(
     public async Task<Result<ReadAuthorDto>> Handle(GetAuthorByIdQuery getAuthorByIdQuery, CancellationToken cancellationToken)
     {
         var author = await unitOfWork.Authors.GetByIdAsync(getAuthorByIdQuery.Id, cancellationToken);
-
         if (author is null)
         {
             ResultBuilder.NotFoundResult<ReadAuthorDto>(ErrorMessages.AuthorIdNotFound);

@@ -11,10 +11,11 @@ public class GetBookByIdHandler(
     IMapper mapper)
     : IRequestHandler<GetBookByIdQuery, Result<ReadBookDto>>
 {
-    public async Task<Result<ReadBookDto>> Handle(GetBookByIdQuery getBookByIdQuery, CancellationToken cancellationToken)
+    public async Task<Result<ReadBookDto>> Handle(
+        GetBookByIdQuery getBookByIdQuery,
+        CancellationToken cancellationToken)
     {
         var book = await unitOfWork.Books.GetByIdAsync(getBookByIdQuery.Id, cancellationToken);
-
         if (book is null)
         {
             ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.BookIdNotFound);

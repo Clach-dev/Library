@@ -20,14 +20,31 @@ public class CreateBookHandler(
             .Books
             .GetByPredicateAsync(book => book.ISBN == createBookCommand.ISBN, cancellationToken))
             .FirstOrDefault();
-        
         if (existedBook is not null)
         {
             ResultBuilder.ConflictResult<ReadBookDto>(ErrorMessages.ExistingBookError);
         }
         
-        var newBook = mapper.Map<Book>(createBookCommand);
+        var authors = (await unitOfWork.Authors.GetByPredicateAsync(author =>
+                createBookCommand.AuthorsIds.Contains(author.Id),
+            cancellationToken)).ToList();
+        if (authors.Count() != createBookCommand.AuthorsIds.Count())
+        {
+            return ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.AuthorIdNotFound);
+        }
 
+        var genres = (await unitOfWork.Genres.GetByPredicateAsync(genre =>
+                createBookCommand.GenresIds.Contains(genre.Id), 
+            cancellationToken)).ToList();
+        if (genres.Count() != createBookCommand.GenresIds.Count())
+        {
+            return ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.GenreIdNotFound);
+        }
+        
+        var newBook = mapper.Map<Book>(createBookCommand);
+        newBook.Authors = authors;
+        newBook.Genres = genres;
+        
         await unitOfWork.Books.CreateAsync(newBook, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         
