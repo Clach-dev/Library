@@ -1,25 +1,8 @@
-using Application;
-using Infrastructure;
+using Presentation.Common.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddApplication();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.UseAuthentication();
-app.MapControllers();
-app.Run();
+BuilderExtensions
+    .CreateBuilder(args)
+    .ConfigureServices()
+    .Build()
+    .ConfigureMiddleware()
+    .Run();
