@@ -5,5 +5,6 @@ using MediatR;
 
 namespace Application.UseCases.BookCases.Queries.GetAllBooksCase;
 
-public record GetAllBooksQuery
-    : PageInfo, IRequest<Result<IEnumerable<ReadBookDto>>>;
+public record GetAllBooksQuery(
+    PageInfo PageInfo)
+    : IRequest<Result<IEnumerable<ReadBookDto>>>;

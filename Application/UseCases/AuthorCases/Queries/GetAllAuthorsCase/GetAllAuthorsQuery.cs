@@ -5,5 +5,6 @@ using MediatR;
 
 namespace Application.UseCases.AuthorCases.Queries.GetAllAuthorsCase;
 
-public record GetAllAuthorsQuery
-    : PageInfo, IRequest<Result<IEnumerable<ReadAuthorDto>>>;
+public record GetAllAuthorsQuery(
+    PageInfo PageInfo)
+    : IRequest<Result<IEnumerable<ReadAuthorDto>>>;

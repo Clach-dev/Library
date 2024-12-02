@@ -15,7 +15,7 @@ public class GetAllReservationsHandler(
         GetAllReservationsQuery getAllReservationsQuery,
         CancellationToken cancellationToken)
     {
-        var reservations = await unitOfWork.Reservations.GetAllAsync(getAllReservationsQuery, cancellationToken);
+        var reservations = await unitOfWork.Reservations.GetAllAsync(getAllReservationsQuery.PageInfo, cancellationToken);
 
         var reservationReadDto = mapper.Map<IEnumerable<ReadReservationDto>>(reservations);
 

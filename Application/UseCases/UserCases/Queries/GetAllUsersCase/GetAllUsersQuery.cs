@@ -5,5 +5,6 @@ using MediatR;
 
 namespace Application.UseCases.UserCases.Queries.GetAllUsersCase;
 
-public record GetAllUsersQuery
-    : PageInfo, IRequest<Result<IEnumerable<ReadUserDto>>>;
+public record GetAllUsersQuery(
+    PageInfo PageInfo)
+    : IRequest<Result<IEnumerable<ReadUserDto>>>;

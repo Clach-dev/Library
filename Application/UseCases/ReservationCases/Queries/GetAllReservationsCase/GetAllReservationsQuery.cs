@@ -5,5 +5,6 @@ using MediatR;
 
 namespace Application.UseCases.ReservationCases.Queries.GetAllReservationsCase;
 
-public record GetAllReservationsQuery
-    : PageInfo, IRequest<Result<IEnumerable<ReadReservationDto>>>;
+public record GetAllReservationsQuery(
+    PageInfo PageInfo)
+    : IRequest<Result<IEnumerable<ReadReservationDto>>>;

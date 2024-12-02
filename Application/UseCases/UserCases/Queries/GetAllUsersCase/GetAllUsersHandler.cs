@@ -15,7 +15,7 @@ public class GetAllUsersHandler(
         GetAllUsersQuery getAllUsersQuery,
         CancellationToken cancellationToken)
     {
-        var users = await unitOfWork.Users.GetAllAsync(getAllUsersQuery, cancellationToken);
+        var users = await unitOfWork.Users.GetAllAsync(getAllUsersQuery.PageInfo, cancellationToken);
 
         var usersReadDto = mapper.Map<IEnumerable<ReadUserDto>>(users);
 

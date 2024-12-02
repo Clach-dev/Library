@@ -8,4 +8,4 @@ namespace Application.UseCases.UserCases.Commands.UpdateUserRoleCase;
 public record UpdateUserRoleCommand(
     Guid UserId,
     Roles Role)
-    : IRequest<Result<UpdateUserRoleDto>>, IRequest<Result<ReadUserRoleDto>>;
+    : IRequest<Result<ReadUserRoleDto>>;
