@@ -10,16 +10,18 @@ public static class BuilderExtensions
         return WebApplication.CreateBuilder(args);
     }
 
+    // maybe to refactor to different methods
     public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddInfrastructure(builder.Configuration);
-        builder.Services.AddApplication();
-        builder.Services.AddHttpContextAccessor();
-        builder.Services.AddAuthorization();
-        builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-
+        builder.Services
+            .AddInfrastructure(builder.Configuration)
+            .AddApplication()
+            .AddPolicies()
+            .AddHttpContextAccessor()
+            .AddEndpointsApiExplorer()
+            .AddSwaggerGen()
+            .AddControllers();
+        
         return builder;
     }
 
@@ -32,14 +34,18 @@ public static class BuilderExtensions
     {
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            app
+                .UseSwagger()
+                .UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.MapControllers();
+        app
+            .UseHttpsRedirection()
+            .UseAuthentication()
+            .UseAuthorization();
+            
+        app
+            .MapControllers();
 
         return app;
     }
