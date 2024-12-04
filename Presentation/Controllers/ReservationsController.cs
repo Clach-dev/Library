@@ -30,6 +30,7 @@ public class ReservationsController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result of reservation create operation</returns>
     [HttpPost]
+    [Authorize(Policy = Policies.AuthenticateAccess)]
     public async Task<IActionResult> CreateReservation(
         [FromBody] CreateReservationDto createReservationDto,
         CancellationToken cancellationToken)
@@ -106,7 +107,7 @@ public class ReservationsController(
     /// <param name="getAllReservationsByUserIdQuery"></param>
     /// <param name="cancellationToken"></param>
     /// <returns>Result of getting reservations by user id operation</returns>
-    [HttpGet("{userId:guid}")]
+    [HttpGet("user/{userId:guid}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetReservationsByUserId(
         [FromQuery] GetAllReservationsByUserIdQuery getAllReservationsByUserIdQuery,
