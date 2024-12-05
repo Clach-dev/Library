@@ -8,6 +8,9 @@
 //------------------------------------------------------------------------------
 
 namespace Application.Common.Utils {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -35,7 +38,7 @@ namespace Application.Common.Utils {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Application.Utils.ErrorMessages", typeof(ErrorMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Application.Common.Utils.ErrorMessages", typeof(ErrorMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -84,7 +87,7 @@ namespace Application.Common.Utils {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Genre with this name already exitsts.
+        ///   Looks up a localized string similar to Genre with this name already exists.
         /// </summary>
         internal static string ExistingGenreError {
             get {
@@ -167,9 +170,9 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Secret key not found.
         /// </summary>
-        internal static string SercretKeyNotFoundError {
+        internal static string SecretKeyNotFoundError {
             get {
-                return ResourceManager.GetString("SercretKeyNotFoundError", resourceCulture);
+                return ResourceManager.GetString("SecretKeyNotFoundError", resourceCulture);
             }
         }
         

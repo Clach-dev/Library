@@ -31,7 +31,7 @@
         <value>Jwt settings not found</value>
     </data>
     <data name="ExistingGenreError" xml:space="preserve">
-        <value>Genre with this name already exitsts</value>
+        <value>Genre with this name already exists</value>
     </data>
     <data name="UserIdNotFound" xml:space="preserve">
         <value>User with this id not found</value>
