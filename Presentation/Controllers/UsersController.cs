@@ -17,7 +17,6 @@ namespace Presentation.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-[AllowAnonymous]
 public class UsersController(
     IHttpContextAccessor httpContextAccessor,
     IMapper mapper,
@@ -31,6 +30,7 @@ public class UsersController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with users information</returns>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllUsers(
         [FromQuery] PageInfo pageInfo,
         CancellationToken cancellationToken)
@@ -46,6 +46,7 @@ public class UsersController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with user information</returns>
     [HttpGet("{userId:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetUserById(
         [FromRoute] Guid userId,
         CancellationToken cancellationToken)
@@ -60,6 +61,7 @@ public class UsersController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with created user information</returns>
     [HttpPost("registration")]
+    [AllowAnonymous]
     public async Task<IActionResult> RegisterUser(
         [FromBody] RegisterUserDto registerUserDto,
         CancellationToken cancellationToken)
@@ -76,6 +78,7 @@ public class UsersController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with user tokens information</returns>
     [HttpPost("authentication")]
+    [AllowAnonymous]
     public async Task<IActionResult> AuthenticateUser(
         [FromBody] AuthUserDto authUserDto,
         CancellationToken cancellationToken)

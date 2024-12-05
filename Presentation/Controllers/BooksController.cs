@@ -16,7 +16,6 @@ namespace Presentation.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-[AllowAnonymous]
 public class BooksController(
     IHttpContextAccessor httpContextAccessor,
     IMapper mapper,
@@ -30,6 +29,7 @@ public class BooksController(
     /// <param name="cancellationToken">CancellationToken of operation cancel</param>
     /// <returns>Result with books information</returns>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllBooks(
         [FromQuery] PageInfo pageInfo,
         CancellationToken cancellationToken)
@@ -45,6 +45,7 @@ public class BooksController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with book information</returns>
     [HttpGet("{bookId:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetBookById(
         [FromRoute] Guid bookId,
         CancellationToken cancellationToken)
@@ -60,6 +61,7 @@ public class BooksController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered books information</returns>
     [HttpGet("filter")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetFilteredBooks(
         [FromQuery] GetBooksByFilterQuery getFilteredBooksQuery,
         CancellationToken cancellationToken)

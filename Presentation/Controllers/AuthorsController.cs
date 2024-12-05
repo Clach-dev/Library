@@ -16,7 +16,6 @@ namespace Presentation.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-[AllowAnonymous]
 public class AuthorsController(
     IHttpContextAccessor httpContextAccessor,
     IMapper mapper,
@@ -30,6 +29,7 @@ public class AuthorsController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with authors information</returns>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllAuthors(
         [FromQuery] PageInfo pageInfo,
         CancellationToken cancellationToken)
@@ -45,6 +45,7 @@ public class AuthorsController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with author information</returns>
     [HttpGet("{authorId}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAuthorById(
         Guid authorId,
         CancellationToken cancellationToken)
@@ -60,6 +61,7 @@ public class AuthorsController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered authors information</returns>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAuthorsByName(
         [FromBody] GetAuthorsByNameQuery getAuthorsByNameQuery,
         CancellationToken cancellationToken)

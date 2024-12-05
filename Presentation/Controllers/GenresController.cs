@@ -16,7 +16,6 @@ namespace Presentation.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-[AllowAnonymous]
 public class GenresController(
     IHttpContextAccessor httpContextAccessor,
     IMapper mapper,
@@ -30,6 +29,7 @@ public class GenresController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with genres information</returns>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllGenres(
         [FromQuery] PageInfo pageInfo,
         CancellationToken cancellationToken)
@@ -45,6 +45,7 @@ public class GenresController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with genre information</returns>
     [HttpGet("{genreId:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetGenreById(
         Guid genreId,
         CancellationToken cancellationToken)
@@ -60,6 +61,7 @@ public class GenresController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered genres information</returns>
     [HttpGet("name")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetGenresByName(
         [FromBody] GetGenresByNameQuery getGenresByNameQuery,
         CancellationToken cancellationToken)

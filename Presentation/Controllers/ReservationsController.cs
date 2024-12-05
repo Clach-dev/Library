@@ -16,7 +16,6 @@ namespace Presentation.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-[AllowAnonymous]
 public class ReservationsController(
     IHttpContextAccessor httpContextAccessor,
     IMapper mapper,
@@ -30,6 +29,7 @@ public class ReservationsController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with reservations information</returns>
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAllReservations(
         [FromQuery] PageInfo pageInfo,
         CancellationToken cancellationToken)
@@ -45,6 +45,7 @@ public class ReservationsController(
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with reservation information</returns>
     [HttpGet("{reservationId:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetReservationById(
         [FromRoute] Guid reservationId,
         CancellationToken cancellationToken)
@@ -60,6 +61,7 @@ public class ReservationsController(
     /// <param name="cancellationToken"></param>
     /// <returns>Result with user reservations information</returns>
     [HttpGet("user/{userId:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetReservationsByUserId(
         [FromQuery] GetAllReservationsByUserIdQuery getAllReservationsByUserIdQuery,
         CancellationToken cancellationToken)
