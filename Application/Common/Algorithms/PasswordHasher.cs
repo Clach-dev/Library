@@ -13,7 +13,7 @@ public class PasswordHasher : IPasswordHasher
 
     public PasswordHasher(IConfiguration config)
     {
-        var key = config["PasswordHasher:SecretKey"] ?? throw new ArgumentNullException(nameof(config), ErrorMessages.SercretKeyNotFoundError);
+        var key = config["PasswordHasher:SecretKey"] ?? throw new ArgumentNullException(nameof(config), ErrorMessages.SecretKeyNotFoundError);
         
         Console.WriteLine(key);
         

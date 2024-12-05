@@ -10,16 +10,21 @@ public static class BuilderExtensions
         return WebApplication.CreateBuilder(args);
     }
 
-    // maybe to refactor to different methods
     public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services
             .AddInfrastructure(builder.Configuration)
-            .AddApplication()
-            .AddPolicies()
+            .AddApplication();
+            
+        builder.Services
+            .AddPolicies();
+
+        builder.Services
             .AddHttpContextAccessor()
             .AddEndpointsApiExplorer()
-            .AddSwaggerGen()
+            .AddSwaggerGen();
+            
+        builder.Services
             .AddControllers();
         
         return builder;
