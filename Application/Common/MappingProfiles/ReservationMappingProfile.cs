@@ -9,7 +9,7 @@ namespace Application.Common.MappingProfiles;
 
 public class ReservationMappingProfile : Profile
 {
-    ReservationMappingProfile()
+    public ReservationMappingProfile()
     {
         CreateMap<CreateReservationDto, CreateReservationCommand>()
             .ForMember(dest => dest.BookId, opt => opt.MapFrom(src => src.BookId))

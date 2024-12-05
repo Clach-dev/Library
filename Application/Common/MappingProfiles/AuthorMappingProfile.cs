@@ -9,7 +9,7 @@ namespace Application.Common.MappingProfiles;
 
 public class AuthorMappingProfile : Profile
 {
-    AuthorMappingProfile()
+    public AuthorMappingProfile()
     {
         CreateMap<CreateAuthorDto, CreateAuthorCommand>()
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))

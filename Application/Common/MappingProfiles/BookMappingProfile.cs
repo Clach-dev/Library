@@ -10,7 +10,6 @@ namespace Application.Common.MappingProfiles;
 
 public class BookMappingProfile : Profile
 {
-    // fix ids -> entities 
     public BookMappingProfile()
     {
         CreateMap<CreateBookDto, CreateBookCommand>()
