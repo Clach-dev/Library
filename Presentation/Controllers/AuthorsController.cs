@@ -16,7 +16,7 @@ namespace Presentation.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-[Authorize(Policy = Policies.OnlyAdminAccess)]
+[AllowAnonymous]
 public class AuthorsController(
     IHttpContextAccessor httpContextAccessor,
     IMapper mapper,
@@ -24,60 +24,14 @@ public class AuthorsController(
 ) : CustomControllerBase(httpContextAccessor)
 {
     /// <summary>
-    /// Author creation operation
-    /// </summary>
-    /// <param name="createAuthorDto">CreateAuthorDto which contains author information</param>
-    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of author creation</returns>
-    [HttpPost]
-    public async Task<IActionResult> CreateAuthor(
-        [FromBody] CreateAuthorDto createAuthorDto,
-        CancellationToken cancellationToken)
-    {
-        var result = await mediator.Send(mapper.Map<CreateAuthorCommand>(createAuthorDto), cancellationToken);
-        return Result(result);
-    }
-    
-    /// <summary>
-    /// Author update operation
-    /// </summary>
-    /// <param name="updateAuthorDto">UpdateAuthorDto which contains author update information</param>
-    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of author update</returns>
-    [HttpPut]
-    public async Task<IActionResult> UpdateAuthor(
-        [FromBody] UpdateAuthorDto updateAuthorDto,
-        CancellationToken cancellationToken)
-    {
-        var result = await mediator.Send(mapper.Map<UpdateAuthorCommand>(updateAuthorDto), cancellationToken);
-        return Result(result);
-    }
-    
-    /// <summary>
-    /// Author delete operation
-    /// </summary>
-    /// <param name="deleteAuthorDto">DeleteAuthorDto which contains id of author to delete</param>
-    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of author delete operation</returns>
-    [HttpDelete]
-    public async Task<IActionResult> DeleteAuthor(
-        [FromBody] DeleteAuthorDto deleteAuthorDto,
-        CancellationToken cancellationToken)
-    {
-        var result = await mediator.Send(mapper.Map<DeleteAuthorCommand>(deleteAuthorDto), cancellationToken);
-        return Result(result);
-    }
-
-    /// <summary>
     /// Get all authors operation
     /// </summary>
     /// <param name="pageInfo">PageInfo which contains number of current page and number of items per page</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of getting all authors</returns>
+    /// <returns>Result with authors information</returns>
     [HttpGet]
-    [AllowAnonymous]
     public async Task<IActionResult> GetAllAuthors(
-        [FromQuery]PageInfo pageInfo,
+        [FromQuery] PageInfo pageInfo,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetAllAuthorsQuery(pageInfo), cancellationToken);
@@ -89,9 +43,8 @@ public class AuthorsController(
     /// </summary>
     /// <param name="authorId">Guid identifier of author</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of getting author by id</returns>
-    [HttpGet("{AuthorId}")]
-    [AllowAnonymous]
+    /// <returns>Result with author information</returns>
+    [HttpGet("{authorId}")]
     public async Task<IActionResult> GetAuthorById(
         Guid authorId,
         CancellationToken cancellationToken)
@@ -105,14 +58,60 @@ public class AuthorsController(
     /// </summary>
     /// <param name="getAuthorsByNameQuery">GetAuthorsByNameQuery which contains author full name</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of getting authors by name</returns>
+    /// <returns>Result with filtered authors information</returns>
     [HttpGet]
-    [AllowAnonymous]
     public async Task<IActionResult> GetAuthorsByName(
         [FromBody] GetAuthorsByNameQuery getAuthorsByNameQuery,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(getAuthorsByNameQuery, cancellationToken);
+        return Result(result);
+    }
+    /// <summary>
+    /// Author creation operation
+    /// </summary>
+    /// <param name="createAuthorDto">CreateAuthorDto which contains author information</param>
+    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
+    /// <returns>Result with created author information</returns>
+    [HttpPost]
+    [Authorize(Policy = Policies.OnlyAdminAccess)]
+    public async Task<IActionResult> CreateAuthor(
+        [FromBody] CreateAuthorDto createAuthorDto,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(mapper.Map<CreateAuthorCommand>(createAuthorDto), cancellationToken);
+        return Result(result);
+    }
+    
+    /// <summary>
+    /// Author update operation
+    /// </summary>
+    /// <param name="updateAuthorDto">UpdateAuthorDto which contains author update information</param>
+    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
+    /// <returns>Result with updated author information</returns>
+    [HttpPut]
+    [Authorize(Policy = Policies.OnlyAdminAccess)]
+    public async Task<IActionResult> UpdateAuthor(
+        [FromBody] UpdateAuthorDto updateAuthorDto,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(mapper.Map<UpdateAuthorCommand>(updateAuthorDto), cancellationToken);
+        return Result(result);
+    }
+    
+    /// <summary>
+    /// Author delete operation
+    /// </summary>
+    /// <param name="deleteAuthorDto">DeleteAuthorDto which contains id of author to delete</param>
+    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
+    /// <returns>Result with status code of delete operation</returns>
+    [HttpDelete]
+    [Authorize(Policy = Policies.OnlyAdminAccess)]
+    public async Task<IActionResult> DeleteAuthor(
+        [FromBody] DeleteAuthorDto deleteAuthorDto,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(mapper.Map<DeleteAuthorCommand>(deleteAuthorDto), cancellationToken);
         return Result(result);
     }
 }

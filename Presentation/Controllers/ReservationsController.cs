@@ -16,7 +16,7 @@ namespace Presentation.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
-[Authorize(Policy = Policies.OnlyAdminAccess)]
+[AllowAnonymous]
 public class ReservationsController(
     IHttpContextAccessor httpContextAccessor,
     IMapper mapper,
@@ -24,11 +24,56 @@ public class ReservationsController(
     : CustomControllerBase(httpContextAccessor)
 {
     /// <summary>
+    /// Get all reservations operation
+    /// </summary>
+    /// <param name="pageInfo">PageInfo which contains number of current page and number of items per page</param>
+    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
+    /// <returns>Result with reservations information</returns>
+    [HttpGet]
+    public async Task<IActionResult> GetAllReservations(
+        [FromQuery] PageInfo pageInfo,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetAllReservationsQuery(pageInfo), cancellationToken);
+        return Result(result);
+    }
+    
+    /// <summary>
+    /// Get reservation by id operation
+    /// </summary>
+    /// <param name="reservationId">Guid identifier of reservation</param>
+    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
+    /// <returns>Result with reservation information</returns>
+    [HttpGet("{reservationId:guid}")]
+    public async Task<IActionResult> GetReservationById(
+        [FromRoute] Guid reservationId,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetReservationByIdQuery(reservationId), cancellationToken);
+        return Result(result);
+    }
+    
+    /// <summary>
+    /// Get reservations by user id operation
+    /// </summary>
+    /// <param name="getAllReservationsByUserIdQuery"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Result with user reservations information</returns>
+    [HttpGet("user/{userId:guid}")]
+    public async Task<IActionResult> GetReservationsByUserId(
+        [FromQuery] GetAllReservationsByUserIdQuery getAllReservationsByUserIdQuery,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(getAllReservationsByUserIdQuery, cancellationToken);
+        return Result(result);
+    }
+    
+    /// <summary>
     /// Reservation create operation
     /// </summary>
     /// <param name="createReservationDto">CreateReservationDto which contains reservation information</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of reservation create operation</returns>
+    /// <returns>Result with created reservation information</returns>
     [HttpPost]
     [Authorize(Policy = Policies.AuthenticateAccess)]
     public async Task<IActionResult> CreateReservation(
@@ -44,8 +89,9 @@ public class ReservationsController(
     /// </summary>
     /// <param name="updateReservationDto">UpdateReservationDto which contains reservation update information</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of reservation update operation</returns>
+    /// <returns>Result with updated reservation information</returns>
     [HttpPut]
+    [Authorize(Policy = Policies.OnlyAdminAccess)]
     public async Task<IActionResult> UpdateReservation(
         [FromBody] UpdateReservationDto updateReservationDto,
         CancellationToken cancellationToken)
@@ -59,61 +105,14 @@ public class ReservationsController(
     /// </summary>
     /// <param name="deleteReservationDto">DeleteReservationDto which contains id of reservation to delete</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of reservation delete operation</returns>
+    /// <returns>Result with status code of delete operation</returns>
     [HttpDelete]
+    [Authorize(Policy = Policies.OnlyAdminAccess)]
     public async Task<IActionResult> DeleteReservation(
         [FromBody] DeleteReservationDto deleteReservationDto,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(mapper.Map<DeleteReservationCommand>(deleteReservationDto), cancellationToken);
-        return Result(result);
-    }
-
-    /// <summary>
-    /// Get all reservations operation
-    /// </summary>
-    /// <param name="pageInfo">PageInfo which contains number of current page and number of items per page</param>
-    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of get all reservations operation</returns>
-    [HttpGet]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetAllReservations(
-        [FromQuery] PageInfo pageInfo,
-        CancellationToken cancellationToken)
-    {
-        var result = await mediator.Send(new GetAllReservationsQuery(pageInfo), cancellationToken);
-        return Result(result);
-    }
-    
-    /// <summary>
-    /// Get reservation by id operation
-    /// </summary>
-    /// <param name="reservationId">Guid identifier of reservation</param>
-    /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
-    /// <returns>Result of getting reservation by id operation</returns>
-    [HttpGet("{reservationId:guid}")]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetReservationById(
-        [FromRoute] Guid reservationId,
-        CancellationToken cancellationToken)
-    {
-        var result = await mediator.Send(new GetReservationByIdQuery(reservationId), cancellationToken);
-        return Result(result);
-    }
-    
-    /// <summary>
-    /// Get reservations by user id operation
-    /// </summary>
-    /// <param name="getAllReservationsByUserIdQuery"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns>Result of getting reservations by user id operation</returns>
-    [HttpGet("user/{userId:guid}")]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetReservationsByUserId(
-        [FromQuery] GetAllReservationsByUserIdQuery getAllReservationsByUserIdQuery,
-        CancellationToken cancellationToken)
-    {
-        var result = await mediator.Send(getAllReservationsByUserIdQuery, cancellationToken);
         return Result(result);
     }
 }
