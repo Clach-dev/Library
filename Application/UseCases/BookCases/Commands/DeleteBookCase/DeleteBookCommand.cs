@@ -5,4 +5,4 @@ namespace Application.UseCases.BookCases.Commands.DeleteBookCase;
 
 public record DeleteBookCommand(
     Guid Id)
-    : IRequest<Result<byte>>;
+    : IRequest<Result<byte?>>;

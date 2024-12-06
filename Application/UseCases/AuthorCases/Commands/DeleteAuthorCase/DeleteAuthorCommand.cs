@@ -5,4 +5,4 @@ namespace Application.UseCases.AuthorCases.Commands.DeleteAuthorCase;
 
 public record DeleteAuthorCommand(
     Guid Id) 
-    : IRequest<Result<byte>>;
+    : IRequest<Result<byte?>>;
