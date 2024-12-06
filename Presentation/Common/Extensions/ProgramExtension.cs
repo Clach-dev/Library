@@ -18,7 +18,8 @@ public static class BuilderExtensions
             .AddApplication();
             
         builder.Services
-            .AddPolicies(builder.Configuration);
+            .AddPolicies()
+            .AddJwtValidation(builder.Configuration);
 
         builder.Services
             .AddHttpContextAccessor()

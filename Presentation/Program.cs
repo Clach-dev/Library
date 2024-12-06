@@ -4,5 +4,4 @@ BuilderExtensions
     .CreateBuilder(args)
     .ConfigureServices()
     .Build()
-    .ConfigureMiddleware()
-    .Run();
+    .ConfigureMiddleware();

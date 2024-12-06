@@ -6,9 +6,26 @@ using Domain.Enums;
 
 namespace Presentation.Common.Extensions;
 
-public static class PoliciesExtension
+public static class AuthConfigurationExtension
 {
-    public static IServiceCollection AddPolicies(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPolicies(this IServiceCollection services)
+    {
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(Policies.OnlyAdminAccess, policy =>
+                policy.RequireRole(Roles.Admin.ToString()));
+            
+            options.AddPolicy(Policies.OnlyUserAccess, policy =>
+                policy.RequireRole(Roles.User.ToString()));
+            
+            options.AddPolicy(Policies.AuthenticateAccess, policy =>
+                policy.RequireAssertion(_ => true));
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection AddJwtValidation(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -26,18 +43,6 @@ public static class PoliciesExtension
                 };
             });
         
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy(Policies.OnlyAdminAccess, policy =>
-                policy.RequireRole(Roles.Admin.ToString()));
-            
-            options.AddPolicy(Policies.OnlyUserAccess, policy =>
-                policy.RequireRole(Roles.User.ToString()));
-            
-            options.AddPolicy(Policies.AuthenticateAccess, policy =>
-                policy.RequireAssertion(_ => true));
-        });
-
         return services;
     }
 }
