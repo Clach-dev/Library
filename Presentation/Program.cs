@@ -1,6 +1,6 @@
 using Presentation.Common.Extensions;
 
-BuilderExtensions
+ProgramExtension
     .CreateBuilder(args)
     .ConfigureServices()
     .Build()

@@ -15,4 +15,6 @@ public static class ResultBuilder
     public static Result<T> NotFoundResult<T>(string message) => new (false, HttpStatusCode.NotFound, default, [message]);
     
     public static Result<T> ConflictResult<T>(string message) => new (false, HttpStatusCode.Conflict, default, [message]);
+    
+    public static Result<T> InternalServerErrorResult<T>(string message) => new (false, HttpStatusCode.InternalServerError, default, [message]);
 }

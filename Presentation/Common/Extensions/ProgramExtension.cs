@@ -1,10 +1,12 @@
 ﻿using Application;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Presentation.Common.Middleware;
 
 namespace Presentation.Common.Extensions;
 
-public static class BuilderExtensions
+public static class ProgramExtension
 {
     public static WebApplicationBuilder CreateBuilder(string[] args)
     {
@@ -25,6 +27,10 @@ public static class BuilderExtensions
             .AddHttpContextAccessor()
             .AddEndpointsApiExplorer()
             .AddSwaggerGen();
+        
+        builder.Services
+            .AddValidatorsFromAssemblyContaining<Program>()
+            .AddFluentValidationAutoValidation();
             
         builder.Services
             .AddControllers();
@@ -39,6 +45,8 @@ public static class BuilderExtensions
 
     public static WebApplication ConfigureMiddleware(this WebApplication app)
     {
+        app.UseMiddleware<ExceptionMiddleware>();
+        
         if (app.Environment.IsDevelopment())
         {
             app
