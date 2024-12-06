@@ -1,5 +1,6 @@
 ﻿using Application;
 using Infrastructure;
+using Presentation.Common.Middleware;
 
 namespace Presentation.Common.Extensions;
 
@@ -17,7 +18,7 @@ public static class BuilderExtensions
             .AddApplication();
             
         builder.Services
-            .AddPolicies();
+            .AddPolicies(builder.Configuration);
 
         builder.Services
             .AddHttpContextAccessor()
@@ -45,6 +46,7 @@ public static class BuilderExtensions
         }
 
         app
+            .UseMiddleware<LoggingMiddleware>()
             .UseHttpsRedirection()
             .UseAuthentication()
             .UseAuthorization();

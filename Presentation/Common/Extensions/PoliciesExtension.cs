@@ -1,12 +1,31 @@
-﻿using Domain.Constants;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Domain.Constants;
 using Domain.Enums;
 
 namespace Presentation.Common.Extensions;
 
 public static class PoliciesExtension
 {
-    public static IServiceCollection AddPolicies(this IServiceCollection services)
+    public static IServiceCollection AddPolicies(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration["JwtSettings:Issuer"],
+                    ValidAudience = configuration["JwtSettings:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]
+                        ?? throw new InvalidOperationException()))
+                };
+            });
+        
         services.AddAuthorization(options =>
         {
             options.AddPolicy(Policies.OnlyAdminAccess, policy =>
