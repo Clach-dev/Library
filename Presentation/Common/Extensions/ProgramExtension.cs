@@ -1,4 +1,5 @@
-﻿using Application;
+﻿using System.Reflection;
+using Application;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure;
@@ -37,7 +38,7 @@ public static class ProgramExtension
         
         return builder;
     }
-
+    
     public static WebApplication Build(this WebApplicationBuilder builder)
     {
         return builder.Build();
@@ -59,7 +60,7 @@ public static class ProgramExtension
             .UseHttpsRedirection()
             .UseAuthentication()
             .UseAuthorization();
-            
+        
         app
             .MapControllers();
 
