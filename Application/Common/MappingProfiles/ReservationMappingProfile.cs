@@ -2,6 +2,7 @@
 using Application.UseCases.ReservationCases.Commands.CreateReservationCase;
 using Application.UseCases.ReservationCases.Commands.DeleteReservationCase;
 using Application.UseCases.ReservationCases.Commands.UpdateReservationCase;
+using Application.UseCases.ReservationCases.Queries.GetAllReservationsByUserIdCase;
 using AutoMapper;
 using Domain.Entities;
 
@@ -56,5 +57,9 @@ public class ReservationMappingProfile : Profile
             .ForMember(dest => dest.ReturnDate, opt => opt.MapFrom(src => src.ReturnDate))
             .ForMember(dest => dest.IsReturned, opt => opt.MapFrom(src => src.IsReturned))
             .ForMember(dest => dest.Book, opt => opt.MapFrom(src => src.Book));
+        
+        CreateMap<GetAllReservationsByUserIdDto, GetAllReservationsByUserIdQuery>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+            .ForMember(dest => dest.PageInfo, opt => opt.MapFrom(src => src.PageInfo));
     }
 }

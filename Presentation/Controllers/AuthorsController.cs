@@ -44,7 +44,7 @@ public class AuthorsController(
     /// <param name="authorId">Guid identifier of author</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with author information</returns>
-    [HttpGet("{authorId}")]
+    [HttpGet("{authorId:guid}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetAuthorById(
         Guid authorId,
@@ -57,18 +57,19 @@ public class AuthorsController(
     /// <summary>
     /// Get authors by name operation
     /// </summary>
-    /// <param name="getAuthorsByNameQuery">GetAuthorsByNameQuery which contains author full name</param>
+    /// <param name="getAuthorsByNameDto">GetAuthorByNameDto which contains name of author</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered authors information</returns>
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> GetAuthorsByName(
-        [FromBody] GetAuthorsByNameQuery getAuthorsByNameQuery,
+        [FromQuery] GetAuthorsByNameDto getAuthorsByNameDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(getAuthorsByNameQuery, cancellationToken);
+        var result = await mediator.Send(mapper.Map<GetAuthorsByNameQuery>(getAuthorsByNameDto), cancellationToken);
         return Result(result);
     }
+    
     /// <summary>
     /// Author creation operation
     /// </summary>

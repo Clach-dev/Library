@@ -53,20 +53,20 @@ public class GenresController(
         var result = await mediator.Send(new GetGenreByIdQuery(genreId), cancellationToken);
         return Result(result);
     }
-    
+
     /// <summary>
     /// Get genres by name operation
     /// </summary>
-    /// <param name="getGenresByNameQuery">GetGenresByNameQuery which contains genre  name</param>
+    /// <param name="getGenresByNameDto">GetGenresByNameDto which contains name of genre</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered genres information</returns>
     [HttpGet("name")]
     [AllowAnonymous]
     public async Task<IActionResult> GetGenresByName(
-        [FromBody] GetGenresByNameQuery getGenresByNameQuery,
+        [FromBody] GetGenresByNameDto getGenresByNameDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(getGenresByNameQuery, cancellationToken);
+        var result = await mediator.Send(mapper.Map<GetGenresByNameQuery>(getGenresByNameDto), cancellationToken);
         return Result(result);
     }
     

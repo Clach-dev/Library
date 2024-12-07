@@ -53,20 +53,20 @@ public class ReservationsController(
         var result = await mediator.Send(new GetReservationByIdQuery(reservationId), cancellationToken);
         return Result(result);
     }
-    
+
     /// <summary>
     /// Get reservations by user id operation
     /// </summary>
-    /// <param name="getAllReservationsByUserIdQuery"></param>
+    /// <param name="getAllReservationsByUserIdDto">GetAllReservationsByUserIdDto which contains user id</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Result with user reservations information</returns>
     [HttpGet("user/{userId:guid}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetReservationsByUserId(
-        [FromQuery] GetAllReservationsByUserIdQuery getAllReservationsByUserIdQuery,
+        [FromQuery] GetAllReservationsByUserIdDto getAllReservationsByUserIdDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(getAllReservationsByUserIdQuery, cancellationToken);
+        var result = await mediator.Send(mapper.Map<GetAllReservationsByUserIdQuery>(getAllReservationsByUserIdDto), cancellationToken);
         return Result(result);
     }
     

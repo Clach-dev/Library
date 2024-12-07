@@ -2,6 +2,7 @@
 using Application.UseCases.GenreCases.Commands.CreateGenreCase;
 using Application.UseCases.GenreCases.Commands.DeleteGenreCase;
 using Application.UseCases.GenreCases.Commands.UpdateGenreCase;
+using Application.UseCases.GenreCases.Queries.GetGenresByNameCase;
 using AutoMapper;
 using Domain.Entities;
 
@@ -41,5 +42,9 @@ public class GenreMappingProfile : Profile
         CreateMap<Genre, ReadGenreReducedDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+
+        CreateMap<GetGenresByNameDto, GetGenresByNameQuery>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.PageInfo, opt => opt.MapFrom(src => src.PageInfo));
     }
 }
