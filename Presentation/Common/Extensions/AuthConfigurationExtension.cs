@@ -24,7 +24,7 @@ public static class AuthConfigurationExtension
 
         return services;
     }
-
+    
     public static IServiceCollection AddJwtValidation(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -44,5 +44,22 @@ public static class AuthConfigurationExtension
             });
         
         return services;
+    }
+
+    public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
+    {
+        return services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAngular", builder =>
+            {
+                builder
+                    // .WithOrigins(configuration["AllowedHosts"])  // TODO: CORS
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .WithExposedHeaders("Content-Disposition")  
+                    .SetIsOriginAllowed(_ => true);  
+            });
+        });
     }
 }

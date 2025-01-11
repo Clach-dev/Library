@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Application;
+﻿using Application;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure;
@@ -21,9 +20,12 @@ public static class ProgramExtension
             .AddApplication();
             
         builder.Services
+            .AddCorsPolicy(builder.Configuration);
+        
+        builder.Services
             .AddPolicies()
             .AddJwtValidation(builder.Configuration);
-
+        
         builder.Services
             .AddHttpContextAccessor()
             .AddEndpointsApiExplorer()
@@ -32,7 +34,7 @@ public static class ProgramExtension
         builder.Services
             .AddValidatorsFromAssemblyContaining<Program>()
             .AddFluentValidationAutoValidation();
-            
+        
         builder.Services
             .AddControllers();
         
@@ -54,10 +56,11 @@ public static class ProgramExtension
                 .UseSwagger()
                 .UseSwaggerUI();
         }
-
+        
         app
+            // .UseHttpsRedirection()                        // TODO: https
             .UseMiddleware<LoggingMiddleware>()
-            .UseHttpsRedirection()
+            .UseCors("AllowAngular")
             .UseAuthentication()
             .UseAuthorization();
         
