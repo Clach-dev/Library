@@ -60,7 +60,7 @@ public class AuthorsController(
     /// <param name="getAuthorsByNameDto">GetAuthorByNameDto which contains name of author</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered authors information</returns>
-    [HttpGet]
+    [HttpGet("name")]
     [AllowAnonymous]
     public async Task<IActionResult> GetAuthorsByName(
         [FromQuery] GetAuthorsByNameDto getAuthorsByNameDto,
