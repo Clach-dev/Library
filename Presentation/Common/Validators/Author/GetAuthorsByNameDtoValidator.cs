@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Presentation.Common.Validators.Author;
 
-public class GetAuthorsByNameDtoValidator : AbstractValidator<GetAuthorsByNameDto>
+public class GetAuthorsByNameDtoValidator : AbstractValidator<ReadAuthorsByNameDto>
 {
     public GetAuthorsByNameDtoValidator()
     {

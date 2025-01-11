@@ -57,16 +57,16 @@ public class GenresController(
     /// <summary>
     /// Get genres by name operation
     /// </summary>
-    /// <param name="getGenresByNameDto">GetGenresByNameDto which contains name of genre</param>
+    /// <param name="readGenresByNameDto">ReadGenresByNameDto which contains name of genre</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered genres information</returns>
     [HttpGet("name")]
     [AllowAnonymous]
     public async Task<IActionResult> GetGenresByName(
-        [FromBody] GetGenresByNameDto getGenresByNameDto,
+        [FromBody] ReadGenresByNameDto readGenresByNameDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(mapper.Map<GetGenresByNameQuery>(getGenresByNameDto), cancellationToken);
+        var result = await mediator.Send(mapper.Map<GetGenresByNameQuery>(readGenresByNameDto), cancellationToken);
         return Result(result);
     }
     

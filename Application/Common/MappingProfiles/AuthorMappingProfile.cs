@@ -54,7 +54,7 @@ public class AuthorMappingProfile : Profile
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName));
 
-        CreateMap<GetAuthorsByNameDto, GetAuthorsByNameQuery>()
+        CreateMap<ReadAuthorsByNameDto, GetAuthorsByNameQuery>()
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.PageInfo, opt => opt.MapFrom(src => src.PageInfo));

@@ -56,7 +56,7 @@ public class BookMappingProfile : Profile
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title));
 
-        CreateMap<GetBooksByFilterDto, GetBooksByFilterQuery>()
+        CreateMap<ReadBooksByFilterDto, GetBooksByFilterQuery>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.AuthorsIds, opt => opt.MapFrom(src => src.AuthorsIds))
             .ForMember(dest => dest.GenresIds, opt => opt.MapFrom(src => src.GenresIds))

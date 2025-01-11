@@ -6,7 +6,7 @@
 /// <param name="FirstName">string which contains First name of Author</param>
 /// <param name="LastName">string which contains Last name of Author</param>
 /// <param name="PageInfo">PageInfo which contains Pagination information</param>
-public record GetAuthorsByNameDto(
+public record ReadAuthorsByNameDto(
     string? FirstName,
     string? LastName,
     PageInfo PageInfo);
