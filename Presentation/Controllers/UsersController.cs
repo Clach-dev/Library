@@ -54,6 +54,7 @@ public class UsersController(
         var result = await mediator.Send(new GetUserByIdQuery(userId), cancellationToken);
         return Result(result);
     }
+    
     /// <summary>
     /// Registration of new user
     /// </summary>
