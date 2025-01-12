@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Presentation.Common.Middleware;
+﻿namespace Presentation.Common.Middleware;
 
 public class LoggingMiddleware(
     RequestDelegate next,
     ILogger<LoggingMiddleware> logger)
-    : ControllerBase // TODO: is it ok? 
 {
     public async Task InvokeAsync(HttpContext context)
     {
