@@ -58,7 +58,7 @@ public class ReservationMappingProfile : Profile
             .ForMember(dest => dest.IsReturned, opt => opt.MapFrom(src => src.IsReturned))
             .ForMember(dest => dest.Book, opt => opt.MapFrom(src => src.Book));
         
-        CreateMap<ReadReservationsByUserIdDto, GetAllReservationsByUserIdQuery>()
+        CreateMap<ReservationsByUserIdDto, GetAllReservationsByUserIdQuery>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
             .ForMember(dest => dest.PageInfo, opt => opt.MapFrom(src => src.PageInfo));
     }

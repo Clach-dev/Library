@@ -36,7 +36,7 @@ public class CreateBookHandler(
         var genres = (await unitOfWork.Genres.GetByPredicateAsync(genre =>
                 createBookCommand.GenresIds.Contains(genre.Id), 
             cancellationToken)).ToList();
-        if (genres.Count() != createBookCommand.GenresIds.Count())
+        if (genres.Count != createBookCommand.GenresIds.Count())
         {
             return ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.GenreIdNotFound);
         }

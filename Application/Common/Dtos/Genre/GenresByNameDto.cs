@@ -5,6 +5,6 @@
 /// </summary>
 /// <param name="Name"></param>
 /// <param name="PageInfo"></param>
-public record ReadGenresByNameDto(
+public record GenresByNameDto(
     string Name,
     PageInfo PageInfo);

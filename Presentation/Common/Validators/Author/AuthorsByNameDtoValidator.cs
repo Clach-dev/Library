@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Presentation.Common.Validators.Author;
 
-public class GetAuthorsByNameDtoValidator : AbstractValidator<ReadAuthorsByNameDto>
+public class AuthorsByNameDtoValidator : AbstractValidator<AuthorsByNameDto>
 {
-    public GetAuthorsByNameDtoValidator()
+    public AuthorsByNameDtoValidator()
     {
         RuleFor(x => x.PageInfo)
             .SetValidator(new PageInfoValidator());

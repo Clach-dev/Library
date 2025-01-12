@@ -57,16 +57,16 @@ public class AuthorsController(
     /// <summary>
     /// Get authors by name operation
     /// </summary>
-    /// <param name="readAuthorsByNameDto">GetAuthorByNameDto which contains name of author</param>
+    /// <param name="authorsByNameDto">GetAuthorByNameDto which contains name of author</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered authors information</returns>
     [HttpGet("name")]
     [AllowAnonymous]
     public async Task<IActionResult> GetAuthorsByName(
-        [FromQuery] ReadAuthorsByNameDto readAuthorsByNameDto,
+        [FromQuery] AuthorsByNameDto authorsByNameDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(mapper.Map<GetAuthorsByNameQuery>(readAuthorsByNameDto), cancellationToken);
+        var result = await mediator.Send(mapper.Map<GetAuthorsByNameQuery>(authorsByNameDto), cancellationToken);
         return Result(result);
     }
     

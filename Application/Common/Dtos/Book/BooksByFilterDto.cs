@@ -7,7 +7,7 @@
 /// <param name="GenresIds"></param>
 /// <param name="AuthorsIds"></param>
 /// <param name="PageInfo"></param>
-public record ReadBooksByFilterDto(
+public record BooksByFilterDto(
     string? Title,
     IEnumerable<Guid> GenresIds,
     IEnumerable<Guid> AuthorsIds,
