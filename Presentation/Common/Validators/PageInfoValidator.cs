@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Presentation.Common.Validators;
 
-public class PageInfoValidator : AbstractValidator<PageInfo>
+public class PageInfoValidator : AbstractValidator<PageInfoDto>
 {
     public PageInfoValidator()
     {

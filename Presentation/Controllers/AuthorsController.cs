@@ -25,16 +25,16 @@ public class AuthorsController(
     /// <summary>
     /// Get all authors operation
     /// </summary>
-    /// <param name="pageInfo">PageInfo which contains number of current page and number of items per page</param>
+    /// <param name="pageInfoDto">PageInfoDto which contains number of current page and number of items per page</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with authors information</returns>
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> GetAllAuthors(
-        [FromQuery] PageInfo pageInfo,
+        [FromQuery] PageInfoDto pageInfoDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetAllAuthorsQuery(pageInfo), cancellationToken);
+        var result = await mediator.Send(new GetAllAuthorsQuery(pageInfoDto), cancellationToken);
         return Result(result);
     }
 

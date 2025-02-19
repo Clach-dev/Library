@@ -1,7 +1,8 @@
 ﻿using Application.Common.Dtos.Reservation;
-using Application.Common.Interfaces.IRepositories;
 using Application.Common.Utils;
 using AutoMapper;
+using Domain.Entities;
+using Domain.Interfaces.IRepositories;
 using MediatR;
 
 namespace Application.UseCases.ReservationCases.Queries.GetAllReservationsCase;
@@ -15,7 +16,7 @@ public class GetAllReservationsHandler(
         GetAllReservationsQuery getAllReservationsQuery,
         CancellationToken cancellationToken)
     {
-        var reservations = await unitOfWork.Reservations.GetAllAsync(getAllReservationsQuery.PageInfo, cancellationToken);
+        var reservations = await unitOfWork.Reservations.GetAllAsync(mapper.Map<PageInfo>(getAllReservationsQuery.PageInfoDto), cancellationToken);
 
         var reservationReadDto = mapper.Map<IEnumerable<ReadReservationDto>>(reservations);
 

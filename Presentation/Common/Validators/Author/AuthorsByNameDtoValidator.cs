@@ -7,7 +7,7 @@ public class AuthorsByNameDtoValidator : AbstractValidator<AuthorsByNameDto>
 {
     public AuthorsByNameDtoValidator()
     {
-        RuleFor(x => x.PageInfo)
+        RuleFor(x => x.PageInfoDto)
             .SetValidator(new PageInfoValidator());
         
         RuleFor(x => x.LastName)!

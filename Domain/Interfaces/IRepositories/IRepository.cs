@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
-using Application.Common.Dtos;
+using Domain.Entities;
 
-namespace Application.Common.Interfaces.IRepositories;
+namespace Domain.Interfaces.IRepositories;
 
 public interface IRepository<TEntity> where TEntity : class
 {

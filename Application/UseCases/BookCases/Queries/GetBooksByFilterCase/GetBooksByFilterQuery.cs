@@ -9,5 +9,5 @@ public record GetBooksByFilterQuery(
     string? Title,
     IEnumerable<Guid> GenresIds,
     IEnumerable<Guid> AuthorsIds,
-    PageInfo PageInfo)
+    PageInfoDto PageInfoDto)
     : IRequest<Result<IEnumerable<ReadBookDto>>>;

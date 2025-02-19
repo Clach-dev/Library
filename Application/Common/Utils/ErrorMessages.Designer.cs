@@ -21,7 +21,7 @@ namespace Application.Common.Utils {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ErrorMessages {
+    public class ErrorMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -125,7 +125,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Hashed password cannot be null!.
         /// </summary>
-        internal static string HashedPasswordError {
+        public static string HashedPasswordError {
             get {
                 return ResourceManager.GetString("HashedPasswordError", resourceCulture);
             }
@@ -134,7 +134,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Jwt settings not found.
         /// </summary>
-        internal static string JwtSettingsError {
+        public static string JwtSettingsError {
             get {
                 return ResourceManager.GetString("JwtSettingsError", resourceCulture);
             }
@@ -152,7 +152,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Password cannot be null!.
         /// </summary>
-        internal static string PasswordError {
+        public static string PasswordError {
             get {
                 return ResourceManager.GetString("PasswordError", resourceCulture);
             }
@@ -170,7 +170,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Secret key not found.
         /// </summary>
-        internal static string SecretKeyNotFoundError {
+        public static string SecretKeyNotFoundError {
             get {
                 return ResourceManager.GetString("SecretKeyNotFoundError", resourceCulture);
             }

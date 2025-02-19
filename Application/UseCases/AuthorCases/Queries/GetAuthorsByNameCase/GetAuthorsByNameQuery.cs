@@ -8,5 +8,5 @@ namespace Application.UseCases.AuthorCases.Queries.GetAuthorsByNameCase;
 public record GetAuthorsByNameQuery(
     string? LastName,
     string? FirstName,
-    PageInfo PageInfo)
+    PageInfoDto PageInfoDto)
     : IRequest<Result<IEnumerable<ReadAuthorDto>>>;

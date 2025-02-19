@@ -1,7 +1,8 @@
 ﻿using Application.Common.Dtos.Book;
-using Application.Common.Interfaces.IRepositories;
 using Application.Common.Utils;
 using AutoMapper;
+using Domain.Entities;
+using Domain.Interfaces.IRepositories;
 using MediatR;
 
 namespace Application.UseCases.BookCases.Queries.GetAllBooksCase;
@@ -15,7 +16,7 @@ public class GetAllBooksHandler(
         GetAllBooksQuery getAllBooksQuery,
         CancellationToken cancellationToken)
     {
-        var books = await unitOfWork.Books.GetAllAsync(getAllBooksQuery.PageInfo, cancellationToken);
+        var books = await unitOfWork.Books.GetAllAsync(mapper.Map<PageInfo>(getAllBooksQuery.PageInfoDto), cancellationToken);
 
         var booksReadDto = mapper.Map<IEnumerable<ReadBookDto>>(books);
 

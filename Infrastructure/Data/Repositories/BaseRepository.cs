@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
-using Application.Common.Dtos;
-using Application.Common.Interfaces.IRepositories;
+using Domain.Entities;
+using Domain.Interfaces.IRepositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories;
@@ -18,7 +18,7 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
         PageInfo pageInfo,
         CancellationToken cancellationToken = default)
     {
-        var entities = await _entities
+        var entities = await _entities.AsNoTracking()
             .Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize)
             .Take(pageInfo.PageSize)
             .ToListAsync(cancellationToken);
@@ -37,7 +37,7 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
         Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default)
     {
-        return await _entities.Where(predicate).ToListAsync(cancellationToken);
+        return await _entities.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
     }
 
     public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default)

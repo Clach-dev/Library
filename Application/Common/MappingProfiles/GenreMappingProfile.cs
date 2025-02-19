@@ -45,6 +45,6 @@ public class GenreMappingProfile : Profile
 
         CreateMap<GenresByNameDto, GetGenresByNameQuery>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-            .ForMember(dest => dest.PageInfo, opt => opt.MapFrom(src => src.PageInfo));
+            .ForMember(dest => dest.PageInfoDto, opt => opt.MapFrom(src => src.PageInfoDto));
     }
 }

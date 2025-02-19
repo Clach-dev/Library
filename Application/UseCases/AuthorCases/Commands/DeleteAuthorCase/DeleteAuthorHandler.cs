@@ -1,5 +1,5 @@
-﻿using Application.Common.Interfaces.IRepositories;
-using Application.Common.Utils;
+﻿using Application.Common.Utils;
+using Domain.Interfaces.IRepositories;
 using MediatR;
 
 namespace Application.UseCases.AuthorCases.Commands.DeleteAuthorCase;

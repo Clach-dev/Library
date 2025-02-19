@@ -60,6 +60,6 @@ public class ReservationMappingProfile : Profile
         
         CreateMap<ReservationsByUserIdDto, GetAllReservationsByUserIdQuery>()
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
-            .ForMember(dest => dest.PageInfo, opt => opt.MapFrom(src => src.PageInfo));
+            .ForMember(dest => dest.PageInfoDto, opt => opt.MapFrom(src => src.PageInfoDto));
     }
 }

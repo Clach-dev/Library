@@ -1,4 +1,6 @@
-﻿using Application.Common.Interfaces.IRepositories;
+﻿using Domain.Interfaces.IAlgorithms;
+using Domain.Interfaces.IRepositories;
+using Infrastructure.Algorithms;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,8 @@ public static class InfrastructureInjection
     {
         return services
             .AddDatabase(configuration)
-            .AddRepositories();
+            .AddRepositories()
+            .AddAlgorithms();
     }
     
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -36,5 +39,13 @@ public static class InfrastructureInjection
             .AddScoped<IReservationRepository, ReservationRepository>()
             .AddScoped<IUserRepository, UserRepository>()
             .AddScoped<IUnitOfWork, UnitOfWork>();
+    }
+    
+    
+    private static IServiceCollection AddAlgorithms(this IServiceCollection services)
+    {
+        return services
+            .AddScoped<IPasswordHasher, PasswordHasher>()
+            .AddScoped<ITokensGenerator, TokensGenerator>();
     }
 }

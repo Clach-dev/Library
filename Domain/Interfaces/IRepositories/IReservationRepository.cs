@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace Application.Common.Interfaces.IRepositories;
+namespace Domain.Interfaces.IRepositories;
 
 public interface IReservationRepository : IRepository<Reservation>
 {

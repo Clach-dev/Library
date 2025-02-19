@@ -26,16 +26,16 @@ public class UsersController(
     /// <summary>
     /// Get all users operation
     /// </summary>
-    /// <param name="pageInfo">PageInfo which contains number of current page and number of items per page</param>
+    /// <param name="pageInfoDto">PageInfoDto which contains number of current page and number of items per page</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with users information</returns>
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> GetAllUsers(
-        [FromQuery] PageInfo pageInfo,
+        [FromQuery] PageInfoDto pageInfoDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetAllUsersQuery(pageInfo), cancellationToken);
+        var result = await mediator.Send(new GetAllUsersQuery(pageInfoDto), cancellationToken);
         return Result(result);
     }
 

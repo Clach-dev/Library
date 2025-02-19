@@ -7,5 +7,5 @@ namespace Application.UseCases.GenreCases.Queries.GetGenresByNameCase;
 
 public record GetGenresByNameQuery(
     string Name,
-    PageInfo PageInfo)
+    PageInfoDto PageInfoDto)
     : IRequest<Result<IEnumerable<ReadGenreDto>>>;

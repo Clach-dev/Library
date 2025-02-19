@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Interfaces.IAlgorithms;
+﻿namespace Domain.Interfaces.IAlgorithms;
 
 public interface IPasswordHasher
 {

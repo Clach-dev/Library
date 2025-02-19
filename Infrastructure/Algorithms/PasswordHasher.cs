@@ -1,11 +1,11 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using Application.Common.Interfaces.IAlgorithms;
 using Application.Common.Utils;
+using Domain.Interfaces.IAlgorithms;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Application.Common.Algorithms;
+namespace Infrastructure.Algorithms;
 
 public class PasswordHasher : IPasswordHasher
 {

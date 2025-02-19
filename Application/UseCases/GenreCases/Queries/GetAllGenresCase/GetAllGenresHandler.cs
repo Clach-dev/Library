@@ -1,7 +1,8 @@
 ﻿using Application.Common.Dtos.Genre;
-using Application.Common.Interfaces.IRepositories;
 using Application.Common.Utils;
 using AutoMapper;
+using Domain.Entities;
+using Domain.Interfaces.IRepositories;
 using MediatR;
 
 namespace Application.UseCases.GenreCases.Queries.GetAllGenresCase;
@@ -15,7 +16,7 @@ public class GetAllGenresHandler(
         GetAllGenresQuery getAllGenresQuery,
         CancellationToken cancellationToken)
     {
-        var genres = await unitOfWork.Genres.GetAllAsync(getAllGenresQuery ,cancellationToken);
+        var genres = await unitOfWork.Genres.GetAllAsync(mapper.Map<PageInfo>(getAllGenresQuery),cancellationToken);
         
         var genresReadDto = mapper.Map<IEnumerable<ReadGenreDto>>(genres);
         

@@ -1,8 +1,7 @@
-﻿using Application.Common.Algorithms;
-using Application.Common.Dtos.Token;
-using Application.Common.Interfaces.IAlgorithms;
-using Application.Common.Interfaces.IRepositories;
+﻿using Application.Common.Dtos.Token;
 using Application.Common.Utils;
+using Domain.Interfaces.IAlgorithms;
+using Domain.Interfaces.IRepositories;
 using MediatR;
 
 namespace Application.UseCases.UserCases.Commands.AuthenticationUserCase;
@@ -10,7 +9,7 @@ namespace Application.UseCases.UserCases.Commands.AuthenticationUserCase;
 public class AuthenticationUserHandler(
     IUnitOfWork unitOfWork,
     IPasswordHasher passwordHasher,
-    TokensGenerator tokensGenerator)
+    ITokensGenerator tokensGenerator)
     : IRequestHandler<AuthenticationUserCommand, Result<ReadTokenDto>>
 {
     public async Task<Result<ReadTokenDto>> Handle(

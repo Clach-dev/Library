@@ -7,4 +7,4 @@ namespace Application.UseCases.ReservationCases.Queries.GetAllReservationsByUser
 
 public record GetAllReservationsByUserIdQuery(
     Guid UserId,
-    PageInfo PageInfo) : IRequest<Result<IEnumerable<ReadReservationDto>>>;
+    PageInfoDto PageInfoDto) : IRequest<Result<IEnumerable<ReadReservationDto>>>;

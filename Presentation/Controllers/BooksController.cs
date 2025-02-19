@@ -25,16 +25,16 @@ public class BooksController(
     /// <summary>
     /// Get all books operation
     /// </summary>
-    /// <param name="pageInfo">PageInfo which contains number of current page and number of items per page</param>
+    /// <param name="pageInfoDto">PageInfoDto which contains number of current page and number of items per page</param>
     /// <param name="cancellationToken">CancellationToken of operation cancel</param>
     /// <returns>Result with books information</returns>
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> GetAllBooks(
-        [FromQuery] PageInfo pageInfo,
+        [FromQuery] PageInfoDto pageInfoDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetAllBooksQuery(pageInfo), cancellationToken);
+        var result = await mediator.Send(new GetAllBooksQuery(pageInfoDto), cancellationToken);
         return Result(result);
     }
     

@@ -60,6 +60,6 @@ public class BookMappingProfile : Profile
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.AuthorsIds, opt => opt.MapFrom(src => src.AuthorsIds))
             .ForMember(dest => dest.GenresIds, opt => opt.MapFrom(src => src.GenresIds))
-            .ForMember(dest => dest.PageInfo, opt => opt.MapFrom(src => src.PageInfo));
+            .ForMember(dest => dest.PageInfoDto, opt => opt.MapFrom(src => src.PageInfoDto));
     }
 }

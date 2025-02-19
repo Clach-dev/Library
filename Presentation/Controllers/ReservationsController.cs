@@ -25,16 +25,16 @@ public class ReservationsController(
     /// <summary>
     /// Get all reservations operation
     /// </summary>
-    /// <param name="pageInfo">PageInfo which contains number of current page and number of items per page</param>
+    /// <param name="pageInfoDto">PageInfoDto which contains number of current page and number of items per page</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with reservations information</returns>
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> GetAllReservations(
-        [FromQuery] PageInfo pageInfo,
+        [FromQuery] PageInfoDto pageInfoDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetAllReservationsQuery(pageInfo), cancellationToken);
+        var result = await mediator.Send(new GetAllReservationsQuery(pageInfoDto), cancellationToken);
         return Result(result);
     }
     
