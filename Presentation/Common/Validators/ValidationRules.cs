@@ -13,7 +13,21 @@ public static class ValidationRules
     
     private const long MaxImageSizeInBytes = 5 * 1024 * 1024;
     
-    public static IRuleBuilder<T, Guid> GuidRule<T>(this IRuleBuilder<T, Guid> ruleBuilder)
+    public static IRuleBuilderOptions<T, TProperty> NotNullRule<T, TProperty>(
+        this IRuleBuilder<T, TProperty> ruleBuilder)
+    {
+        return ruleBuilder
+            .NotNull().WithMessage($"The {typeof(TProperty).Name} can't be null.");
+    }
+
+    private static IRuleBuilderOptions<T, TProperty> NotEmptyRule<T, TProperty>(
+        this IRuleBuilder<T, TProperty> ruleBuilder)
+    {
+        return ruleBuilder
+            .NotEmpty().WithMessage($"The {typeof(TProperty).Name} is required.");
+    }
+    
+    public static IRuleBuilderOptions<T, Guid> GuidRule<T>(this IRuleBuilder<T, Guid> ruleBuilder)
     {
         return ruleBuilder
             .NotEqual(Guid.Empty);
@@ -33,31 +47,40 @@ public static class ValidationRules
             .Must(x => x > 0).WithMessage("Page number must be greater than 0.");
     }
     
-    public static IRuleBuilder<T, string> LastNameRule<T>(this IRuleBuilder<T, string> ruleBuilder)
+    private static IRuleBuilderOptions<T, string?> NameRuleBuilder<T>(this IRuleBuilder<T, string?> ruleBuilder, string type)
     {
         return ruleBuilder
-            .MaximumLength(50).WithMessage("The last name must not exceed 20 characters.")
-            .Matches(NameRegex).WithMessage("The last name can only contain letters, apostrophes, and hyphens.");
+            .NotEmptyRule()
+            .MaximumLength(50).WithMessage("The {PropertyName} name must not exceed 50 characters.")
+            .Matches(NameRegex).WithMessage($"The {type} name can only contain letters, apostrophes, and hyphens.")
+            .When(x => x is not null);
+    }
+    
+    public static IRuleBuilderOptions<T, string?> LastNameRule<T>(this IRuleBuilder<T, string?> ruleBuilder)
+    {
+        return ruleBuilder
+            .NameRuleBuilder("last");
     }
     
     public static IRuleBuilderOptions<T, string?> FirstNameRule<T>(this IRuleBuilder<T, string?> ruleBuilder)
     {
         return ruleBuilder
-            .MaximumLength(50).WithMessage("The first name must not exceed 20 characters.")
-            .Matches(NameRegex).WithMessage("The first name can only contain letters, apostrophes, and hyphens.");
+            .NameRuleBuilder("first");
     }
     
-    public static IRuleBuilder<T, string> MiddleNameRule<T>(this IRuleBuilder<T, string> ruleBuilder)
+    public static IRuleBuilderOptions<T, string?> MiddleNameRule<T>(this IRuleBuilder<T, string?> ruleBuilder)
     {
         return ruleBuilder
-            .MaximumLength(50).WithMessage("The middle name must not exceed 20 characters.")
-            .Matches(NameRegex).WithMessage("The middle name can only contain letters, apostrophes, and hyphens.");
+            .NameRuleBuilder("middle");
     }
 
-    public static IRuleBuilder<T, string> DescriptionRule<T>(this IRuleBuilder<T, string> ruleBuilder)
+    
+    public static IRuleBuilderOptions<T, string?> DescriptionRule<T>(this IRuleBuilder<T, string?> ruleBuilder)
     {
-        return ruleBuilder.
-            MaximumLength(300).WithMessage("The description must not exceed 300 characters.");
+        return ruleBuilder
+            .NotEmptyRule()
+            .MaximumLength(300).WithMessage("The description must not exceed 300 characters.")
+            .When(x => x is not null);
     }
     
     public static IRuleBuilderOptions<T, string?> ISBNRule<T>(this IRuleBuilder<T, string?> ruleBuilder)
