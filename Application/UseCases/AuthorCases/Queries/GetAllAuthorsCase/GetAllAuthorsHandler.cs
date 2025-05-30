@@ -9,16 +9,16 @@ namespace Application.UseCases.AuthorCases.Queries.GetAllAuthorsCase;
 
 public class GetAllAuthorsHandler(
     IUnitOfWork unitOfWork,
-    IMapper mapper) : IRequestHandler<GetAllAuthorsQuery ,Result<IEnumerable<ReadAuthorDto>>>
+    IMapper mapper) : IRequestHandler<GetAllAuthorsQuery ,Result<ReadAuthorsDto>>
 {
-    public async Task<Result<IEnumerable<ReadAuthorDto>>> Handle(
+    public async Task<Result<ReadAuthorsDto>> Handle(
         GetAllAuthorsQuery getAllAuthorsQuery,
         CancellationToken cancellationToken)
     {
         var authors = await unitOfWork.Authors.GetAllAsync(mapper.Map<PageInfo>(getAllAuthorsQuery.PageInfoDto), cancellationToken);
+  
+        var authorsReadDtos = mapper.Map<ReadAuthorsDto>(authors);
         
-        var genresReadDtos = mapper.Map<IEnumerable<ReadAuthorDto>>(authors);
-        
-        return ResultBuilder.SuccessResult(genresReadDtos);
+        return ResultBuilder.SuccessResult(authorsReadDtos);
     }
 }

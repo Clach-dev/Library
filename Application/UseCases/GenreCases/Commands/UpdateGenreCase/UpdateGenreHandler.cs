@@ -1,6 +1,7 @@
 ﻿using Application.Common.Dtos.Genre;
 using Application.Common.Utils;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Interfaces.IRepositories;
 using MediatR;
 
@@ -21,10 +22,11 @@ public class UpdateGenreHandler(
             return ResultBuilder.NotFoundResult<ReadGenreDto>(ErrorMessages.NotFoundError);
         }
         
-        var genre = (await unitOfWork
-            .Genres
-            .GetByPredicateAsync(genre => genre.Name == updateGenreCommand.Name, cancellationToken))
-            .FirstOrDefault();
+        var genre = (await unitOfWork.Genres.GetByPredicateAsync(
+                genre => genre.Name == updateGenreCommand.Name,
+                new PageInfo(),
+                cancellationToken))
+            .Item1.FirstOrDefault();
         if (genre is not null)
         {
             return ResultBuilder.ConflictResult<ReadGenreDto>(ErrorMessages.ExistingGenreError);

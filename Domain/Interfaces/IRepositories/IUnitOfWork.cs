@@ -1,18 +1,28 @@
-﻿namespace Domain.Interfaces.IRepositories;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+
+namespace Domain.Interfaces.IRepositories;
 
 public interface IUnitOfWork : IDisposable
 {    
-    IUserRepository Users { get; }
-    
     IAuthorRepository Authors { get; }
-
+    
     IBookRepository Books { get; }
+    
+    IBookImageRepository BookImages { get; }
     
     IGenreRepository Genres { get; }
     
+    IRefreshTokenRepository RefreshTokens { get; }
+    
     IReservationRepository Reservations { get; }
     
-    IRefreshTokenRepository RefreshTokens { get; }
+    IReviewRepository Reviews { get; }
+    
+    IUserRepository Users { get; }
+    
+    IUserImageRepository UserImages { get; }
+    
+    Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

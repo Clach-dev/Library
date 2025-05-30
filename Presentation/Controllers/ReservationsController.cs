@@ -3,9 +3,9 @@ using Application.Common.Dtos.Reservation;
 using Application.UseCases.ReservationCases.Commands.CreateReservationCase;
 using Application.UseCases.ReservationCases.Commands.DeleteReservationCase;
 using Application.UseCases.ReservationCases.Commands.UpdateReservationCase;
-using Application.UseCases.ReservationCases.Queries.GetAllReservationsByUserIdCase;
 using Application.UseCases.ReservationCases.Queries.GetAllReservationsCase;
 using Application.UseCases.ReservationCases.Queries.GetReservationByIdCase;
+using Application.UseCases.ReservationCases.Queries.GetReservationsByFilterCase;
 using AutoMapper;
 using Domain.Constants;
 using MediatR;
@@ -55,18 +55,18 @@ public class ReservationsController(
     }
 
     /// <summary>
-    /// Get reservations by user id operation
+    /// Get reservations by filter operation
     /// </summary>
-    /// <param name="reservationsByUserIdDto">ReservationsByUserIdDto which contains user id</param>
+    /// <param name="filterReservationsDto">FilterReservationsDto which contains user id</param>
     /// <param name="cancellationToken"></param>
-    /// <returns>Result with user reservations information</returns>
-    [HttpGet("user/{userId:guid}")]
+    /// <returns>Result with filtered reservations information</returns>
+    [HttpGet("filter")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetReservationsByUserId(
-        [FromQuery] ReservationsByUserIdDto reservationsByUserIdDto,
+    public async Task<IActionResult> GetReservationsByFilter(
+        [FromQuery] FilterReservationsDto filterReservationsDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(mapper.Map<GetAllReservationsByUserIdQuery>(reservationsByUserIdDto), cancellationToken);
+        var result = await mediator.Send(mapper.Map<GetReservationsByFilterQuery>(filterReservationsDto), cancellationToken);
         return Result(result);
     }
     

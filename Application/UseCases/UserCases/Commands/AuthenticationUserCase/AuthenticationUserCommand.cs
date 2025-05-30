@@ -5,6 +5,6 @@ using MediatR;
 namespace Application.UseCases.UserCases.Commands.AuthenticationUserCase;
 
 public record AuthenticationUserCommand(
-    string Login,
+    string PhoneNumber,
     string Password)
     : IRequest<Result<ReadTokenDto>>;

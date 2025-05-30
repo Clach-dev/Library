@@ -2,6 +2,7 @@
 using Application.Common.Utils;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces.IRepositories;
 using MediatR;
 
@@ -19,23 +20,24 @@ public class CreateReservationHandler(
         var book = await unitOfWork.Books.GetByIdAsync(createReservationCommand.BookId, cancellationToken);
         if (book is null)
         {
-            ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.BookIdNotFound);
+            return ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.BookIdNotFound);
         }
 
         var user = await unitOfWork.Users.GetByIdAsync(createReservationCommand.UserId, cancellationToken);
         if (user is null)
         {
-            ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.UserIdNotFound);
+            return ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.UserIdNotFound);
         }
-        
+
         var existedReservation = (await unitOfWork
             .Reservations
             .GetByPredicateAsync(reservation =>
                     reservation.UserId == createReservationCommand.UserId &&
                     reservation.BookId == createReservationCommand.BookId &&
-                    reservation.IsReturned == false,
+                    reservation.Status != ReservationStatuses.Completed,
+                new PageInfo(),
                 cancellationToken))
-            .FirstOrDefault();
+            .Item1.FirstOrDefault();
         if (existedReservation is not null)
         {
             return ResultBuilder.ConflictResult<ReadReservationDto>(ErrorMessages.ExistingReservationError);

@@ -1,5 +1,6 @@
 ﻿using Application.Common.Dtos.Token;
 using Application.Common.Utils;
+using Domain.Entities;
 using Domain.Interfaces.IAlgorithms;
 using Domain.Interfaces.IRepositories;
 using MediatR;
@@ -16,10 +17,11 @@ public class AuthenticationUserHandler(
         AuthenticationUserCommand authenticationUserCommand,
         CancellationToken cancellationToken)
     {
-        var user = (await unitOfWork
-            .Users
-            .GetByPredicateAsync(user => user.Login == authenticationUserCommand.Login, cancellationToken))
-            .FirstOrDefault();
+        var user = (await unitOfWork.Users.GetByPredicateAsync(
+                user => user.PhoneNumber == authenticationUserCommand.PhoneNumber,
+                new PageInfo(),
+                cancellationToken))
+            .Item1.FirstOrDefault();
         if (user is null)
         {
             return ResultBuilder.NotFoundResult<ReadTokenDto>(ErrorMessages.NotFoundError);

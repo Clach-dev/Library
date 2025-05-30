@@ -1,6 +1,7 @@
 ﻿using Application.Common.Dtos.User;
 using Application.Common.Utils;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.UseCases.UserCases.Commands.UpdateUserCase;
 
@@ -8,7 +9,7 @@ public class UpdateUserCommand : IRequest<Result<ReadUserDto>>
 {
     public Guid Id { get; set; }
     
-    public string? Login { get; init; }
+    public string? PhoneNumber { get; init; }
     
     public string? Password { get; init; }
     
@@ -19,4 +20,6 @@ public class UpdateUserCommand : IRequest<Result<ReadUserDto>>
     public string? MiddleName { get; init; }
     
     public DateTime? BirthDate { get; init; }
+    
+    public IFormFile? ProfileImage { get; init; }
 }

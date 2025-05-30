@@ -16,39 +16,72 @@ public class CreateBookHandler(
         CreateBookCommand createBookCommand,
         CancellationToken cancellationToken)
     {
-        var existedBook = (await unitOfWork
-            .Books
-            .GetByPredicateAsync(book => book.ISBN == createBookCommand.ISBN, cancellationToken))
-            .FirstOrDefault();
+        var existedBook = (await unitOfWork.Books.GetByPredicateAsync(
+                    book => book.ISBN == createBookCommand.ISBN,
+                    new PageInfo(),
+                    cancellationToken))
+            .Item1.FirstOrDefault();
         if (existedBook is not null)
         {
-            ResultBuilder.ConflictResult<ReadBookDto>(ErrorMessages.ExistingBookError);
+            return ResultBuilder.ConflictResult<ReadBookDto>(ErrorMessages.ExistingBookError);
         }
-        
-        var authors = (await unitOfWork.Authors.GetByPredicateAsync(author =>
-                createBookCommand.AuthorsIds.Contains(author.Id),
-            cancellationToken)).ToList();
-        if (authors.Count() != createBookCommand.AuthorsIds.Count())
+
+        var authors = (await unitOfWork.Authors.GetByPredicateAsync(
+            author => createBookCommand.AuthorsIds.Contains(author.Id),
+            new PageInfo(1, createBookCommand.AuthorsIds.Count()), 
+            cancellationToken))
+            .Item1.ToList();
+        if (authors.Count != createBookCommand.AuthorsIds.Count())
         {
             return ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.AuthorIdNotFound);
         }
 
-        var genres = (await unitOfWork.Genres.GetByPredicateAsync(genre =>
-                createBookCommand.GenresIds.Contains(genre.Id), 
-            cancellationToken)).ToList();
+        var genres = (await unitOfWork.Genres.GetByPredicateAsync(
+                genre => createBookCommand.GenresIds.Contains(genre.Id), 
+                new PageInfo(1, createBookCommand.GenresIds.Count()),
+                cancellationToken))
+            .Item1.ToList();
         if (genres.Count != createBookCommand.GenresIds.Count())
         {
             return ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.GenreIdNotFound);
         }
-        
-        var newBook = mapper.Map<Book>(createBookCommand);
-        newBook.Authors = authors;
-        newBook.Genres = genres;
-        
-        await unitOfWork.Books.CreateAsync(newBook, cancellationToken);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
-        
-        var userReadDto = mapper.Map<ReadBookDto>(newBook);
-        return ResultBuilder.CreatedResult(userReadDto);
+
+        await using var transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
+
+        var uploadedImageUris = new List<Uri>();
+
+        try
+        {
+            var newBook = mapper.Map<Book>(createBookCommand);
+            newBook.Authors = authors;
+            newBook.Genres = genres;
+
+            foreach (var image in createBookCommand.Images)
+            {
+                await using var imageStream = image.OpenReadStream();
+                var imageUri = await unitOfWork.BookImages.UploadFileAsync(imageStream, cancellationToken);
+
+                uploadedImageUris.Add(imageUri);
+            }
+            newBook.Images = uploadedImageUris;
+            
+            await unitOfWork.Books.CreateAsync(newBook, cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+            
+            newBook.Images = await unitOfWork.BookImages.GetReadOnlyImageUrisAsync(newBook.Images);
+            
+            var bookDto = mapper.Map<ReadBookDto>(newBook);
+            return ResultBuilder.CreatedResult(bookDto);
+        }
+        catch
+        {
+            foreach (var imageUri in uploadedImageUris)
+            {
+                await unitOfWork.BookImages.DeleteFileAsync(imageUri, cancellationToken);
+            }
+            
+            return ResultBuilder.InternalServerErrorResult<ReadBookDto>(ErrorMessages.BookCreationFailureError);
+        }
     }
 }

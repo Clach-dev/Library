@@ -7,7 +7,9 @@ namespace Application.UseCases.BookCases.Queries.GetBooksByFilterCase;
 
 public record GetBooksByFilterQuery(
     string? Title,
-    IEnumerable<Guid> GenresIds,
+    byte? LowerAgeLimit,
+    byte? UpperAgeLimit,
     IEnumerable<Guid> AuthorsIds,
+    IEnumerable<Guid> GenresIds,
     PageInfoDto PageInfoDto)
-    : IRequest<Result<IEnumerable<ReadBookDto>>>;
+    : IRequest<Result<ReadBooksDto>>;

@@ -7,4 +7,4 @@ namespace Application.UseCases.AuthorCases.Queries.GetAllAuthorsCase;
 
 public record GetAllAuthorsQuery(
     PageInfoDto PageInfoDto)
-    : IRequest<Result<IEnumerable<ReadAuthorDto>>>;
+    : IRequest<Result<ReadAuthorsDto>>;

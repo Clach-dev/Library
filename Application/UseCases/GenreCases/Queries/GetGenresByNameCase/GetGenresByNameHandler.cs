@@ -1,6 +1,7 @@
 ﻿using Application.Common.Dtos.Genre;
 using Application.Common.Utils;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Interfaces.IRepositories;
 using MediatR;
 
@@ -9,17 +10,18 @@ namespace Application.UseCases.GenreCases.Queries.GetGenresByNameCase;
 public class GetGenresByNameHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetGenresByNameQuery, Result<IEnumerable<ReadGenreDto>>>
+    : IRequestHandler<GetGenresByNameQuery, Result<ReadGenresDto>>
 {
-    public async Task<Result<IEnumerable<ReadGenreDto>>> Handle(
+    public async Task<Result<ReadGenresDto>> Handle(
         GetGenresByNameQuery getGenresByNameQuery,
         CancellationToken cancellationToken)
     {
-        var genres = (await unitOfWork
-            .Genres
-            .GetByPredicateAsync(genre => genre.Name.Contains(getGenresByNameQuery.Name), cancellationToken));
+        var genres = await unitOfWork.Genres.GetByPredicateAsync(
+            genre => genre.Name.Contains(getGenresByNameQuery.Name),
+            new PageInfo(),
+            cancellationToken);
         
-        var genresReadDto = mapper.Map<IEnumerable<ReadGenreDto>>(genres);
+        var genresReadDto = mapper.Map<ReadGenresDto>(genres);
         
         return ResultBuilder.SuccessResult(genresReadDto);
     }

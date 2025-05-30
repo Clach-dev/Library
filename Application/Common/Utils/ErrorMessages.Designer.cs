@@ -69,11 +69,38 @@ namespace Application.Common.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Book with the images can&apos;t be added.
+        /// </summary>
+        internal static string BookCreationFailureError {
+            get {
+                return ResourceManager.GetString("BookCreationFailureError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book with the images can&apos;t be deleted.
+        /// </summary>
+        internal static string BookDeletionFailureError {
+            get {
+                return ResourceManager.GetString("BookDeletionFailureError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Book with this id not found.
         /// </summary>
         internal static string BookIdNotFound {
             get {
                 return ResourceManager.GetString("BookIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book with these images can&apos;t be updated.
+        /// </summary>
+        internal static string BookUpdateFailureError {
+            get {
+                return ResourceManager.GetString("BookUpdateFailureError", resourceCulture);
             }
         }
         
@@ -101,6 +128,15 @@ namespace Application.Common.Utils {
         internal static string ExistingReservationError {
             get {
                 return ResourceManager.GetString("ExistingReservationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review with this data is already exist.
+        /// </summary>
+        internal static string ExistingReviewError {
+            get {
+                return ResourceManager.GetString("ExistingReviewError", resourceCulture);
             }
         }
         
@@ -143,7 +179,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Entity not found.
         /// </summary>
-        internal static string NotFoundError {
+        public static string NotFoundError {
             get {
                 return ResourceManager.GetString("NotFoundError", resourceCulture);
             }
@@ -168,6 +204,24 @@ namespace Application.Common.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unacceptable reservation status.
+        /// </summary>
+        internal static string ReservationStatusBadRequestError {
+            get {
+                return ResourceManager.GetString("ReservationStatusBadRequestError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review with this id not found.
+        /// </summary>
+        internal static string ReviewIdNotFound {
+            get {
+                return ResourceManager.GetString("ReviewIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Secret key not found.
         /// </summary>
         public static string SecretKeyNotFoundError {
@@ -177,11 +231,38 @@ namespace Application.Common.Utils {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User with the photo can&apos;t be deleted .
+        /// </summary>
+        internal static string UserDeletionFailureError {
+            get {
+                return ResourceManager.GetString("UserDeletionFailureError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User with this id not found.
         /// </summary>
         internal static string UserIdNotFound {
             get {
                 return ResourceManager.GetString("UserIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User with this image can&apos;t be registered.
+        /// </summary>
+        internal static string UserRegistrationFailureError {
+            get {
+                return ResourceManager.GetString("UserRegistrationFailureError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User with this photo can&apos;t be updated.
+        /// </summary>
+        internal static string UserUpdatingFailureError {
+            get {
+                return ResourceManager.GetString("UserUpdatingFailureError", resourceCulture);
             }
         }
         

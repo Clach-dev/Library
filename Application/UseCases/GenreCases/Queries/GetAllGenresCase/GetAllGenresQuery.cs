@@ -7,4 +7,4 @@ namespace Application.UseCases.GenreCases.Queries.GetAllGenresCase;
 
 public record GetAllGenresQuery(
     PageInfoDto PageInfoDto)
-    : PageInfoDto, IRequest<Result<IEnumerable<ReadGenreDto>>>;
+    : IRequest<Result<ReadGenresDto>>;

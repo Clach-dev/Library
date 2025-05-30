@@ -9,4 +9,4 @@ public record GetAuthorsByNameQuery(
     string? LastName,
     string? FirstName,
     PageInfoDto PageInfoDto)
-    : IRequest<Result<IEnumerable<ReadAuthorDto>>>;
+    : IRequest<Result<ReadAuthorsDto>>;

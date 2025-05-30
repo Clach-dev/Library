@@ -58,7 +58,7 @@ public static class ProgramExtension
         }
         
         app
-            // .UseHttpsRedirection()                        // TODO: https
+            .UseHttpsRedirection()                        
             .UseMiddleware<LoggingMiddleware>()
             .UseCors("AllowAngular")
             .UseAuthentication()

@@ -18,7 +18,7 @@ public class GetBookByIdHandler(
         var book = await unitOfWork.Books.GetByIdAsync(getBookByIdQuery.Id, cancellationToken);
         if (book is null)
         {
-            ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.BookIdNotFound);
+            return ResultBuilder.NotFoundResult<ReadBookDto>(ErrorMessages.BookIdNotFound);
         }
         
         var bookReadDto = mapper.Map<ReadBookDto>(book);

@@ -3,7 +3,6 @@ using System.Text;
 using Application.Common.Utils;
 using Domain.Interfaces.IAlgorithms;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Algorithms;
 
@@ -13,92 +12,63 @@ public class PasswordHasher : IPasswordHasher
 
     public PasswordHasher(IConfiguration config)
     {
-        var key = config["PasswordHasher:SecretKey"] ?? throw new ArgumentNullException(nameof(config), ErrorMessages.SecretKeyNotFoundError);
-        
-        Console.WriteLine(key);
-        
+        var key = config["PasswordHasher:SecretKey"] 
+                  ?? throw new ArgumentNullException(nameof(config), ErrorMessages.SecretKeyNotFoundError);
+
         _key = Encoding.UTF8.GetBytes(key);
     }
 
     public string HashPassword(string password)
     {
         if (password == null)
-        {
             throw new ArgumentNullException(nameof(password), ErrorMessages.PasswordError);
-        }
 
-        using (var hmac = new HMACSHA256(_key))
-        {
-            var salt = GenerateSalt(16);
-            var passwordBytes = Encoding.UTF8.GetBytes(password);
-            var saltedPassword = new byte[salt.Length + passwordBytes.Length];
+        using var hmac = new HMACSHA256(_key);
+        var salt = GenerateSalt(16);
+        var passwordBytes = Encoding.UTF8.GetBytes(password);
 
-            Buffer.BlockCopy(salt, 0, saltedPassword, 0, salt.Length);
-            Buffer.BlockCopy(passwordBytes, 0, saltedPassword, salt.Length, passwordBytes.Length);
+        var saltedPassword = Combine(salt, passwordBytes);
+        var hash = hmac.ComputeHash(saltedPassword);
+        var result = Combine(salt, hash);
 
-            var hash = hmac.ComputeHash(saltedPassword);
-
-            var result = new byte[salt.Length + hash.Length];
-            
-            Buffer.BlockCopy(salt, 0, result, 0, salt.Length);
-            Buffer.BlockCopy(hash, 0, result, salt.Length, hash.Length);
-
-            return Convert.ToBase64String(result);
-        }
+        return Convert.ToBase64String(result);
     }
 
     public bool VerifyHashedPassword(string hashedPassword, string password)
     {
         if (hashedPassword == null)
-        {
             throw new ArgumentNullException(nameof(hashedPassword), ErrorMessages.HashedPasswordError);
-        }
-        
         if (password == null)
-        {
             throw new ArgumentNullException(nameof(password), ErrorMessages.PasswordError);
-        }
 
         var hashBytes = Convert.FromBase64String(hashedPassword);
-
         var salt = new byte[16];
         Buffer.BlockCopy(hashBytes, 0, salt, 0, salt.Length);
 
+        using var hmac = new HMACSHA256(_key);
         var passwordBytes = Encoding.UTF8.GetBytes(password);
-        var saltedPassword = new byte[salt.Length + passwordBytes.Length];
+        var saltedPassword = Combine(salt, passwordBytes);
+        var computedHash = hmac.ComputeHash(saltedPassword);
 
-        Buffer.BlockCopy(salt, 0, saltedPassword, 0, salt.Length);
-        Buffer.BlockCopy(passwordBytes, 0, saltedPassword, salt.Length, passwordBytes.Length);
+        var storedHash = new byte[computedHash.Length];
+        Buffer.BlockCopy(hashBytes, salt.Length, storedHash, 0, storedHash.Length);
 
-        using (var hmac = new HMACSHA256(_key))
-        {
-            var computedHash = hmac.ComputeHash(saltedPassword);
-
-            var storedHash = new byte[computedHash.Length];
-            Buffer.BlockCopy(hashBytes, salt.Length, storedHash, 0, storedHash.Length);
-
-            return ByteArraysEqual(computedHash, storedHash);
-        }
+        return CryptographicOperations.FixedTimeEquals(computedHash, storedHash);
     }
 
     private static byte[] GenerateSalt(int length)
     {
         var salt = new byte[length];
-        
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(salt);
-        }
-        
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(salt);
         return salt;
     }
 
-    private static bool ByteArraysEqual(byte[] b1, byte[] b2)
+    private static byte[] Combine(byte[] first, byte[] second)
     {
-        if (b1 == b2) return true;
-        if (b1.IsNullOrEmpty() || b2.IsNullOrEmpty()) return false;
-        if (b1.Length != b2.Length) return false;
-
-        return !b1.Where((t, i) => t != b2[i]).Any();
+        var result = new byte[first.Length + second.Length];
+        Buffer.BlockCopy(first, 0, result, 0, first.Length);
+        Buffer.BlockCopy(second, 0, result, first.Length, second.Length);
+        return result;
     }
 }

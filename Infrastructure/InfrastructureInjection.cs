@@ -4,6 +4,7 @@ using Infrastructure.Algorithms;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,7 @@ public static class InfrastructureInjection
     {
         return services
             .AddDatabase(configuration)
+            .AddStorage(configuration)
             .AddRepositories()
             .AddAlgorithms();
     }
@@ -29,15 +31,28 @@ public static class InfrastructureInjection
                 .UseLazyLoadingProxies());
     }
 
+    private static IServiceCollection AddStorage(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAzureClients(builder =>
+        {
+            builder.AddBlobServiceClient(configuration.GetConnectionString("AzureConnectionString"));
+        });
+
+        return services;
+    }
+    
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         return services
             .AddScoped<IAuthorRepository, AuthorRepository>()
             .AddScoped<IBookRepository, BookRepository>()
+            .AddScoped<IBookImageRepository, BookImageRepository>()
             .AddScoped<IGenreRepository, GenreRepository>()
             .AddScoped<IRefreshTokenRepository, RefreshTokenRepository>()
             .AddScoped<IReservationRepository, ReservationRepository>()
+            .AddScoped<IReviewRepository, ReviewRepository>()
             .AddScoped<IUserRepository, UserRepository>()
+            .AddScoped<IUserImageRepository, UserImageRepository>()
             .AddScoped<IUnitOfWork, UnitOfWork>();
     }
     

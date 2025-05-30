@@ -54,7 +54,7 @@
     <data name="ReservationIdNotFound" xml:space="preserve">
         <value>Reservation with this id not found</value>
     </data>
-    <data name="SercretKeyNotFoundError" xml:space="preserve">
+    <data name="SecretKeyNotFoundError" xml:space="preserve">
         <value>Secret key not found</value>
     </data>
     <data name="PasswordError" xml:space="preserve">
@@ -62,5 +62,32 @@
     </data>
     <data name="HashedPasswordError" xml:space="preserve">
         <value>Hashed password cannot be null!</value>
+    </data>
+    <data name="BookCreationFailureError" xml:space="preserve">
+        <value>Book with the images can't be added</value>
+    </data>
+    <data name="BookDeletionFailureError" xml:space="preserve">
+        <value>Book with the images can't be deleted</value>
+    </data>
+    <data name="BookUpdateFailureError" xml:space="preserve">
+        <value>Book with this images can't be updated</value>
+    </data>
+    <data name="ReservationStatusBadRequestError" xml:space="preserve">
+        <value>Unacceptable reservation status</value>
+    </data>
+    <data name="UserRegistrationFailureError" xml:space="preserve">
+        <value>User with this image can't be registered</value>
+    </data>
+    <data name="UserDeletionFailureError" xml:space="preserve">
+        <value>User with the photo can't be deleted </value>
+    </data>
+    <data name="UserUpdatingFailureError" xml:space="preserve">
+        <value>User with this photo can't be updated</value>
+    </data>
+    <data name="ReviewIdNotFound" xml:space="preserve">
+        <value>Review with this id not found</value>
+    </data>
+    <data name="ExistingReviewError" xml:space="preserve">
+        <value>Review with this data is already exist</value>
     </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using Application.Common.Dtos.Author;
 using Application.Common.Utils;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Interfaces.IRepositories;
 using MediatR;
 
@@ -9,9 +10,9 @@ namespace Application.UseCases.AuthorCases.Queries.GetAuthorsByNameCase;
 public class GetAuthorsByNameHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetAuthorsByNameQuery, Result<IEnumerable<ReadAuthorDto>>>
+    : IRequestHandler<GetAuthorsByNameQuery, Result<ReadAuthorsDto>>
 {
-    public async Task<Result<IEnumerable<ReadAuthorDto>>> Handle(
+    public async Task<Result<ReadAuthorsDto>> Handle(
         GetAuthorsByNameQuery getAuthorsByNameQuery,
         CancellationToken cancellationToken)
     {
@@ -20,14 +21,15 @@ public class GetAuthorsByNameHandler(
         
         var authors = await unitOfWork.Authors.GetByPredicateAsync(
             author =>
-                (author.FirstName.ToLower().Contains(searchFirstName) ||
-                 author.LastName.ToLower().Contains(searchFirstName)) &&
-                (author.FirstName.ToLower().Contains(searchLastName) ||
-                 author.LastName.ToLower().Contains(searchLastName)),
+                (author.FirstName.Contains(searchFirstName, StringComparison.CurrentCultureIgnoreCase) ||
+                 author.LastName.Contains(searchFirstName, StringComparison.CurrentCultureIgnoreCase)) &&
+                (author.FirstName.Contains(searchLastName, StringComparison.CurrentCultureIgnoreCase) ||
+                 author.LastName.Contains(searchLastName, StringComparison.CurrentCultureIgnoreCase)),
+            mapper.Map<PageInfo>(getAuthorsByNameQuery.PageInfoDto),
             cancellationToken);
         
-        var genresReadDtos = mapper.Map<IEnumerable<ReadAuthorDto>>(authors);
+        var authorsReadDtos = mapper.Map<ReadAuthorsDto>(authors);
         
-        return ResultBuilder.SuccessResult(genresReadDtos);
+        return ResultBuilder.SuccessResult(authorsReadDtos);
     }
 }

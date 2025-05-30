@@ -16,10 +16,11 @@ public class CreateGenreHandler(
         CreateGenreCommand createGenreCommand,
         CancellationToken cancellationToken)
     {
-        var existingGenre = (await unitOfWork
-            .Genres
-            .GetByPredicateAsync(genre => genre.Name == createGenreCommand.Name, cancellationToken))
-            .FirstOrDefault();
+        var existingGenre = (await unitOfWork.Genres.GetByPredicateAsync(
+            genre => genre.Name == createGenreCommand.Name,
+            new PageInfo(),
+            cancellationToken))
+            .Item1.FirstOrDefault();
         if (existingGenre is not null)
         {
             return ResultBuilder.ConflictResult<ReadGenreDto>(ErrorMessages.ExistingGenreError);

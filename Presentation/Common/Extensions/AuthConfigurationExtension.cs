@@ -13,10 +13,10 @@ public static class AuthConfigurationExtension
         services.AddAuthorization(options =>
         {
             options.AddPolicy(Policies.OnlyAdminAccess, policy =>
-                policy.RequireRole(Roles.Admin.ToString()));
+                policy.RequireRole(nameof(Roles.Admin)));
             
             options.AddPolicy(Policies.OnlyUserAccess, policy =>
-                policy.RequireRole(Roles.User.ToString()));
+                policy.RequireRole(nameof(Roles.User)));
             
             options.AddPolicy(Policies.AuthenticateAccess, policy =>
                 policy.RequireAssertion(_ => true));
@@ -37,7 +37,7 @@ public static class AuthConfigurationExtension
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = configuration["JwtSettings:Issuer"],
-                    ValidAudience = configuration["JwtSettings:Issuer"],
+                    ValidAudience = configuration["JwtSettings:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]
                         ?? throw new InvalidOperationException()))
                 };
@@ -53,7 +53,7 @@ public static class AuthConfigurationExtension
             options.AddPolicy("AllowAngular", builder =>
             {
                 builder
-                    // .WithOrigins(configuration["AllowedHosts"])  // TODO: CORS
+                    .WithOrigins(configuration["AllowedHosts"]!)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()

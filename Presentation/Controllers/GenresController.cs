@@ -47,7 +47,7 @@ public class GenresController(
     [HttpGet("{genreId:guid}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetGenreById(
-        Guid genreId,
+        [FromRoute] Guid genreId,
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetGenreByIdQuery(genreId), cancellationToken);
@@ -57,16 +57,16 @@ public class GenresController(
     /// <summary>
     /// Get genres by name operation
     /// </summary>
-    /// <param name="genresByNameDto">GenresByNameDto which contains name of genre</param>
+    /// <param name="filterGenresByNameDto">FilterGenresByNameDto which contains name of genre</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered genres information</returns>
     [HttpGet("name")]
     [AllowAnonymous]
     public async Task<IActionResult> GetGenresByName(
-        [FromBody] GenresByNameDto genresByNameDto,
+        [FromQuery] FilterGenresByNameDto filterGenresByNameDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(mapper.Map<GetGenresByNameQuery>(genresByNameDto), cancellationToken);
+        var result = await mediator.Send(mapper.Map<GetGenresByNameQuery>(filterGenresByNameDto), cancellationToken);
         return Result(result);
     }
     
@@ -105,16 +105,16 @@ public class GenresController(
     /// <summary>
     /// Genre delete operation
     /// </summary>
-    /// <param name="createGenreDto">CreateGenreDto which contains id of genre to delete</param>
+    /// <param name="deleteGenreDto">DeleteGenreDto which contains id of genre to delete</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with status code of delete operation</returns>
     [HttpDelete]
     [Authorize(Policy = Policies.OnlyAdminAccess)]
     public async Task<IActionResult> DeleteGenre(
-        [FromBody] DeleteGenreDto createGenreDto,
+        [FromBody] DeleteGenreDto deleteGenreDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(mapper.Map<DeleteGenreCommand>(createGenreDto), cancellationToken);
+        var result = await mediator.Send(mapper.Map<DeleteGenreCommand>(deleteGenreDto), cancellationToken);
         return Result(result);
     }
 }

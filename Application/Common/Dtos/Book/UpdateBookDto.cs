@@ -1,4 +1,6 @@
-﻿namespace Application.Common.Dtos.Book;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Application.Common.Dtos.Book;
 
 /// <summary>
 /// DTO for Book Update operation
@@ -6,13 +8,18 @@
 /// <param name="Id">Guid identifier of Book</param>
 /// <param name="ISBN">string which contains ISBN of Book</param>
 /// <param name="Title">string which contains Title of Book</param>
+/// <param name="AgeLimit">byte which contains AgeLimit of Book</param>
 /// <param name="Description">string which contains Description of Book</param>
+/// <param name="NewImages">IEnumerable_IFormFile which contains Images of Book</param>
 /// <param name="GenresIds">IEnumerable_Guid which contains Genres of Book</param>
 /// <param name="AuthorsIds">IEnumerable_Guid which contains Authors of Book</param>
 public record UpdateBookDto(
     Guid Id,
     string? ISBN,
     string? Title,
+    byte? AgeLimit,
     string? Description,
+    IEnumerable<IFormFile> NewImages, 
+    IEnumerable<Uri> KeepImageUris,
     IEnumerable<Guid> GenresIds,
     IEnumerable<Guid> AuthorsIds);

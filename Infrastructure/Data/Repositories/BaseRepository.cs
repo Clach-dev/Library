@@ -30,14 +30,24 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
 
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _entities.FindAsync(id, cancellationToken);
+        return await _entities.FindAsync([id], cancellationToken);
     }
 
-    public async Task<IEnumerable<TEntity>> GetByPredicateAsync(
+    public async Task<(IEnumerable<TEntity>, int)> GetByPredicateAsync(
         Expression<Func<TEntity, bool>> predicate,
+        PageInfo pageInfo,
         CancellationToken cancellationToken = default)
     {
-        return await _entities.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+        var entities = await _entities
+            .AsNoTracking()
+            .Where(predicate)
+            .Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize)
+            .Take(pageInfo.PageSize)
+            .ToListAsync(cancellationToken);
+        
+        var totalCount = await _entities.CountAsync(predicate, cancellationToken);
+        
+        return (entities, totalCount);
     }
 
     public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default)

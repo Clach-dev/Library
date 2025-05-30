@@ -6,7 +6,9 @@
 /// <param name="Id">Guid identifier of User</param>
 /// <param name="LastName">string which contains Last name of User</param>
 /// <param name="FirstName">string which contains First name of User</param>
+/// <param name="ProfileImage">Uri which contains profile image of User</param>
 public record ReadUserReducedDto(
     Guid Id,
     string LastName,
-    string FirstName);
+    string FirstName,
+    Uri? ProfileImage);

@@ -1,4 +1,4 @@
-﻿using Application.Common.Dtos.Book;
+﻿using Domain.Enums;
 
 namespace Application.Common.Dtos.Reservation;
 
@@ -6,13 +6,13 @@ namespace Application.Common.Dtos.Reservation;
 /// Dto for Reservation reduced Read operation
 /// </summary>
 /// <param name="Id">Guid identifier of Reservation</param>
+/// <param name="BookId">Guid identifier of Book</param>
 /// <param name="ReceiptDate">DateTime which represents date and time of book receiving</param>
 /// <param name="ReturnDate">DateTime which represents date and time of book returning</param>
-/// <param name="IsReturned">bool which represents if book is returned</param>
-/// <param name="Book">ReadBookReducedDto which contains Book</param>
+/// <param name="Status">Enum which represents status book of reservation</param>
 public record ReadReservationReducedDto(
     Guid Id,
+    Guid BookId,
     DateTime ReceiptDate,
     DateTime ReturnDate,
-    bool IsReturned,
-    ReadBookReducedDto Book);
+    ReservationStatuses Status);

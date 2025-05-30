@@ -15,22 +15,24 @@ public class UserMappingProfile : Profile
     public UserMappingProfile()
     {
         CreateMap<RegisterUserDto, RegisterUserCommand>()
-            .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))
-            .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
-            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
-            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
-            .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate));
-        
-        CreateMap<RegisterUserCommand, User>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
-            .ForMember(dest => dest.RefreshTokenId, opt => opt.Ignore())
-            .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
             .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
+            .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage));
+        
+        CreateMap<RegisterUserCommand, User>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+            .ForMember(dest => dest.RefreshTokenId, opt => opt.Ignore())
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+            .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
+            .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
+            .ForMember(dest => dest.ProfileImage, opt => opt.Ignore())
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src => Roles.User));
         
         CreateMap<User, ReadUserDto>()
@@ -39,30 +41,32 @@ public class UserMappingProfile : Profile
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
-            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
+            .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage));
         
         CreateMap<AuthUserDto, AuthenticationUserCommand>()
-            .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
             .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password));
         
         CreateMap<UpdateUserDto, UpdateUserCommand>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.Empty))
-            .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))
-            .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
-            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
-            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
-            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
-            .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate));
-        
-        CreateMap<UpdateUserCommand, User>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.RefreshTokenId, opt => opt.Ignore())
-            .ForMember(dest => dest.Login, opt => opt.MapFrom(src => src.Login))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
             .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
+            .ForMember(dest => dest.ProfileImage, opt => opt.MapFrom(src => src.ProfileImage));
+        
+        CreateMap<UpdateUserCommand, User>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.RefreshTokenId, opt => opt.Ignore())
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+            .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+            .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
+            .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
+            .ForMember(dest => dest.ProfileImage, opt => opt.Ignore())
             .ForMember(dest => dest.Role, opt => opt.Ignore());
         
         CreateMap<DeleteUserDto, DeleteUserCommand>()
@@ -73,14 +77,14 @@ public class UserMappingProfile : Profile
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
         
         CreateMap<User, ReadUserRoleDto>()
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
             .ForMember(dest => dest.MiddleName, opt => opt.MapFrom(src => src.MiddleName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
 
-        CreateMap<User, ReadUserReducedDto>()
+        CreateMap<User, ReadUserReducedDto>() // TODO maybe remove this mapping
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName));

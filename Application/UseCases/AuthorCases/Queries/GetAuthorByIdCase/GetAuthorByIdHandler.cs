@@ -16,7 +16,7 @@ public class GetAuthorByIdHandler(
         var author = await unitOfWork.Authors.GetByIdAsync(getAuthorByIdQuery.Id, cancellationToken);
         if (author is null)
         {
-            ResultBuilder.NotFoundResult<ReadAuthorDto>(ErrorMessages.AuthorIdNotFound);
+            return ResultBuilder.NotFoundResult<ReadAuthorDto>(ErrorMessages.AuthorIdNotFound);
         }
         
         var authorReadDto = mapper.Map<ReadAuthorDto>(author);

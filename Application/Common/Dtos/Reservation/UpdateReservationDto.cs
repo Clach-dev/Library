@@ -1,4 +1,6 @@
-﻿namespace Application.Common.Dtos.Reservation;
+﻿using Domain.Enums;
+
+namespace Application.Common.Dtos.Reservation;
 
 /// <summary>
 /// DTO for Reservation Update operation
@@ -8,11 +10,11 @@
 /// <param name="UserId">Guid identifier of User</param>
 /// <param name="ReceiptDate">DateTIme which represents date and time when the book was receipt</param>
 /// <param name="ReturnDate">DateTime which represents date and time when the book need be returned</param>
-/// <param name="IsReturned">bool which represents if book is returned</param>
+/// <param name="Status">Enum which represents status of reservation</param>
 public record UpdateReservationDto(
     Guid Id,
     Guid? BookId,
     Guid? UserId,
     DateTime? ReceiptDate,
     DateTime? ReturnDate,
-    bool? IsReturned);
+    ReservationStatuses? Status);

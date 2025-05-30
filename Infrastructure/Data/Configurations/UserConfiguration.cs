@@ -12,8 +12,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasKey(user => user.Id);
         
         builder
-            .Property(user => user.Login)
-            .HasMaxLength(50)
+            .Property(user => user.PhoneNumber)
+            .HasMaxLength(20)
             .IsRequired(true);
 
         builder
@@ -41,6 +41,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired(true);
 
         builder
+            .Property(user => user.ProfileImage)
+            .HasConversion(
+                uri => uri == null ? null : uri.ToString(),
+                str => string.IsNullOrWhiteSpace(str) ? null : new Uri(str))
+            .IsRequired(false);
+        
+        builder
             .Property(user => user.Role)
             .IsRequired(true);
 
@@ -48,6 +55,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMany(user => user.Reservations)
             .WithOne(reservation => reservation.User)
             .HasForeignKey(reservation => reservation.UserId);
+
+        builder
+            .HasMany(user => user.Reviews)
+            .WithOne(review => review.User)
+            .HasForeignKey(review => review.UserId);
         
         builder
             .HasOne(user => user.RefreshToken)

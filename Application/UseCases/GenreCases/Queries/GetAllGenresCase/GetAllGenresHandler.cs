@@ -10,15 +10,15 @@ namespace Application.UseCases.GenreCases.Queries.GetAllGenresCase;
 public class GetAllGenresHandler(
     IUnitOfWork unitOfWork,
     IMapper mapper)
-    : IRequestHandler<GetAllGenresQuery, Result<IEnumerable<ReadGenreDto>>>
+    : IRequestHandler<GetAllGenresQuery, Result<ReadGenresDto>>
 {
-    public async Task<Result<IEnumerable<ReadGenreDto>>> Handle(
+    public async Task<Result<ReadGenresDto>> Handle(
         GetAllGenresQuery getAllGenresQuery,
         CancellationToken cancellationToken)
     {
-        var genres = await unitOfWork.Genres.GetAllAsync(mapper.Map<PageInfo>(getAllGenresQuery),cancellationToken);
+        var genres = await unitOfWork.Genres.GetAllAsync(mapper.Map<PageInfo>(getAllGenresQuery.PageInfoDto),cancellationToken);
         
-        var genresReadDto = mapper.Map<IEnumerable<ReadGenreDto>>(genres);
+        var genresReadDto = mapper.Map<ReadGenresDto>(genres);
         
         return ResultBuilder.SuccessResult(genresReadDto);
     }

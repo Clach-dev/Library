@@ -18,7 +18,7 @@ public class GetGenreByIdHandler(
         var genre = await unitOfWork.Genres.GetByIdAsync(getGenreByIdQuery.Id, cancellationToken);
         if (genre is null)
         {
-            ResultBuilder.NotFoundResult<ReadGenreDto>(ErrorMessages.GenreIdNotFound);
+            return ResultBuilder.NotFoundResult<ReadGenreDto>(ErrorMessages.GenreIdNotFound);
         }
         
         var genreReadDto = mapper.Map<ReadGenreDto>(genre);

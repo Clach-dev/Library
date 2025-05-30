@@ -1,6 +1,7 @@
 ﻿using Application.Common.Dtos.User;
 using Application.Common.Utils;
 using AutoMapper;
+using Domain.Entities;
 using Domain.Interfaces.IRepositories;
 using MediatR;
 
@@ -20,20 +21,58 @@ public class UpdateUserHandler(
         {
             return ResultBuilder.NotFoundResult<ReadUserDto>(ErrorMessages.NotFoundError);
         }
-        
-        var existedUser = (await unitOfWork
-            .Users
-            .GetByPredicateAsync(user => user.Login == updateUserCommand.Login, cancellationToken))
-            .FirstOrDefault();
+
+        var existedUser = (await unitOfWork.Users.GetByPredicateAsync(
+                user => user.PhoneNumber == updateUserCommand.PhoneNumber,
+                new PageInfo(),
+                cancellationToken))
+            .Item1.FirstOrDefault();
+
         if (existedUser is not null && existedUser.Id != currentUser.Id)
         {
             return ResultBuilder.ConflictResult<ReadUserDto>(ErrorMessages.ExistingUserLoginError);
         }
+
+        await using var transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
         
-        mapper.Map(updateUserCommand, currentUser);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
+        Uri? newImageUri = null;
         
-        var userReadDto = mapper.Map<ReadUserDto>(currentUser);
-        return ResultBuilder.SuccessResult(userReadDto);
+        var oldImageUri = currentUser.ProfileImage;
+
+        try
+        {
+            if (updateUserCommand.ProfileImage is not null)
+            {
+                await using var imageStream = updateUserCommand.ProfileImage.OpenReadStream();
+                newImageUri = await unitOfWork.UserImages.UploadFileAsync(imageStream, cancellationToken);
+
+                currentUser.ProfileImage = newImageUri;
+            }
+
+            mapper.Map(updateUserCommand, currentUser);
+
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+
+            if (newImageUri is not null && oldImageUri is not null)
+            {
+                await unitOfWork.UserImages.DeleteFileAsync(oldImageUri, cancellationToken);
+            }
+
+            await transaction.CommitAsync(cancellationToken);
+
+            var userReadDto = mapper.Map<ReadUserDto>(currentUser);
+            return ResultBuilder.SuccessResult(userReadDto);
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+
+            if (newImageUri is not null)
+            {
+                await unitOfWork.UserImages.DeleteFileAsync(newImageUri, cancellationToken);
+            }
+            
+            return ResultBuilder.InternalServerErrorResult<ReadUserDto>(ErrorMessages.UserUpdatingFailureError);
+        }
     }
 }

@@ -8,17 +8,17 @@ public class CreateAuthorDtoValidator : AbstractValidator<CreateAuthorDto>
     public CreateAuthorDtoValidator()
     {
         RuleFor(x => x.LastName)
-            .NotEmpty().WithMessage("The last name is required.")
+            .NotNullRule()
             .LastNameRule();
 
         RuleFor(x => x.FirstName)
-            .NotEmpty().WithMessage("The first name is required")
+            .NotNullRule()
             .FirstNameRule();
 
-        RuleFor(x => x.MiddleName)!
+        RuleFor(x => x.MiddleName)
             .MiddleNameRule();
-
-        RuleFor(x => x.Description)!
+        
+        RuleFor(x => x.Description)
             .DescriptionRule();
     }
 }

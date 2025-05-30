@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities;
+﻿using Domain.Enums;
+
+namespace Domain.Entities;
 
 public class Reservation : BaseEntity
 {
@@ -9,8 +11,8 @@ public class Reservation : BaseEntity
     public DateTime ReceiptDate { get; set; }
     
     public DateTime ReturnDate { get; set; }
-    
-    public bool IsReturned { get; set; }
+
+    public ReservationStatuses Status { get; set; }
     
     public virtual Book? Book { get; set; }
     

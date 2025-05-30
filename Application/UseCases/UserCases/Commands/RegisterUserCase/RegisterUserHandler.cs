@@ -18,23 +18,52 @@ public class RegisterUserHandler(
         RegisterUserCommand registerUserCommand,
         CancellationToken cancellationToken)
     {
-        var existingUser = (await unitOfWork
-            .Users
-            .GetByPredicateAsync(user => user.Login == registerUserCommand.Login, cancellationToken))
-            .FirstOrDefault();
+        var existingUser = (await unitOfWork.Users.GetByPredicateAsync(
+            user => user.PhoneNumber == registerUserCommand.PhoneNumber,
+            new PageInfo(),
+            cancellationToken))
+            .Item1.FirstOrDefault();
+
         if (existingUser is not null)
         {
             return ResultBuilder.ConflictResult<ReadUserDto>(ErrorMessages.ExistingUserLoginError);
         }
 
-        var newUser = mapper.Map<User>(registerUserCommand);
-        
-        newUser.Password = passwordHasher.HashPassword(registerUserCommand.Password);
-        
-        await unitOfWork.Users.CreateAsync(newUser, cancellationToken);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
+        Uri? uploadedImageUri = null;
 
-        var userReadDto = mapper.Map<ReadUserDto>(newUser);
-        return ResultBuilder.CreatedResult(userReadDto);
+        await using var transaction = await unitOfWork.BeginTransactionAsync(cancellationToken);
+        try
+        {
+            if (registerUserCommand.ProfileImage is not null)
+            {
+                await using var imageStream = registerUserCommand.ProfileImage.OpenReadStream();
+                uploadedImageUri = await unitOfWork.UserImages.UploadFileAsync(imageStream, cancellationToken);
+            }
+
+            var newUser = mapper.Map<User>(registerUserCommand);
+
+            if (uploadedImageUri is not null)
+                newUser.ProfileImage = uploadedImageUri;
+
+            newUser.Password = passwordHasher.HashPassword(registerUserCommand.Password);
+
+            await unitOfWork.Users.CreateAsync(newUser, cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+
+            var userReadDto = mapper.Map<ReadUserDto>(newUser);
+            return ResultBuilder.CreatedResult(userReadDto);
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+
+            if (uploadedImageUri is not null)
+            {
+                await unitOfWork.UserImages.DeleteFileAsync(uploadedImageUri, cancellationToken);
+            }
+
+            return ResultBuilder.InternalServerErrorResult<ReadUserDto>(ErrorMessages.UserRegistrationFailureError);
+        }
     }
 }

@@ -10,16 +10,16 @@ public class UpdateAuthorDtoValidator : AbstractValidator<UpdateAuthorDto>
         RuleFor(x => x.Id)
             .GuidRule();
         
-        RuleFor(x => x.LastName)!
+        RuleFor(x => x.LastName)
             .LastNameRule();
 
-        RuleFor(x => x.FirstName)!
+        RuleFor(x => x.FirstName)
             .FirstNameRule();
 
-        RuleFor(x => x.MiddleName)!
+        RuleFor(x => x.MiddleName)
             .MiddleNameRule();
 
-        RuleFor(x => x.Description)!
+        RuleFor(x => x.Description)
             .DescriptionRule();
     }
 }

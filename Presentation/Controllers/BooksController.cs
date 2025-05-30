@@ -57,16 +57,16 @@ public class BooksController(
     /// <summary>
     /// Get filtered books operation
     /// </summary>
-    /// <param name="booksByFilterDto">BooksByFilterDto which contains filter information</param>
+    /// <param name="filterBooksDto">FilterBooksDto which contains filter information</param>
     /// <param name="cancellationToken">CancellationToken token of operation cancel</param>
     /// <returns>Result with filtered books information</returns>
     [HttpGet("filter")]
     [AllowAnonymous]
     public async Task<IActionResult> GetFilteredBooks(
-        [FromQuery] BooksByFilterDto booksByFilterDto,
+        [FromQuery] FilterBooksDto filterBooksDto,
         CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(mapper.Map<GetBooksByFilterQuery>(booksByFilterDto), cancellationToken);
+        var result = await mediator.Send(mapper.Map<GetBooksByFilterQuery>(filterBooksDto), cancellationToken);
         return Result(result);
     }
     

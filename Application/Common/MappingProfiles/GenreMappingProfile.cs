@@ -39,11 +39,11 @@ public class GenreMappingProfile : Profile
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
 
-        CreateMap<Genre, ReadGenreReducedDto>()
+        CreateMap<Genre, ReadGenreReducedDto>() // TODO maybe remove this mapping
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
-        CreateMap<GenresByNameDto, GetGenresByNameQuery>()
+        CreateMap<FilterGenresByNameDto, GetGenresByNameQuery>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ForMember(dest => dest.PageInfoDto, opt => opt.MapFrom(src => src.PageInfoDto));
     }

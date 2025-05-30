@@ -1,5 +1,6 @@
 ﻿using Application.Common.Dtos.Reservation;
 using Application.Common.Utils;
+using Domain.Enums;
 using MediatR;
 
 namespace Application.UseCases.ReservationCases.Commands.UpdateReservationCase;
@@ -10,5 +11,5 @@ public record UpdateReservationCommand(
     Guid? UserId,
     DateTime? ReceiptDate,
     DateTime? ReturnDate,
-    bool? IsReturned)
+    ReservationStatuses? Status)
     : IRequest<Result<ReadReservationDto>>;

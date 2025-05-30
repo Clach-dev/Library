@@ -20,7 +20,7 @@ public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
             .IsRequired(true);
 
         builder
-            .Property(reservation => reservation.IsReturned)
+            .Property(reservation => reservation.Status)
             .IsRequired(true);
         
         builder

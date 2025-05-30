@@ -14,7 +14,7 @@ public static class ApplicationInjection
 
     private static IServiceCollection AddMapper(this IServiceCollection services)
     {
-        return services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        return services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 
     private static IServiceCollection AddMediatR(this IServiceCollection services)

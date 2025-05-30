@@ -8,4 +8,4 @@ namespace Application.UseCases.GenreCases.Queries.GetGenresByNameCase;
 public record GetGenresByNameQuery(
     string Name,
     PageInfoDto PageInfoDto)
-    : IRequest<Result<IEnumerable<ReadGenreDto>>>;
+    : IRequest<Result<ReadGenresDto>>;

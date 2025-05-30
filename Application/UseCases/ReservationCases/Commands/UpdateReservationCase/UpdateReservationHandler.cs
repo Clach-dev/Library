@@ -18,27 +18,26 @@ public class UpdateReservationHandler(
         var currentReservation = await unitOfWork
             .Reservations
             .GetByIdAsync(updateReservationCommand.Id, cancellationToken);
-
         if (currentReservation is null)
         {
             return ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.ExistingReservationError);
         }
-
+        
         if (updateReservationCommand.BookId is not null)
         {
             var book = await unitOfWork.Books.GetByIdAsync((Guid)updateReservationCommand.BookId, cancellationToken);
             if (book is null)
             {
-                ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.BookIdNotFound);
+                return ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.BookIdNotFound);
             }
         }
-
+        
         if (updateReservationCommand.UserId is not null)
         {
             var user = await unitOfWork.Users.GetByIdAsync((Guid)updateReservationCommand.UserId, cancellationToken);
             if (user is null)
             {
-                ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.UserIdNotFound);
+                return ResultBuilder.NotFoundResult<ReadReservationDto>(ErrorMessages.UserIdNotFound);
             }
         }
         

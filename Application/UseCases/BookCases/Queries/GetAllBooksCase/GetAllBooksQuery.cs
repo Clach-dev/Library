@@ -7,4 +7,4 @@ namespace Application.UseCases.BookCases.Queries.GetAllBooksCase;
 
 public record GetAllBooksQuery(
     PageInfoDto PageInfoDto)
-    : IRequest<Result<IEnumerable<ReadBookDto>>>;
+    : IRequest<Result<ReadBooksDto>>;

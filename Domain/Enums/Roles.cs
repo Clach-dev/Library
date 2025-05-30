@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums;
 
-public enum Roles : short
+public enum Roles : byte
 {
     Admin = 0,
     User = 1
