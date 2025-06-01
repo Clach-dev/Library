@@ -1,216 +1,260 @@
 ﻿using System.Net;
+using Application.Common.Dtos;
+using Application.Common.Dtos.Author;
 using Application.Common.MappingProfiles;
+using Application.Common.Utils;
 using Application.UseCases.AuthorCases.Commands.CreateAuthorCase;
-using Application.UseCases.AuthorCases.Commands.DeleteAuthorCase;
-using Application.UseCases.AuthorCases.Commands.UpdateAuthorCase;
 using AutoFixture;
 using AutoMapper;
+using Azure.Storage.Blobs;
 using Domain.Entities;
 using Domain.Interfaces.IRepositories;
 using FluentAssertions;
+using Infrastructure.Data;
+using Infrastructure.Data.Repositories;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Presentation.Controllers;
 using Xunit;
 
 namespace Tests;
 
 public class AuthorsTests
 {
-    private readonly IFixture _fixture;
-    private readonly IMapper _mapper;
-    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
+    private const string DatabaseName = "TestDb";
 
+    private readonly LibraryDbContext _libraryDbContext;
+
+    private readonly AuthorsController _authorsController;
+    
+    private readonly IFixture _fixture = new Fixture();
+    
     public AuthorsTests()
     {
-        _fixture = new Fixture();
+        _fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
+        _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         
-        var config = new MapperConfiguration(cfg => { cfg.AddProfile<AuthorMappingProfile>(); });
-        _mapper = config.CreateMapper();
+        var options = new DbContextOptionsBuilder<LibraryDbContext>().UseInMemoryDatabase(DatabaseName).Options;
+        _libraryDbContext = new LibraryDbContext(options);
         
-        _unitOfWorkMock = new Mock<IUnitOfWork>();
+        var blobServiceClient = new Mock<BlobServiceClient>();
+
+        var services = new ServiceCollection();
+
+        services
+            .AddSingleton<IConfiguration>(new ConfigurationBuilder().AddJsonFile("appsettings.json").Build())
+            .AddHttpContextAccessor()
+            .AddAutoMapper(typeof(AuthorMappingProfile).Assembly)
+            .AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateAuthorHandler).Assembly))
+            .AddDbContext<LibraryDbContext>(opt => opt.UseInMemoryDatabase(DatabaseName))
+            .AddSingleton(blobServiceClient.Object)
+            .AddScoped<IUnitOfWork, UnitOfWork>();
+            
+        var serviceProvider = services.BuildServiceProvider();
+        
+        var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+        
+        var mapper = serviceProvider.GetRequiredService<IMapper>();
+        var mediatR = serviceProvider.GetRequiredService<IMediator>();
+        
+        _authorsController = new AuthorsController(httpContextAccessor, mapper, mediatR);
     }
     
     [Fact]
-    public async Task CreateAuthorHandler_GivenValidData_ShouldReturnCreatedAuthor()
+    public async Task CreateAuthor_ValidData_ReturnOk()
     {
         // Arrange
-        var createAuthorCommand = _fixture.Create<CreateAuthorCommand>();
-        _unitOfWorkMock.Setup(uow => uow.Authors.CreateAsync(It.IsAny<Author>(), default))
-            .Returns(Task.CompletedTask);
-        
-        var handler = new CreateAuthorHandler(_unitOfWorkMock.Object, _mapper);
+        var createAuthorDto = _fixture.Create<CreateAuthorDto>();
 
         // Act
-        var result = await handler.Handle(createAuthorCommand, default);
+        var act = await _authorsController.CreateAuthor(createAuthorDto, default);
 
         // Assert
+        act.Should().BeOfType<ObjectResult>();
+        
+        var result = act.As<ObjectResult>().Value.As<Result<ReadAuthorDto>>();
+        
         result.Should().NotBeNull();
         result.IsSuccess.Should().BeTrue();
         result.StatusCode.Should().Be(HttpStatusCode.Created);
-        
-        var dto = result.Value;
-        dto.Should().NotBeNull();
-        dto.Id.Should().NotBeEmpty();
-        dto.LastName.Should().Be(createAuthorCommand.LastName);
-        dto.FirstName.Should().Be(createAuthorCommand.FirstName);
-        dto.MiddleName.Should().Be(createAuthorCommand.MiddleName);
-        dto.Description.Should().Be(createAuthorCommand.Description);
-        
-        result.Errors.Should().Equal([string.Empty]);
-        
-        _unitOfWorkMock.Verify(uow => uow.Authors.CreateAsync(It.IsAny<Author>(), default), Times.Once);
-        _unitOfWorkMock.Verify(uow => uow.SaveChangesAsync(default), Times.Once);
-    }
-
-    [Fact]
-    public async Task UpdateAuthorHandler_GivenValidData_ShouldReturnUpdatedAuthor()
-    {
-        // Arrange
-        var updateAuthorCommand = _fixture.Create<UpdateAuthorCommand>();
-        var authorEntity = _mapper.Map<Author>(updateAuthorCommand);
-        authorEntity.Id = updateAuthorCommand.Id;
-        
-        _unitOfWorkMock.Setup(uow => uow.Authors.GetByIdAsync(It.IsAny<Guid>(), default))
-            .ReturnsAsync(authorEntity);
-        
-        var handler = new UpdateAuthorHandler(_unitOfWorkMock.Object, _mapper);
-
-        // Act
-        var result = await handler.Handle(updateAuthorCommand, default);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.IsSuccess.Should().BeTrue();
-        result.StatusCode.Should().Be(HttpStatusCode.OK);
-        
-        var dto = result.Value;
-        dto.Should().NotBeNull();
-        dto.Id.Should().Be(updateAuthorCommand.Id);
-        dto.LastName.Should().Be(updateAuthorCommand.LastName);
-        dto.FirstName.Should().Be(updateAuthorCommand.FirstName);
-        dto.MiddleName.Should().Be(updateAuthorCommand.MiddleName);
-        dto.Description.Should().Be(updateAuthorCommand.Description);
-        
-        result.Errors.Should().Equal([string.Empty]);
-
-        _unitOfWorkMock.Verify(uow => uow.Authors.GetByIdAsync(It.IsAny<Guid>(), default), Times.Once);
-        _unitOfWorkMock.Verify(uow => uow.SaveChangesAsync(default), Times.Once);
+        result.Value.Should().NotBeNull();
+        result.Errors.Should().BeNull();
+        result.Value.Should().BeEquivalentTo(createAuthorDto);
     }
     
     [Fact]
-    public async Task UpdateAuthorHandler_GivenInvalidAuthorId_ShouldReturnNotFoundError()
+    public async Task DeleteAuthor_ValidId_ReturnNoContent()
     {
         // Arrange
-        var updateAuthorCommand = _fixture.Create<UpdateAuthorCommand>();
-        
-        _unitOfWorkMock.Setup(uow => uow.Authors.GetByIdAsync(It.IsAny<Guid>(), default))
-            .ReturnsAsync((Author)null!);
-        
-        var handler = new UpdateAuthorHandler(_unitOfWorkMock.Object, _mapper);
+        var authorEntity = CreateAuthorEntity();
 
-        // Act
-        var result = await handler.Handle(updateAuthorCommand, default);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.IsSuccess.Should().BeFalse();
-        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        result.Value.Should().BeNull();
-        result.Errors.Should().NotBeNull();
+        await _libraryDbContext.Authors.AddAsync(authorEntity);
+        await _libraryDbContext.SaveChangesAsync();
         
-        _unitOfWorkMock.Verify(uow => uow.Authors.GetByIdAsync(It.IsAny<Guid>(), default), Times.Once);
-        _unitOfWorkMock.Verify(uow => uow.SaveChangesAsync(default), Times.Never);
-    }
-    
-    [Fact]
-    public async Task DeleteAuthorHandler_GivenValidData_ShouldReturnNoContentResult()
-    {
-        // Arrange
-        var deleteAuthorCommand = _fixture.Create<DeleteAuthorCommand>();
-        
-        var authorEntity = _fixture
-            .Build<Author>()
-            .With(entity => entity.Id, deleteAuthorCommand.Id)
-            .With(entity => entity.LastName, _fixture.Create<string>())
-            .With(entity => entity.FirstName, _fixture.Create<string>())
-            .With(entity => entity.MiddleName, _fixture.Create<string>())
-            .With(entity => entity.Description, _fixture.Create<string>())
-            .Without(entity => entity.Books)
+        var deleteAuthorDto = _fixture.Build<DeleteAuthorDto>()
+            .With(d => d.Id, authorEntity.Id)
             .Create();
         
-        _unitOfWorkMock.Setup(uow => uow.Authors.GetByIdAsync(It.IsAny<Guid>(), default))
-            .ReturnsAsync(authorEntity);
-        
-        var handler = new DeleteAuthorHandler(_unitOfWorkMock.Object);
-
         // Act
-        var result = await handler.Handle(deleteAuthorCommand, default);
+        var act = await _authorsController.DeleteAuthor(deleteAuthorDto, default);
 
         // Assert
+        act.Should().BeOfType<ObjectResult>();
+        
+        var result = act.As<ObjectResult>().Value.As<Result<Unit>>();
+        
         result.Should().NotBeNull();
         result.IsSuccess.Should().BeTrue();
         result.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        result.Value.Should().Be(default);
-        result.Errors.Should().Equal([string.Empty]);
-        
-        _unitOfWorkMock.Verify(uow => uow.Authors.GetByIdAsync(It.IsAny<Guid>(), default), Times.Once);
-        _unitOfWorkMock.Verify(uow => uow.SaveChangesAsync(default), Times.Once);
+        result.Value.Should().NotBeNull();
+        result.Errors.Should().BeNull();
+        result.Value.Should().Be(Unit.Value);
     }
     
     [Fact]
-    public async Task DeleteAuthorHandler_GivenInvalidAuthorId_ShouldReturnNotFoundError()
+    public async Task DeleteAuthor_InvalidId_ReturnNotFound()
     {
         // Arrange
-        var deleteAuthorCommand = _fixture.Create<DeleteAuthorCommand>();
-        
-        _unitOfWorkMock.Setup(uow => uow.Authors.GetByIdAsync(It.IsAny<Guid>(), default))
-            .ReturnsAsync((Author)null!);
-        
-        var handler = new DeleteAuthorHandler(_unitOfWorkMock.Object);
+        var deleteAuthorDto = _fixture.Create<DeleteAuthorDto>();
 
         // Act
-        var result = await handler.Handle(deleteAuthorCommand, default);
+        var act = await _authorsController.DeleteAuthor(deleteAuthorDto, default);
 
         // Assert
+        act.Should().BeOfType<ObjectResult>();
+        
+        var result = act.As<ObjectResult>().Value.As<Result<Unit>>();
+        
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeFalse();
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        result.Value.Should().Be(Unit.Value);
+        result.Errors.Should().NotBeNullOrEmpty();
+        
+        result.Errors.Should().BeEquivalentTo(ErrorMessages.AuthorIdNotFound);
+    }
+    
+    [Fact]
+    public async Task UpdateAuthor_ValidData_ReturnOk()
+    {
+        // Arrange
+        var authorEntity = CreateAuthorEntity();
+
+        await _libraryDbContext.Authors.AddAsync(authorEntity);
+        await _libraryDbContext.SaveChangesAsync();
+        
+        var updateAuthorDto = _fixture.Build<UpdateAuthorDto>()
+            .With(d => d.Id, authorEntity.Id)
+            .Create();
+        
+        // Act
+        var act = await _authorsController.UpdateAuthor(updateAuthorDto, default);
+
+        // Assert
+        act.Should().BeOfType<ObjectResult>();
+        
+        var result = act.As<ObjectResult>().Value.As<Result<ReadAuthorDto>>();
+        
+        CheckSuccessResult(result);
+        
+        result.Value.Should().BeEquivalentTo(updateAuthorDto);
+    }
+    
+    [Fact]
+    public  async Task UpdateAuthor_InvalidId_ReturnNotFound()
+    {
+        // Arrange
+        var updateAuthorDto = _fixture.Create<UpdateAuthorDto>();
+
+        // Act
+        var act = await _authorsController.UpdateAuthor(updateAuthorDto, default);
+
+        // Assert
+        act.Should().BeOfType<ObjectResult>();
+        
+        var result = act.As<ObjectResult>().Value.As<Result<ReadAuthorDto>>();
+        
         result.Should().NotBeNull();
         result.IsSuccess.Should().BeFalse();
         result.StatusCode.Should().Be(HttpStatusCode.NotFound);
         result.Value.Should().BeNull();
-        result.Errors.Should().NotBeNull();
+        result.Errors.Should().NotBeNullOrEmpty();
         
-        _unitOfWorkMock.Verify(uow => uow.Authors.GetByIdAsync(It.IsAny<Guid>(), default), Times.Once);
-        _unitOfWorkMock.Verify(uow => uow.SaveChangesAsync(default), Times.Never);
+        result.Errors.Should().BeEquivalentTo(ErrorMessages.NotFoundError);
+    }
+
+    [Fact]
+    public async Task GetAllAuthors_WithData_ReturnsOk()
+    {
+        // Arrange
+        var authorEntities = _fixture.Build<Author>()
+            .Without(a => a.Books)
+            .CreateMany(3).ToList();
+        
+        await _libraryDbContext.Authors.AddRangeAsync(authorEntities);
+        await _libraryDbContext.SaveChangesAsync();
+        
+        // Act
+        var act = await _authorsController.GetAllAuthors(new PageInfoDto(), default);
+        
+        // Assert
+        act.Should().BeOfType<ObjectResult>();
+        
+        var result = act.As<ObjectResult>().Value.As<Result<ReadAuthorsDto>>();
+        
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Value.Should().NotBeNull();
+        result.Errors.Should().BeNull();
+        
+        result.Value.Authors.Should().BeEquivalentTo(authorEntities, options => 
+            options.Excluding(a => a.Books));
+        result.Value.TotalCount.Should().Be(authorEntities.Count);
     }
     
-    // [Fact]
-    // public async Task GetAllAuthorsHandler_GivenValidData_ShouldReturnAllAuthors()
-    // {
-    //     // Arrange
-    //     var getAllAuthorsQuery = _fixture.Create<GetAllAuthorsQuery>();
-    //     
-    //     _unitOfWorkMock.Setup(uow => uow.Authors.CreateAsync(It.IsAny<Author>(), default))
-    //         .Returns(Task.CompletedTask);
-    //     
-    //     var handler = new GetAllAuthorsHandler(_unitOfWorkMock.Object, _mapper);
-    //
-    //     // Act
-    //     var result = await handler.Handle(getAllAuthorsQuery.PageInfoDto, default);
-    //
-    //     // Assert
-    //     result.Should().NotBeNull();
-    //     result.IsSuccess.Should().BeTrue();
-    //     result.StatusCode.Should().Be(HttpStatusCode.Created);
-    //     
-    //     var dto = result.Value;
-    //     dto.Should().NotBeNull();
-    //     dto.Id.Should().NotBeEmpty();
-    //     dto.LastName.Should().Be(createAuthorCommand.LastName);
-    //     dto.FirstName.Should().Be(createAuthorCommand.FirstName);
-    //     dto.MiddleName.Should().Be(createAuthorCommand.MiddleName);
-    //     dto.Description.Should().Be(createAuthorCommand.Description);
-    //     
-    //     result.Errors.Should().Equal([string.Empty]);
-    //     
-    //     _unitOfWorkMock.Verify(uow => uow.Authors.CreateAsync(It.IsAny<Author>(), default), Times.Once);
-    //     _unitOfWorkMock.Verify(uow => uow.SaveChangesAsync(default), Times.Once);
-    // }
+    [Fact]
+    public async Task GetAllAuthors_WithoutData_ReturnsOkWithEmptyList()
+    {
+        // Arrange
+        var pageInfoDto = _fixture.Build<PageInfoDto>()
+            .With(x => x.PageSize, 3)
+            .With(x => x.PageNumber, 1)
+            .Create();
+        
+        // Act
+        var act = await _authorsController.GetAllAuthors(pageInfoDto, default);
+        
+        // Assert
+        act.Should().BeOfType<ObjectResult>();
+        
+        var result = act.As<ObjectResult>().Value.As<Result<ReadAuthorsDto>>();
+        
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Value.Should().NotBeNull();
+        result.Errors.Should().BeNull();
+        
+        result.Value.Authors.Should().BeEmpty();
+        result.Value.TotalCount.Should().Be(0);
+    }
+    
+    private Author CreateAuthorEntity() => _fixture.Build<Author>()
+        .Without(a => a.Books)
+        .Create();
+    
+    private static void CheckSuccessResult<T>(Result<T> result)
+    {
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        result.Value.Should().NotBeNull();
+        result.Errors.Should().BeNull();
+    }
 }

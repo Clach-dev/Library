@@ -28,14 +28,14 @@ namespace Application.Common.Utils {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ErrorMessages() {
+        public ErrorMessages() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Application.Common.Utils.ErrorMessages", typeof(ErrorMessages).Assembly);
@@ -50,7 +50,7 @@ namespace Application.Common.Utils {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -62,7 +62,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Author with this id not found.
         /// </summary>
-        internal static string AuthorIdNotFound {
+        public static string AuthorIdNotFound {
             get {
                 return ResourceManager.GetString("AuthorIdNotFound", resourceCulture);
             }
@@ -71,7 +71,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Book with the images can&apos;t be added.
         /// </summary>
-        internal static string BookCreationFailureError {
+        public static string BookCreationFailureError {
             get {
                 return ResourceManager.GetString("BookCreationFailureError", resourceCulture);
             }
@@ -80,7 +80,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Book with the images can&apos;t be deleted.
         /// </summary>
-        internal static string BookDeletionFailureError {
+        public static string BookDeletionFailureError {
             get {
                 return ResourceManager.GetString("BookDeletionFailureError", resourceCulture);
             }
@@ -89,7 +89,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Book with this id not found.
         /// </summary>
-        internal static string BookIdNotFound {
+        public static string BookIdNotFound {
             get {
                 return ResourceManager.GetString("BookIdNotFound", resourceCulture);
             }
@@ -98,7 +98,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Book with these images can&apos;t be updated.
         /// </summary>
-        internal static string BookUpdateFailureError {
+        public static string BookUpdateFailureError {
             get {
                 return ResourceManager.GetString("BookUpdateFailureError", resourceCulture);
             }
@@ -107,7 +107,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Book with this ISBN already exists.
         /// </summary>
-        internal static string ExistingBookError {
+        public static string ExistingBookError {
             get {
                 return ResourceManager.GetString("ExistingBookError", resourceCulture);
             }
@@ -116,7 +116,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Genre with this name already exists.
         /// </summary>
-        internal static string ExistingGenreError {
+        public static string ExistingGenreError {
             get {
                 return ResourceManager.GetString("ExistingGenreError", resourceCulture);
             }
@@ -125,7 +125,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to User still not returned this book.
         /// </summary>
-        internal static string ExistingReservationError {
+        public static string ExistingReservationError {
             get {
                 return ResourceManager.GetString("ExistingReservationError", resourceCulture);
             }
@@ -134,7 +134,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Review with this data is already exist.
         /// </summary>
-        internal static string ExistingReviewError {
+        public static string ExistingReviewError {
             get {
                 return ResourceManager.GetString("ExistingReviewError", resourceCulture);
             }
@@ -143,7 +143,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to User with this login already exists.
         /// </summary>
-        internal static string ExistingUserLoginError {
+        public static string ExistingUserLoginError {
             get {
                 return ResourceManager.GetString("ExistingUserLoginError", resourceCulture);
             }
@@ -152,7 +152,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Genre with this id not found.
         /// </summary>
-        internal static string GenreIdNotFound {
+        public static string GenreIdNotFound {
             get {
                 return ResourceManager.GetString("GenreIdNotFound", resourceCulture);
             }
@@ -197,7 +197,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Reservation with this id not found.
         /// </summary>
-        internal static string ReservationIdNotFound {
+        public static string ReservationIdNotFound {
             get {
                 return ResourceManager.GetString("ReservationIdNotFound", resourceCulture);
             }
@@ -206,7 +206,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Unacceptable reservation status.
         /// </summary>
-        internal static string ReservationStatusBadRequestError {
+        public static string ReservationStatusBadRequestError {
             get {
                 return ResourceManager.GetString("ReservationStatusBadRequestError", resourceCulture);
             }
@@ -215,7 +215,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Review with this id not found.
         /// </summary>
-        internal static string ReviewIdNotFound {
+        public static string ReviewIdNotFound {
             get {
                 return ResourceManager.GetString("ReviewIdNotFound", resourceCulture);
             }
@@ -233,7 +233,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to User with the photo can&apos;t be deleted .
         /// </summary>
-        internal static string UserDeletionFailureError {
+        public static string UserDeletionFailureError {
             get {
                 return ResourceManager.GetString("UserDeletionFailureError", resourceCulture);
             }
@@ -242,7 +242,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to User with this id not found.
         /// </summary>
-        internal static string UserIdNotFound {
+        public static string UserIdNotFound {
             get {
                 return ResourceManager.GetString("UserIdNotFound", resourceCulture);
             }
@@ -251,7 +251,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to User with this image can&apos;t be registered.
         /// </summary>
-        internal static string UserRegistrationFailureError {
+        public static string UserRegistrationFailureError {
             get {
                 return ResourceManager.GetString("UserRegistrationFailureError", resourceCulture);
             }
@@ -260,7 +260,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to User with this photo can&apos;t be updated.
         /// </summary>
-        internal static string UserUpdatingFailureError {
+        public static string UserUpdatingFailureError {
             get {
                 return ResourceManager.GetString("UserUpdatingFailureError", resourceCulture);
             }
@@ -269,7 +269,7 @@ namespace Application.Common.Utils {
         /// <summary>
         ///   Looks up a localized string similar to Wrong password.
         /// </summary>
-        internal static string WrongPasswordError {
+        public static string WrongPasswordError {
             get {
                 return ResourceManager.GetString("WrongPasswordError", resourceCulture);
             }

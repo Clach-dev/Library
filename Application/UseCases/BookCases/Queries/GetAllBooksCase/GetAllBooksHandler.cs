@@ -18,7 +18,7 @@ public class GetAllBooksHandler(
     {
         var books = await unitOfWork.Books.GetAllAsync(mapper.Map<PageInfo>(getAllBooksQuery.PageInfoDto), cancellationToken);
 
-        var booksReadDto = mapper.Map<ReadBooksDto>(books);
+        var booksReadDto = new ReadBooksDto(mapper.Map<IEnumerable<ReadBookDto>>(books.Item1), books.Item2);
 
         return ResultBuilder.SuccessResult(booksReadDto);
     }

@@ -16,3 +16,5 @@ public record ReadReservationReducedDto(
     DateTime ReceiptDate,
     DateTime ReturnDate,
     ReservationStatuses Status);
+
+// TODO to delete or to use (if used make validation) 

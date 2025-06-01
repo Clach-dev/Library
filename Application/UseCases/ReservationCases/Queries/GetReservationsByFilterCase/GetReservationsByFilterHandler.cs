@@ -34,7 +34,7 @@ public class GetReservationsByFilterHandler(
             mapper.Map<PageInfo>(getReservationsByFilterQuery.PageInfoDto),
             cancellationToken);
         
-        var reservationsReadDto = mapper.Map<ReadReservationsDto>(reservations);
+        var reservationsReadDto = new ReadReservationsDto(mapper.Map<IEnumerable<ReadReservationDto>>(reservations.Item1), reservations.Item2);
 
         return ResultBuilder.SuccessResult(reservationsReadDto);
     }

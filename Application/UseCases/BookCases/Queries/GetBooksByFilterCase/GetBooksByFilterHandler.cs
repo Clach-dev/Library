@@ -34,7 +34,7 @@ public class GetBooksByFilterHandler(
             mapper.Map<PageInfo>(getBooksByFilterQuery.PageInfoDto),
             cancellationToken);
         
-        var booksReadDto = mapper.Map<ReadBooksDto>(books);
+        var booksReadDto = new ReadBooksDto(mapper.Map<IEnumerable<ReadBookDto>>(books.Item1), books.Item2);
 
         return ResultBuilder.SuccessResult(booksReadDto);
     }

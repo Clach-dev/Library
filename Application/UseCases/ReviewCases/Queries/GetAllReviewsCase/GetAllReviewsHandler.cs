@@ -16,11 +16,11 @@ public class GetAllReviewsHandler(
         GetAllReviewsQuery getAllReviewsQuery,
         CancellationToken cancellationToken)
     {
-        var review = await unitOfWork.Reviews.GetAllAsync(
+        var reviews = await unitOfWork.Reviews.GetAllAsync(
             mapper.Map<PageInfo>(getAllReviewsQuery.PageInfoDto),
             cancellationToken);
 
-        var reviewsReadDto = mapper.Map<ReadReviewsDto>(review);
+        var reviewsReadDto = new ReadReviewsDto(mapper.Map<IEnumerable<ReadReviewDto>>(reviews.Item1), reviews.Item2);
 
         return ResultBuilder.SuccessResult(reviewsReadDto);
     }

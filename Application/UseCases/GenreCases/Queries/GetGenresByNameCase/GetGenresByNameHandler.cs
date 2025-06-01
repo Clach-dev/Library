@@ -21,7 +21,7 @@ public class GetGenresByNameHandler(
             new PageInfo(),
             cancellationToken);
         
-        var genresReadDto = mapper.Map<ReadGenresDto>(genres);
+        var genresReadDto = new ReadGenresDto(mapper.Map<IEnumerable<ReadGenreDto>>(genres.Item1), genres.Item2);
         
         return ResultBuilder.SuccessResult(genresReadDto);
     }

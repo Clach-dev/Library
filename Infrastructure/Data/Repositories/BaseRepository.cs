@@ -18,7 +18,8 @@ public abstract class BaseRepository<TEntity>: IRepository<TEntity> where TEntit
         PageInfo pageInfo,
         CancellationToken cancellationToken = default)
     {
-        var entities = await _entities.AsNoTracking()
+        var entities = await _entities
+            .AsNoTracking()
             .Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize)
             .Take(pageInfo.PageSize)
             .ToListAsync(cancellationToken);

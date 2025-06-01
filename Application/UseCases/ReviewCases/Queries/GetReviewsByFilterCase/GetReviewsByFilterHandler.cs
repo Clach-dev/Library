@@ -27,7 +27,7 @@ public class GetReviewsByFilterHandler(
             mapper.Map<PageInfo>(getReviewsByFilterQuery.PageInfoDto),
             cancellationToken);
         
-        var reviewsReadDto = mapper.Map<ReadReviewsDto>(reviews);
+        var reviewsReadDto = new ReadReviewsDto(mapper.Map<IEnumerable<ReadReviewDto>>(reviews.Item1), reviews.Item2);
 
         return ResultBuilder.SuccessResult(reviewsReadDto);
     }

@@ -20,7 +20,7 @@ public class GetAllReservationsHandler(
             mapper.Map<PageInfo>(getAllReservationsQuery.PageInfoDto),
             cancellationToken);
 
-        var reservationReadDto = mapper.Map<ReadReservationsDto>(reservations);
+        var reservationReadDto = new ReadReservationsDto(mapper.Map<IEnumerable<ReadReservationDto>>(reservations.Item1), reservations.Item2);
 
         return ResultBuilder.SuccessResult(reservationReadDto);
     }

@@ -34,6 +34,8 @@ public class UpdateBookHandler(
             return ResultBuilder.ConflictResult<ReadBookDto>(ErrorMessages.ExistingBookError);
         }
         
+        var pi = new PageInfo(1, updateBookCommand.AuthorsIds.Count());
+        
         var authors = (await unitOfWork.Authors.GetByPredicateAsync(
             author => updateBookCommand.AuthorsIds.Contains(author.Id),
             new PageInfo(1, updateBookCommand.AuthorsIds.Count()),

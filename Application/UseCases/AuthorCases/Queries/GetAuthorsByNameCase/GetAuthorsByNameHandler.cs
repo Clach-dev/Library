@@ -28,7 +28,7 @@ public class GetAuthorsByNameHandler(
             mapper.Map<PageInfo>(getAuthorsByNameQuery.PageInfoDto),
             cancellationToken);
         
-        var authorsReadDtos = mapper.Map<ReadAuthorsDto>(authors);
+        var authorsReadDtos = new ReadAuthorsDto(mapper.Map<IEnumerable<ReadAuthorDto>>(authors.Item1), authors.Item2);
         
         return ResultBuilder.SuccessResult(authorsReadDtos);
     }

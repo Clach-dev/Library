@@ -8,3 +8,4 @@
 public record ReadGenreReducedDto(
     Guid Id,
     string Name);
+// TODO to delete or to use (if used make validation) 

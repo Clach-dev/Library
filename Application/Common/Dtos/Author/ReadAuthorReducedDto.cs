@@ -10,3 +10,4 @@ public record ReadAuthorReducedDto(
     Guid Id,
     string LastName,
     string FirstName);
+// TODO to delete or to use (if used make validation) 

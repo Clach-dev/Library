@@ -17,7 +17,7 @@ public class GetAllAuthorsHandler(
     {
         var authors = await unitOfWork.Authors.GetAllAsync(mapper.Map<PageInfo>(getAllAuthorsQuery.PageInfoDto), cancellationToken);
   
-        var authorsReadDtos = mapper.Map<ReadAuthorsDto>(authors);
+        var authorsReadDtos = new ReadAuthorsDto(mapper.Map<IEnumerable<ReadAuthorDto>>(authors.Item1), authors.Item2);
         
         return ResultBuilder.SuccessResult(authorsReadDtos);
     }
